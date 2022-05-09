@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="Author" content="Yehoshua Zuñiga">
+    <title>Bill maker</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <section class="row m-5">
+            <div class="col-4 fromulario-registro d-grid gap-2">
+                <label for="Usuario-nick">Nombre del usuario</label>
+                <input type="text" name="Usuario-nick" id="Usuario-nick" placeholder="ejemplo: Mi_usuario@email.org">
+                <label for="Usuario-password">Password</label>
+                <input type="password" name="Usuario-password" id="Usuario-password">
+                <button name="boton-envio" id="envio" class="btn btn-primary"> Acceder</button>
+                <button name="boton-registro" id="registro" class="btn btn-primary" data-bs-toggle="modal"
+                    data-bs-target="#modal-registro">Registrar</button>
+                <!-- creacion del modal que contiene el formaulario de registro
+                            solo sera visible cuando se de al boton de registrarse
+                            -->
+                <div class="modal fade" id="modal-registro" tabindex="-1" aria-hidden="true"
+                    aria-labelledby="label-modal-registro" data-bs-backdrop="static">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-crollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 class="modal-title">
+                                    Registro tus datos
+                                </h3>
+                                <button class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                            </div>
+                            <div class="modal-body row m-3">
+                                <label for="Usuario-nick-registro">Nombre de la empresa</label>
+                                <input type="text" name="Usuario-nick-registro" id="Usuario-nick-registro"
+                                    placeholder="Nombre fiscal">
+                                <label for="Usuario-cif">CIF</label>
+                                <input type="text" name="Usuario-cif" id="Usuario-cif"
+                                    placeholder="G12345678 / 25148596D">
+                                <label for="Usuario-direccion">Direccion</label>
+                                <input type="text" name="Usuario-direccion" id="Usuario-direccion"
+                                    placeholder="Calle Anton 14">
+                                <label for="Usuario-email">Correo electronico</label>
+                                <input type="email" name="Usuario-email" id="Usuario-email"
+                                    placeholder="Mi_usuario@email.org">
+                                <label for="Usuario-telefono">Telefono de contacto</label>
+                                <input type="tel" name="Usuario-telefono" id="Usuario-telefono"
+                                    placeholder="6245854132">
+                                <label for="Usuario-contacto">Persona de contactos</label>
+                                <input type="text" name="Usuario-contacto" id="Usuario-contacto"
+                                    placeholder="Miguel Angel">
+                                <label for="Usuario-password-registro">Password</label>
+                                <input type="password" name="Usuario-password-registro" id="Usuario-password-registro">
+                                <button name="registrar" id="registrar" data-bs-dismiss="modal">registrar </button>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </section>
+    </div>
+
+</body>
+<script src="js/bootstrap.bundle.min.js"></script>
+
+</html>

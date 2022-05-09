@@ -1,0 +1,94 @@
+body{
+    background: salmon;
+    color: white;
+}
+header{
+    background: violet;
+    padding: 20px;
+}
+
+.contenedor {
+    margin-bottom: 20px;
+}
+
+main {
+    background: yellowgreen;
+    padding: 20px 0;
+}
+aside {
+    background: turquoise;
+    padding: 20px 0;
+}
+
+.widgets{
+    margin-bottom: 20px;
+}
+.widgets > div {
+    background: orange  ;
+    padding: 20px;
+}
+
+footer{
+    padding: 20px 0;
+    background: pink;
+}
+.logo-img{
+    max-height: 150px;
+    width: auto;
+}
+
+.menu-funciones{
+    display: grid;
+    grid-template: 3;
+}
+
+.emergentes{
+    height: 150px;
+    background-color: aqua;
+    border: 1px solid black;
+}
+
+.ficha-cliente{
+ 
+}
+   
+@media (min-width: 500px) {
+    .ficha-cliente, .ficha-cliente-factura {
+        display: grid;
+        grid-template-areas: 
+        "p1 p2"
+        "p3 p3"
+        "p4 p4"
+        "p5 p6"
+        ;
+        grid-template-rows: repeat(auto-fill 1fr);
+    }
+}
+@media (min-width: 640px) {
+    .ficha-cliente {
+        display: grid;
+        grid-template-columns: repeat(2, 2fr);
+    }
+}
+
+.ficha-cliente>p:first-child{
+    grid-area: p1;
+}
+
+.ficha-cliente>p:nth-child(2){
+    grid-area: p2;
+}
+.ficha-cliente>p:nth-child(3){
+    grid-area: p3;
+}
+.ficha-cliente>p:nth-child(4){
+    grid-area: p4;
+    color: black;
+}
+.ficha-cliente>p:nth-child(5){
+    grid-area: p5;
+}
+
+.ficha-cliente>p:last-child{
+    grid-area: p6;
+}
