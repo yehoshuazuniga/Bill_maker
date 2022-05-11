@@ -2,3 +2,11 @@
 *.map
 *.rtl.*
 sql
+gulpfile.js
+package.json
+package-lock.json
+src/
+node_modules
+build/
+vendor/
+node_modules
