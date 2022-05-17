@@ -1,7 +1,6 @@
 
 *.map
 *.rtl.*
-sql
 gulpfile.js
 package.json
 package-lock.json
@@ -10,3 +9,5 @@ node_modules
 build/
 vendor/
 node_modules
+prueba2.html
+prueba.html
