@@ -160,25 +160,4 @@
     </section>
 </body>
 <script src="js/bootstrap.bundle.min.js"></script>
-<script>
-
-
-
-    document.addEventListener('readystatechange', cargarEventos, false);
-
-    function cargarEventos() {
-        if (document.readyState == "interactive") {
-            document.getElementsByName('empleado-id-numeroid').addEventListener('click', alerta, false);
-        }
-
-    }
-
-
-    function alerta() {
-        with (this) {
-            console.log(event.id);
-
-        }
-    }</script>
-
 </html>

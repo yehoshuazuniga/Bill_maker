@@ -4,47 +4,77 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=
-    , initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>
-        @media  (max-width: 550px) {
-            .lista {
-                display: flex;
-                flex-direction: row;
-                justify-content: space-around;
-
-            }
-
-        }
-    </style>
 </head>
 
 <body>
+    <script>
+        function nombreLargo(empresaNombre) {
+            let nombreSeparado = []
+            let cod = '';
+            nombreSeparado = empresaNombre.split(' ');
+            for (let i = 0; i < nombreSeparado.length; i++) {
+                if (nombreSeparado[i].length > 3) {
+                    cod += nombreSeparado[i].substring(0, 1);
+                }
+            }
+            return (cod.substring(0, 2).toUpperCase());
+        }
 
+        function nombreCorto(empresaNombre) {
+            return (empresaNombre.replace(' ', '-'))
+        }
 
+        function crearEmail(empresaNombre, cargo, nombre, apellido) {
+            const arroba = '@';
+            let email = '';
+            let roll = '';
+            let dominio = '';
+            let nombreSeparado = empresaNombre.split(' ');
+            alert(empresaNombre + " " + +nombreSeparado.length + " " + nombreSeparado[0])
+            if (nombreSeparado.length > 2) {
+                dominio = nombreLargo(empresaNombre);
+            } else {
+                dominio = nombreCorto(empresaNombre);
+            }
 
-    <ul class="lista">
-        <li>axAXxAXA</li>
-        <li>axAXxAXA</li>
-        <li>axAXxAXA</li>
-        <li>axAXxAXA</li>
-        <li>axAXxAXA</li>
-    </ul>
+            if (cargo === 'gerente') {
+                roll = 'GT';
+            } else {
+                if (cargo === 'empleado') {
+                    roll = 'EP';
+                }
+            }
+            email = nombre + '.' + apellido + arroba + dominio + '.com';
+            document.getElementsByTagName('p')[0].innerHTML = email
+            return (email.toLocaleLowerCase())
+        }
 
-    <div name="" id=""> 
-        <table>
-            <tr style="border: 1px solid black;">
-                <td>cod</td>
-                <td>Nombre</td>
-                <td>descripcion</td>
-                <td>precio sin iva</td>
-                <td>precio con iva</td>
-            </tr>
-        </table>
+        function crearId(empresaNombre, cargo) {
+            roll = '';
+            let cod = nombreLargo(empresaNombre);
+            switch (cargo) {
+                case 'gerente':
+                    roll = 'gt';
+                    break;
+                case 'empleado':
+                    roll = 'ed';
+                    break;
+                case 'servicio':
+                    roll = 'sc';
+                    break;
+            }
 
-    </div>
-
+            //return
+            return (cod + roll + (Math.floor(Math.random() * 999))).toUpperCase();
+            //agreagar un proceso que busque en la base de datos un id igual
+            //si existe hay que hacerlo de nuevos
+        }
+    </script>
+    <p>esto es un par</p>
+    <!--     <button onclick=" crearEmail('bill amazin lower', 'gerente', 'nombre', 'apellido')">ñsdmvlkmsdlkv</button>
+ --><button onclick=" crearEmail('empresa Nombre', 'cargo', 'nombre', 'apellido')">ñsdmvlkmsdlkv</button>
 </body>
 
 </html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="modal-body row m-3  d-flex gap-2" name="formulario_registrar" id="formulario_registrar">
+        <label for="usuario_nick_registro">Nombre de la empresa</label>
+        <input value="dancing power" type="text" name="usuario_nick_registro" id="usuario_nick_registro" placeholder="Nombre fiscal">
+        <label for="usuario_cif">CIF</label>
+        <input value="g85963641" type="text" name="usuario_cif" id="usuario_cif" placeholder="G12345678 / 25148596D">
+        <label for="usuario_direccion">Direccion</label>
+        <input value="c/dancing power" type="text" name="usuario_direccion" id="usuario_direccion" placeholder="Calle Anton 14">
+        <label for="usuario_email">Correo electronico</label>
+        <input value="mabel.munoz@gmail.com" type="email" name="usuario_email" id="usuario_email" placeholder="Mi_usuario@email.org">
+        <label for="usuario_telefono">Telefono de contacto</label>
+        <input value="693253685" type="tel" name="usuario_telefono" id="usuario_telefono" placeholder="6245854132">
+        <label for="usuario_contacto">Persona de contactos</label>
+        <input value="Juan alfonoso" type="text" name="usuario_contacto" id="usuario_contacto" placeholder="Miguel Angel">
+        <label for="usuario_password_registro">Password</label>
+        <input value="dancing power" type="password" name="usuario_password_registro" id="usuario_password_registro" autocomplete="on">
+        <button name="registrar" id="registrar">registrar </button>
+        <button name="cerrar" id="cerrar" data-bs-dismiss="modal">cerrar </button>
+
+    </div>
+
+</body>
+<script src="./js/app.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
+
+</html>

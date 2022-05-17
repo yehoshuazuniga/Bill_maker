@@ -70,6 +70,10 @@ footer{
         grid-template-columns: repeat(2, 2fr);
     }
 }
+.formulario-refgistro{
+    width: 5000px !important;
+
+}
 
 .ficha-cliente>p:first-child{
     grid-area: p1;
