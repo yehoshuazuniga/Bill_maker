@@ -2,46 +2,12 @@
 header("Content-Type: application/json; charset=UTF-8");
 class BBDD
 {
-    private $conexion;
-    public static $instancia; // contenedor de la instancia 
-    private $h;
-    private $usu;
-    private $pw;
-    private function __construct($host = 'localhost', $usuario = 'root', $pass = '')
-    {
-        $this->h = $host;
-        $this->usu = $usuario;
-        $this->pw = $pass;
-        try {
-            $this->conexion = new PDO("mysql:host=$host", $usuario, $pass, array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
-        } catch (PDOException $e) {
-            echo 'fallo en la conexion: ' . $e->getMessage();
-        }
-    }
-    public static function singleton() //método singleton que crea instancia sí no está creada
-    {
-        if (!isset(self::$instancia)) {
-            $miclase = __CLASS__;
-            self::$instancia = new $miclase;
-        }
-        return self::$instancia;
-    }
-    public function __clone() // Evita que el objeto se pueda clonar
-    {
-        trigger_error('La clonación de este objeto no está permitida', E_USER_ERROR);
-    }
 
-    function __get($name)
-    {
-        if (property_exists($this, $name)) {
-            return $this->$name;
-        }
-    }
 
     function crearBd($dbase)
     {
         $this->conexion->query("CREATE DATABASE $dbase");
-        $this->conexion = null;
+        //$this->conexion = null;
         $con = new PDO("mysql:host=$this->h; dbname=$dbase", $this->usu, $this->pw);
         return $con;
     }
@@ -79,12 +45,12 @@ class BBDD
 
         $sql = "CREATE TABLE IF NOT EXISTS EMPLEADO (
                 idEmpleado VARCHAR(7) NOT NULL,
-                idGerente VARCHAR(7) NOT NULL,
                 Nombre VARCHAR(45) NOT NULL,
                 apellido VARCHAR(45) NOT NULL,
                 dni VARCHAR(10) NOT NULL,
                 email VARCHAR(30) NOT NULL,
                 direccion VARCHAR(45) NULL,
+                idGerente VARCHAR(7) NOT NULL,
                 usuario VARCHAR(45) NOT NULL,
                 password VARCHAR(45) NOT NULL,
                 PRIMARY KEY (idEmpleado),
@@ -246,7 +212,7 @@ class BBDD
     }
 
     function crearTablas($enlace)
-   {
+    {
         $this->tablaGerente($enlace);
         $this->tablaEmpleado($enlace);
         $this->tablaClientes($enlace);
@@ -260,7 +226,7 @@ class BBDD
     }
 
 
-    function borrarBD($db )
+    function borrarBD($db)
     {
         $this->conexion->query("DROP DATABASE $db");
     }

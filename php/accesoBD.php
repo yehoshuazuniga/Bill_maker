@@ -1,6 +1,6 @@
 <?php
 require './crearBD.php';
-class DBB
+class DBB extends BBDD
 {
 
     private $conexion;
@@ -74,6 +74,13 @@ class DBB
     //aun esta en desarrollo
     // aqui hay que tener un usuario de mysql pero que no sea root RECORDAR CAMBIAR TODOS LOS ROOT , Y CREAR NUEBOS USUARIOS
 
+    //
+    //
+    //
+    //PROBELAMAS ARREGLARLO, NO SE CONECTA Y NO SE EJECUTA LA QUERY
+    //
+    //
+
     function existeParametro($selectParam, $whereParan, $parametro, $bd = 'billmaker', $tabla = 'gerente')
     {
         $cambios = false;
@@ -83,7 +90,7 @@ class DBB
             $newConex = new DBB('localhost', 'root', '', $bd);
         }
         $sentencia = "SELECT ? FROM $tabla  WHERE $whereParan = ?";
-        $sentPre = $newConex->conexion->prepare($sentencia);
+        $sentPre = $this->conexion->prepare($sentencia);
         $sentPre->bindParam(1, $selectParam, PDO::PARAM_STR);
         $sentPre->bindParam(2, $parametro, PDO::PARAM_STR);
         $sentPre->execute();
@@ -101,25 +108,26 @@ class DBB
     {
         $nombreBD = str_replace(' ', '_', $nombreEmpresa);
 
-        $conex = BBDD::singleton(); //se va a usar esta fuuncio para el resto de creaciones
-        $nuevaConex = $conex->crearBd($nombreBD); // esto crea la base de datos y devuelve una nueva conexcion a esa base de dato creada
-        $conex->crearTablas($nuevaConex);
+       // $conex = BBDD::singleton(); //se va a usar esta fuuncio para el resto de creaciones
+        $nuevaConex = $this->crearBd($nombreBD); // esto crea la base de datos y devuelve una nueva conexcion a esa base de dato creada
+        $this->crearTablas($nuevaConex);
     }
-
-    function parametroUsado($datosEnt){
+    //esta funcion esta vacia
+    function parametroUsado($datosEnt)
+    {
 
     
 
     }
 
-    function registrarEmpresaGerente($datosEnt)
+    function registrarGerente($datosEnt)
     {
-        $con = new DBB('localhost', 'root', '', 'billmaker');
+        //$con = new DBB('localhost', 'root', '', 'billmaker');
         $nombreApellido = explode(' ', $datosEnt->usuario_contacto);
         $respuesta = null;
-   
+        $nombreBD = str_replace(' ', '_', $datosEnt->usuario_nick_registro);
         $sql= 'INSERT INTO billmaker.gerente VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
-        $sentPre = $con->conexion->prepare($sql);
+        $sentPre = $this->conexion->prepare($sql);
 
         $sentPre->bindParam(1, $datosEnt->idGerente, PDO::PARAM_STR);
         $sentPre->bindParam(2, $nombreApellido[0], PDO::PARAM_STR);
@@ -128,28 +136,95 @@ class DBB
         $sentPre->bindParam(5, $datosEnt->usuario_email, PDO::PARAM_STR);
         $sentPre->bindParam(6, $datosEnt->usuario_direccion, PDO::PARAM_STR);
         $sentPre->bindParam(7, $nombreBD, PDO::PARAM_STR);
-        $sentPre->bindParam(8, $datosEnt->usuario, PDO::PARAM_STR);
+        $sentPre->bindParam(8, $datosEnt->usuarioGerente, PDO::PARAM_STR);
         $sentPre->bindParam(9, $datosEnt->usuario_password_registro, PDO::PARAM_STR);
         //echo $datosEnt->usuario;
 
-        $nombreBD = str_replace(' ', '_', $datosEnt->usuario_nick_registro);
         $sentPre->execute();
 
         if($sentPre->rowCount() >0){
-            $respuesta = 'se ha dado de alta ';
+            echo 'se ha dado de alta  al gerente ';
         }else{
             
-            $respuesta = 'Mail no valido, uso otro mail';
+            echo 'Mail no valido, uso otro mail ';
+        }
+        $respuesta = $datosEnt->usuarioGerente; 
+        return $respuesta;
+    }
+
+    //registro del empleado 
+    function registrarGer_Emp($datosEnt)
+    {
+        $id = null;
+        $usuario = null;
+        $respuesta = [];
+        $cargos = ['gerente', 'empleado'];
+        $nombreApellido = explode(' ', $datosEnt->usuario_contacto);
+        $nameBD_o_IdGerente =str_replace(' ', '_', $datosEnt->usuario_nick_registro);;
+
+
+        for ($i=0; $i < count($cargos); $i++) {
+            $sql = "INSERT INTO billmaker.$cargos[$i] VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $sentPre = $this->conexion->prepare($sql);
+
+            if($i===0){
+                $id = $datosEnt->idGerente;
+                $usuario = $datosEnt->usuarioGerente;
+            }else{
+                $id = $datosEnt->idEmpleado;
+                $nameBD_o_IdGerente = null;
+                $nameBD_o_IdGerente = $datosEnt->idGerente;
+                $usuario = $datosEnt->usuarioEmpleado;
+            }       
+
+            $sentPre->bindParam(1, $id, PDO::PARAM_STR);
+            $sentPre->bindParam(2, $nombreApellido[0], PDO::PARAM_STR);
+            $sentPre->bindParam(3, $nombreApellido[1], PDO::PARAM_STR);
+            $sentPre->bindParam(4, $datosEnt->usuario_cif, PDO::PARAM_STR);
+            $sentPre->bindParam(5, $datosEnt->usuario_email, PDO::PARAM_STR);
+            $sentPre->bindParam(6, $datosEnt->usuario_direccion, PDO::PARAM_STR);
+            $sentPre->bindParam(7, $nameBD_o_IdGerente, PDO::PARAM_STR);
+            $sentPre->bindParam(8, $usuario, PDO::PARAM_STR);
+            $sentPre->bindParam(9, $datosEnt->usuario_password_registro, PDO::PARAM_STR);
+            //echo $datosEnt->usuario;
+
+            $sentPre->execute();
+            if ($sentPre->rowCount() > 0) {
+                echo 'se ha dado de alta al empleado';
+                $respuesta[$i] = $usuario;
+            } else {
+
+                echo 'Mail no valido, uso otro mail';
+            }
+        }
+        return $respuesta;
+    }
+
+    function registrarUsuarios($datosEnt){
+
+        $resultadoRegistros = [ $this->registrarGerente($datosEnt) ,$this->registrarGer_Emp($datosEnt)];
+
+
+        if(count($resultadoRegistros)===2 ){
+            for ($i=0; $i < count($resultadoRegistros); $i++) {
+                $sql = 'INSERT INTO billmaker.acceso VALUES (?)';
+                $sentPre = $this->conexion->prepare($sql);
+                $sentPre->bindParam(1,$resultadoRegistros[$i],PDO::PARAM_STR);
+
+            }        
         }
 
-        return $respuesta;
     }
 }
 //CUANDO PARAMOETRO SE PUEDE INTRODUCIR CON UNA SENTENCIA PREPARADA
 $conex = DBB::singleton();
 //$conex->verificarUsuario('yehoshua_g@bill-maker.com','password');
 //$conex->sumarSaldo("85697123B", 1500);
-$conex->existeParametro('dni', 'cl_dni', '85697123B', 'banco', 'clientes');
+if($conex->existeParametro('dni', 'cl_dni', '85697123B', 'banco', 'clientes')){
+    echo 'se ejecuta';
+}else{
+    echo 'no se ejecuta';
+}
 if (isset($_POST['accesousuario'])) {
     //   $datosEnt=json_decode(str_replace('-','_', $_POST['accesousuario']));
     $datosEnt = json_decode($_POST['accesousuario']);
@@ -163,9 +238,11 @@ if (isset($_POST['nuevoUsuario'])) {
     if ($conex->existeParametro('dni', 'dni', $datosEnt->usuario_cif)) {
         echo json_encode('La empresa ya ha sido dada de alta');
     } else {
-        $conex->crearBDyTablas($datosEnt->usuario_nick_registro);
-        echo json_encode($conex->registrarEmpresaGerente($datosEnt));
-        //echo json_encode('se esta registrando');
+       $conex->crearBDyTablas($datosEnt->usuario_nick_registro);
+      echo json_encode($conex->registrarGer_Emp($datosEnt));
+        ////echo json_encode('se esta registrando');
+
+        //echo json_encode('hola va todo bien');
     } 
     // var_dump($datosEnt);
 

@@ -47,7 +47,7 @@ function crearEmail(empresaNombre, cargo, nombre, apellido) {
             roll = 'EP';
         }
     }
-    email = nombre + '.' + apellido + arroba + dominio + '.com';
+    email = nombre + '.' + apellido + '_' + roll + arroba + dominio + '.com';
 
     return (email.toLocaleLowerCase())
 }
@@ -159,7 +159,6 @@ function comprobarCamposRegistroUsuario(inputForm) {
 
     }
 
-
     inputForm[4].value === '' ? invalido(inputForm[4]) : valido(inputForm[4]);
     inputForm[5].value === '' ? invalido(inputForm[5]) : valido(inputForm[5]);
 
@@ -230,11 +229,14 @@ function registroUsuario() {
     let datosEnvioServ = {};
 
     if (comprobarCamposRegistroUsuario(inputForm)) {
-        datosDeEnt = obtenerValores(inputForm);
-        datosDeEnt['idGerente'] = crearId(inputForm[0].value, 'gerente');
-        nombreApellido = inputForm[5].value.split(' ');
-        datosDeEnt['idGerente'] = crearId(inputForm[0].value, 'gerente');
-        datosDeEnt['usuario'] = crearEmail(inputForm[0].value, 'gerente', nombreApellido[0], nombreApellido[1]);
+        const empleado = 'empleado';
+        const gerente = 'gerente';
+        let datosDeEnt = obtenerValores(inputForm);
+        let nombreApellido = inputForm[5].value.split(' ');
+        datosDeEnt['idGerente'] = crearId(inputForm[0].value, gerente);
+        datosDeEnt['idEmpleado'] = crearId(inputForm[0].value, empleado);
+        datosDeEnt['usuarioGerente'] = crearEmail(inputForm[0].value, gerente, nombreApellido[0], nombreApellido[1]);
+        datosDeEnt['usuarioEmpleado'] = crearEmail(inputForm[0].value, empleado, nombreApellido[0], nombreApellido[1]);
         //
         //envio info al servidor
         //
@@ -242,8 +244,18 @@ function registroUsuario() {
         let loc = './index.html';
         //creaando id gerente 
 
+        //esto hay que eliminarlo
+        count = 0;
+        for (const key in datosDeEnt) {
+            if (Object.hasOwnProperty.call(datosDeEnt, key)) {
+                const element = datosDeEnt[key];
+                count++;
+            }
+        }
+        //hasta aqui
+
         datosEnvioServ = JSON.stringify(datosDeEnt);
-        alert(datosEnvioServ + ' <br> ' + datosDeEnt.length)
+        alert(datosEnvioServ + ' <br> ' + count)
         const xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             if (this.readyState === 4 && this.status === 200) {
@@ -275,3 +287,5 @@ function registroUsuario() {
         alert('revisa los datos');
     }
 }
+
+// fin de funiones de la pagina index

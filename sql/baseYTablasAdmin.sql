@@ -31,12 +31,12 @@ CREATE TABLE IF NOT EXISTS `GERENTE` (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `EMPLEADO` (
   `idEmpleado` VARCHAR(7) NOT NULL,
-  `idGerente` VARCHAR(7) NOT NULL,
-  `Nombre` VARCHAR(45) NOT NULL,
+  `nombre` VARCHAR(45) NOT NULL,
   `apellido` VARCHAR(45) NOT NULL,
   `dni` VARCHAR(10) NOT NULL,
   `email` VARCHAR(30) NOT NULL,
   `direccion` VARCHAR(45) NULL,
+  `idGerente` VARCHAR(7) NOT NULL,
   `usuario` VARCHAR(45) NOT NULL,
   `password` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`idEmpleado`),
@@ -68,7 +68,7 @@ COMMIT;
 -- Data for table `EMPLEADO`
 -- -----------------------------------------------------
 START TRANSACTION;
-INSERT INTO `EMPLEADO`  VALUES ('BMEM000', 'BMGR000', 'Yehoshua', DEFAULT, '523641258a', 'studyehoshua@gmail.com', 'calle fasa 3', 'yehoshua_emp@bill-maker.com', 'password');
+INSERT INTO `EMPLEADO`  VALUES ('BMEM000', 'Yehoshua', DEFAULT, '523641258a', 'studyehoshua@gmail.com', 'calle fasa 3',  'BMGR000', 'yehoshua_emp@bill-maker.com', 'password');
 
 COMMIT;
 
