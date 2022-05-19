@@ -2,7 +2,7 @@ document.addEventListener('readystatechange', cargarEventos, false);
 
 function cargarEventos() {
     if (document.readyState === 'interactive') {
-        document.getElementById('envio').addEventListener('click', busquedaSocio, false);
+        //document.getElementById('envio').addEventListener('click', busquedaSocio, false);
         document.getElementById('registrar').addEventListener('click', registroUsuario, false);
         // eventos pequeños
     }

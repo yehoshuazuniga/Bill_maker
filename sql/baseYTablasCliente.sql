@@ -6,7 +6,7 @@
 -- -----------------------------------------------------
 -- Table GERENTE
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS GERENTE (
+CREATE TABLE IF NOT EXISTS gerente (
   idGerente VARCHAR(7) NOT NULL,
   nombre VARCHAR(45) NOT NULL,
   apellido VARCHAR(45) NOT NULL,
@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS GERENTE (
 -- -----------------------------------------------------
 -- Table EMPLEADO
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS EMPLEADO (
+CREATE TABLE IF NOT EXISTS empleado (
   idEmpleado VARCHAR(7) NOT NULL,
   idGerente VARCHAR(7) NOT NULL,
   Nombre VARCHAR(45) NOT NULL,
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS EMPLEADO (
 -- -----------------------------------------------------
 -- Table CLIENTES
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS CLIENTES (
+CREATE TABLE IF NOT EXISTS clientes (
   nif VARCHAR(10) NOT NULL,
   nombreEmpresa VARCHAR(45) NOT NULL,
   direccion VARCHAR(45) NULL,
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS CLIENTES (
 -- -----------------------------------------------------
 -- Table SERVICIOS
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS SERVICIOS (
+CREATE TABLE IF NOT EXISTS servicios (
   idServicios VARCHAR(7) NOT NULL,
   idProducto VARCHAR(7) NULL,
   nombre VARCHAR(45) NOT NULL,
@@ -77,7 +77,7 @@ CREATE TABLE IF NOT EXISTS SERVICIOS (
 -- -----------------------------------------------------
 -- Table PRODUCTOS_EXTERNOS
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS PRODUCTOS_EXTERNOS (
+CREATE TABLE IF NOT EXISTS productos_externos (
   idProducto VARCHAR(7) NOT NULL,
   nifProveedor VARCHAR(10) NOT NULL,
   nombre VARCHAR(45) NOT NULL,
@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS PRODUCTOS_EXTERNOS (
 -- -----------------------------------------------------
 -- Table PROVEEDOR
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS PROVEEDOR (
+CREATE TABLE IF NOT EXISTS proveedor (
   nif VARCHAR(10) NOT NULL,
   nombre VARCHAR(45) NOT NULL,
   direccion VARCHAR(45) NULL,
@@ -106,7 +106,7 @@ CREATE TABLE IF NOT EXISTS PROVEEDOR (
 -- -----------------------------------------------------
 -- Table FONDOS
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS FONDOS (
+CREATE TABLE IF NOT EXISTS fondos (
   idProducto VARCHAR(7) NOT NULL,
   idFactura VARCHAR(7) NOT NULL,
   ingresos INT NOT NULL,
@@ -120,7 +120,7 @@ CREATE TABLE IF NOT EXISTS FONDOS (
 -- -----------------------------------------------------
 -- Table FACTURAS
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS FACTURAS (
+CREATE TABLE IF NOT EXISTS facturas (
   idFacturas VARCHAR(7) NOT NULL,
   nif VARCHAR(10) NOT NULL,
   idServicios VARCHAR(7) NOT NULL,
@@ -143,7 +143,7 @@ CREATE TABLE IF NOT EXISTS FACTURAS (
 -- -----------------------------------------------------
 -- Table PRESUPUESTO
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS PRESUPUESTO (
+CREATE TABLE IF NOT EXISTS presupuesto (
   idPresupuesto VARCHAR(7) NOT NULL,
   nifCliente VARCHAR(10) NOT NULL,
   idServicios VARCHAR(7) NOT NULL,
@@ -164,7 +164,7 @@ CREATE TABLE IF NOT EXISTS PRESUPUESTO (
 -- Data for table GERENTE
 -- -----------------------------------------------------
 START TRANSACTION;
-INSERT INTO GERENTE (idGerente, nombre, apellido, dni, email, direccion, basedatos, usuario, password) VALUES ('BMGR000', 'Yehoshua', DEFAULT, '5236142a', 'studyehoshua@gmail.com', 'calle falsa 123', 'billMaker', 'yehoshua_g@bill-maker.com', 'password');
+INSERT INTO gerente (idGerente, nombre, apellido, dni, email, direccion, basedatos, usuario, password) VALUES ('BMGR000', 'Yehoshua', DEFAULT, '5236142a', 'studyehoshua@gmail.com', 'calle falsa 123', 'billMaker', 'yehoshua_g@bill-maker.com', 'password');
 
 COMMIT;
 
@@ -173,7 +173,7 @@ COMMIT;
 -- Data for table EMPLEADO
 -- -----------------------------------------------------
 START TRANSACTION;
-INSERT INTO EMPLEADO (idEmpleado, idGerente, Nombre, apellido, dni, email, direccion, usuario, password) VALUES ('BMEM000', 'BMGR000', 'Yehoshua', DEFAULT, '523641258a', 'studyehoshua@gmail.com', 'calle fasa 3', 'yehoshua_emp@bill-maker.com', 'password');
+INSERT INTO empleado (idEmpleado, idGerente, Nombre, apellido, dni, email, direccion, usuario, password) VALUES ('BMEM000', 'BMGR000', 'Yehoshua', DEFAULT, '523641258a', 'studyehoshua@gmail.com', 'calle fasa 3', 'yehoshua_emp@bill-maker.com', 'password');
 
 COMMIT;
 

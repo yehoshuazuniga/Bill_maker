@@ -4,9 +4,9 @@
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Table `GERENTE`
+-- Table `gerente`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `GERENTE` (
+CREATE TABLE IF NOT EXISTS `gerente` (
   `idGerente` VARCHAR(7) NOT NULL,
   `nombre` VARCHAR(45) NOT NULL,
   `apellido` VARCHAR(45) NOT NULL,
@@ -27,9 +27,9 @@ CREATE TABLE IF NOT EXISTS `GERENTE` (
 
 
 -- -----------------------------------------------------
--- Table `EMPLEADO`
+-- Table `empleado`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `EMPLEADO` (
+CREATE TABLE IF NOT EXISTS `empleado` (
   `idEmpleado` VARCHAR(7) NOT NULL,
   `nombre` VARCHAR(45) NOT NULL,
   `apellido` VARCHAR(45) NOT NULL,
@@ -47,16 +47,16 @@ CREATE TABLE IF NOT EXISTS `EMPLEADO` (
 
 
 -- -----------------------------------------------------
--- Table `ACCESO`
+-- Table `acceso``
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `ACCESO` (
+CREATE TABLE IF NOT EXISTS `acceso` (
   `usuario` VARCHAR(45) NOT NULL,
   UNIQUE INDEX `usuarioGerente_UNIQUE` (`usuario` ASC))
 ;
 
 
 -- -----------------------------------------------------
--- Data for table `GERENTE`
+-- Data for table `gerente`
 -- -----------------------------------------------------
 START TRANSACTION;
 INSERT INTO GERENTE  VALUES ('brfsd52', 'pedro', 'axz', '5276142a', 'studyehoshua@gmddail.com', 'calle falsa 123', 'billMaker', 'yehosddhua_g@bill-maddker.com', 'password');
@@ -65,20 +65,20 @@ COMMIT;
 
 
 -- -----------------------------------------------------
--- Data for table `EMPLEADO`
+-- Data for table `empleado`
 -- -----------------------------------------------------
 START TRANSACTION;
-INSERT INTO `EMPLEADO`  VALUES ('BMEM000', 'Yehoshua', DEFAULT, '523641258a', 'studyehoshua@gmail.com', 'calle fasa 3',  'BMGR000', 'yehoshua_emp@bill-maker.com', 'password');
+INSERT INTO `empleado`  VALUES ('BMEM000', 'Yehoshua', DEFAULT, '523641258a', 'studyehoshua@gmail.com', 'calle fasa 3',  'BMGR000', 'yehoshua_emp@bill-maker.com', 'password');
 
 COMMIT;
 
 
 -- -----------------------------------------------------
--- Data for table `ACCESO`
+-- Data for table `acceso``
 -- -----------------------------------------------------
 START TRANSACTION;
-INSERT INTO `ACCESO` (`usuario`) VALUES ('yehoshua_g@bill-maker.com');
-INSERT INTO `ACCESO` (`usuario`) VALUES ('yehoshua_emp@bill-maker.com');
+INSERT INTO `acceso`` (`usuario`) VALUES ('yehoshua_g@bill-maker.com');
+INSERT INTO `acceso`` (`usuario`) VALUES ('yehoshua_emp@bill-maker.com');
 
 COMMIT;
 
