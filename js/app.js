@@ -2,7 +2,7 @@ document.addEventListener('readystatechange', cargarEventos, false);
 
 function cargarEventos() {
     if (document.readyState === 'interactive') {
-        // document.getElementById('envio').addEventListener('click', busquedaSocio, false);
+        document.getElementById('envio').addEventListener('click', busquedaSocio, false);
         document.getElementById('registrar').addEventListener('click', registroUsuario, false);
         // eventos pequeños
     }
@@ -261,7 +261,7 @@ function registroUsuario() {
             if (this.readyState === 4 && this.status === 200) {
                 const objInfo = JSON.parse(this.responseText);
                 alert(objInfo);
-
+                //intentar inluir modales a cambio de alerts
                 //si devuelve true  salta aiso de que la empresa ya esta registrada 
                 // si devuelve false salta aviso de que la empresa se esta registrando ahora mismo
                 /* if (typeof objInfo === "boolean") {
