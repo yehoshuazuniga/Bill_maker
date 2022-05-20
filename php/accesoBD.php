@@ -9,7 +9,7 @@ class Funciones_en_BBDD extends BBDD
     private $usu;
     private $pw;
     private $nombreBD;
-    private function __construct($host = 'localhost', $usuario = 'root', $pass = '', $database = 'billmaker')
+    private function __construct($host = 'localhost', $usuario = 'root2', $pass = '', $database = 'billmaker')
     {
         $this->h = $host;
         $this->usu = $usuario;
@@ -94,7 +94,7 @@ class Funciones_en_BBDD extends BBDD
         // $newConex = Funciones_en_BBDD::singleton();
         if ($bd !== 'billmaker') {
             $newConex = null;
-            $newConex = new Funciones_en_BBDD('localhost', 'root', '', $bd);
+            $newConex = new Funciones_en_BBDD('localhost', 'root2', '', $bd);
         }
 
         $sentencia = "SELECT ? FROM $tabla  WHERE $whereParan = ?";
