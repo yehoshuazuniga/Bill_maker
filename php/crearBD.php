@@ -19,7 +19,7 @@ class BBDD
     {
         //  $this->conexion = new mysqli('localhost', 'banco', '', 'banco');
 
-        $sql = "CREATE TABLE IF NOT EXISTS GERENTE (
+        $sql = "CREATE TABLE IF NOT EXISTS gerente (
                 idGerente VARCHAR(7) NOT NULL,
                 nombre VARCHAR(45) NOT NULL,
                 apellido VARCHAR(45) NOT NULL,
@@ -44,9 +44,9 @@ class BBDD
     {
         //  $this->conexion = new mysqli('localhost', 'banco', '', 'banco');
 
-        $sql = "CREATE TABLE IF NOT EXISTS EMPLEADO (
+        $sql = "CREATE TABLE IF NOT EXISTS empleado (
                 idEmpleado VARCHAR(7) NOT NULL,
-                Nombre VARCHAR(45) NOT NULL,
+                nombre VARCHAR(45) NOT NULL,
                 apellido VARCHAR(45) NOT NULL,
                 dni VARCHAR(10) NOT NULL,
                 email VARCHAR(30) NOT NULL,
@@ -66,7 +66,7 @@ class BBDD
     {
         //  $this->conexion = new mysqli('localhost', 'banco', '', 'banco');
 
-        $sql = "CREATE TABLE IF NOT EXISTS CLIENTES (
+        $sql = "CREATE TABLE IF NOT EXISTS clientes (
                 nif VARCHAR(10) NOT NULL,
                 nombreEmpresa VARCHAR(45) NOT NULL,
                 direccion VARCHAR(45) NULL,
@@ -84,7 +84,7 @@ class BBDD
     {
         //  $this->conexion = new mysqli('localhost', 'banco', '', 'banco');
 
-        $sql = "CREATE TABLE IF NOT EXISTS SERVICIOS (
+        $sql = "CREATE TABLE IF NOT EXISTS servicios (
                 idServicios VARCHAR(7) NOT NULL,
                 idProducto VARCHAR(7) NULL,
                 nombre VARCHAR(45) NOT NULL,
@@ -101,7 +101,7 @@ class BBDD
     {
         //  $this->conexion = new mysqli('localhost', 'banco', '', 'banco');
 
-        $sql = "CREATE TABLE IF NOT EXISTS PRODUCTOS_EXTERNOS (
+        $sql = "CREATE TABLE IF NOT EXISTS productos_externos (
                 idProducto VARCHAR(7) NOT NULL,
                 nifProveedor VARCHAR(10) NOT NULL,
                 nombre VARCHAR(45) NOT NULL,
@@ -118,7 +118,7 @@ class BBDD
     {
         //  $this->conexion = new mysqli('localhost', 'banco', '', 'banco');
 
-        $sql = "CREATE TABLE IF NOT EXISTS PROVEEDOR (
+        $sql = "CREATE TABLE IF NOT EXISTS preveedor (
                 nif VARCHAR(10) NOT NULL,
                 nombre VARCHAR(45) NOT NULL,
                 direccion VARCHAR(45) NULL,
@@ -136,7 +136,7 @@ class BBDD
     {
         //  $this->conexion = new mysqli('localhost', 'banco', '', 'banco');
 
-        $sql = "CREATE TABLE IF NOT EXISTS FONDOS (
+        $sql = "CREATE TABLE IF NOT EXISTS fondos (
                 idProducto VARCHAR(7) NOT NULL,
                 idFactura VARCHAR(7) NOT NULL,
                 ingresos INT NOT NULL,
@@ -153,7 +153,7 @@ class BBDD
     {
         //  $this->conexion = new mysqli('localhost', 'banco', '', 'banco');
 
-        $sql = "CREATE TABLE IF NOT EXISTS FACTURAS (
+        $sql = "CREATE TABLE IF NOT EXISTS facturas (
                 idFacturas VARCHAR(7) NOT NULL,
                 nif VARCHAR(10) NOT NULL,
                 idServicios VARCHAR(7) NOT NULL,
@@ -203,7 +203,7 @@ class BBDD
     {
         //  $this->conexion = new mysqli('localhost', 'banco', '', 'banco');
 
-        $sql = "CREATE TABLE IF NOT EXISTS ACCESO (
+        $sql = "CREATE TABLE IF NOT EXISTS acceso (
                 usuario VARCHAR(45) NOT NULL,
                 UNIQUE INDEX usuarioGerente_UNIQUE (usuario ASC))
                 ";
