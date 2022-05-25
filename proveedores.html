@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="Author" content="Yehoshua Zuñiga">
-    <link rel="stylesheet" href="./css/bootstrap.min.css">
-    <link rel="stylesheet" href="./css/misestilos.css">
+    <link rel="stylesheet" href="./css/bootstrap_css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/mi_estilo/misestilos.css">
     <title>Proveedores</title>
 
 </head>
@@ -18,14 +18,14 @@
             justify-content-md-between justify-content-center m-auto">
 
 
-            <img src="./img/Logo_TV_2015.png" alt="logo" class="img-fluid col-12 col-md-2 logo-img bg-info">
+            <img src="./src/img/Logo_TV_2015.png" alt="logo" class="img-fluid col-12 col-md-2 logo-img bg-info">
             <nav class="col-12  col-md-6 align-self-center bg-danger">
                 <ul class="nav d-flex justify-content-md-end 
                              justify-content-center  flex-column
                               flex-sm-row text-center">
                     <li class="nav-link text-dark">rol1</dd>
-                    <li class="nav-link text-dark">Seting del roll</dd>
-                    <li class="nav-link text-dark">Cerrar secion</dd>
+                        <li class="nav-link text-dark">Seting del roll</dd>
+                            <li class="nav-link text-dark">Cerrar secion</dd>
                 </ul>
             </nav>
         </div>
@@ -61,20 +61,15 @@
                 <label for="proveedor-nombre-registrar">Nombre proveedor</label>
                 <input type="text" name="proveedor-nombre-registrar" id="proveedor-nombre-registrar" placeholder="ej: Mi proveedor">
                 <label for="proveedor-cif-registrar">CIF</label>
-                <input type="text" name="proveedor-cif-registrar" id="proveedor-cif-registrar"
-                    placeholder="G12345678">
+                <input type="text" name="proveedor-cif-registrar" id="proveedor-cif-registrar" placeholder="G12345678">
                 <label for="proveedor-direccion-registrar">Direccion</label>
-                <input type="text" name="proveedor-direccion-registrar" id="proveedor-direccion-registrar"
-                    placeholder="Calle Anton 14">
+                <input type="text" name="proveedor-direccion-registrar" id="proveedor-direccion-registrar" placeholder="Calle Anton 14">
                 <label for="proveedor-email-registrar">Correo electronico</label>
-                <input type="email" name="proveedor-email-registrar" id="proveedor-email-registrar"
-                    placeholder="Mi_usuario@email.org">
+                <input type="email" name="proveedor-email-registrar" id="proveedor-email-registrar" placeholder="Mi_usuario@email.org">
                 <label for="proveedor-personaContacto-registrar">Persona de contacto</label>
-                <input type="text" name="proveedor-personaContacto-registrar" id="proveedor-personaContacto-registrar"
-                    placeholder="6245854132">
+                <input type="text" name="proveedor-personaContacto-registrar" id="proveedor-personaContacto-registrar" placeholder="6245854132">
                 <label for="proveedor-telefono-registrar">Telefono de contacto</label>
-                <input type="tel" name="proveedor-telefono-registrar" id="proveedor-telefono-registrar"
-                    placeholder="6245854132">
+                <input type="tel" name="proveedor-telefono-registrar" id="proveedor-telefono-registrar" placeholder="6245854132">
                 <button name="registrar" id="registrar" data-bs-dismiss="modal">registrar </button>
             </div>
             <!-- ENCONTRAR LA FORMA DE ENVIAR UN CONTRASEÑA POR MAIL O HACERLO QUE AL INICIAR SECION CAMBIE LA CONTRASEÑA-->
@@ -86,7 +81,7 @@
                         <td>Nombre proveedor</td>
                         <td>Telefono</td>
                         <td>Email</td>
-                        
+
                         <td>Seleccionar</td>
                     </tr>
                     <tr>
@@ -94,32 +89,28 @@
                         <td>Nombre</td>
                         <td>Telefono</td>
                         <td>Email</td>
-                        
-                        <td><button name="empleado-id-numeroid" id="id-1">Seleccionar</button> (boton que seleciona el
-                            empleado) </td>
+
+                        <td><button name="empleado-id-numeroid" id="id-1">Seleccionar</button> (boton que seleciona el empleado) </td>
                     </tr>
                     <tr>
                         <td>NIF xxxxxx</td>
                         <td>Nombre</td>
                         <td>Telefono</td>
                         <td>Email</td>
-                        
-                        <td><button name="empleado-id-numeroid" id="id-2">Seleccionar</button> (boton que seleciona el
-                            empleado) </td>
+
+                        <td><button name="empleado-id-numeroid" id="id-2">Seleccionar</button> (boton que seleciona el empleado) </td>
                     </tr>
                     <tr>
                         <td>NIF xxxxxx</td>
                         <td>Nombre</td>
                         <td>Telefono</td>
                         <td>Email</td>
-                        
-                        <td><button name="empleado-id-numeroid" id="id-3" data-bs-toggle="modal"
-                                data-bs-target="#modal-empleado">Seleccionar</button> (boton que seleciona el empleado)
+
+                        <td><button name="empleado-id-numeroid" id="id-3" data-bs-toggle="modal" data-bs-target="#modal-empleado">Seleccionar</button> (boton que seleciona el empleado)
                         </td>
                     </tr>
                 </table>
-                <div class="modal fade" id="modal-proveedor" tabindex="-1" aria-hidden="true"
-                    aria-labelledby="label-modal-proveedor" data-bs-backdrop="static">
+                <div class="modal fade" id="modal-proveedor" tabindex="-1" aria-hidden="true" aria-labelledby="label-modal-proveedor" data-bs-backdrop="static">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -130,20 +121,15 @@
                             </div>
                             <div class="modal-body row m-3">
                                 <label class="text-dark" for="proveedor-nombre-registro">Nombre comercial</label>
-                                <input type="text" name="proveedor-nombre-registro" id="proveedor-nombre-registro"
-                                    placeholder="ej: Mi empresa">
+                                <input type="text" name="proveedor-nombre-registro" id="proveedor-nombre-registro" placeholder="ej: Mi empresa">
                                 <label class="text-dark" for="proveedor-dni-registro">CIF</label>
-                                <input type="text" name="proveedor-cif-registro" id="proveedor-cif-registro"
-                                    placeholder="Y12345678X / 25148596D">
+                                <input type="text" name="proveedor-cif-registro" id="proveedor-cif-registro" placeholder="Y12345678X / 25148596D">
                                 <label class="text-dark" for="proveedor-direccion-registro">Direccion</label>
-                                <input type="text" name="proveedor-direccion-registro" id="proveedor-direccion-registro"
-                                    placeholder="Calle Anton 14">
+                                <input type="text" name="proveedor-direccion-registro" id="proveedor-direccion-registro" placeholder="Calle Anton 14">
                                 <label class="text-dark" for="proveedor-email-registro">Correo electronico</label>
-                                <input type="email" name="proveedor-email-registro" id="proveedor-email-registro"
-                                    placeholder="Mi_usuario@email.org">
+                                <input type="email" name="proveedor-email-registro" id="proveedor-email-registro" placeholder="Mi_usuario@email.org">
                                 <label class="text-dark" for="proveedor-telefono-registro">Telefono de contacto</label>
-                                <input type="tel" name="proveedor-telefono-registro" id="proveedor-telefono-registro"
-                                    placeholder="6245854132">
+                                <input type="tel" name="proveedor-telefono-registro" id="proveedor-telefono-registro" placeholder="6245854132">
                                 <button name="mofificar-proveedor" id="mofificar-proveedor" data-bs-dismiss="modal">Moficar
                                 </button>
                                 <button name="dar-baja-proveedor" id="dar-baja-proveedor" data-bs-dismiss="modal">Dar baja </button>
@@ -156,12 +142,9 @@
         </main>
     </section>
 </body>
-<script src="js/bootstrap.bundle.min.js"></script>
+<script src="./js/bootstrap_js/bootstrap.bundle.min.js"></script>
+<script src="./js/app/app.js"></script>
 <script>
-
-
-
 </script>
 
 </html>
-

@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="Author" content="Yehoshua Zuñiga">
-    <link rel="stylesheet" href="./css/bootstrap.min.css">
-    <link rel="stylesheet" href="./css/misestilos.css">
+    <link rel="stylesheet" href="./css/bootstrap_css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/mi_estilo/misestilos.css">
     <title>Presupuestos</title>
 
 </head>
@@ -16,14 +16,14 @@
     <header class="row  bg  bg-secondary">
         <div class="logo row 
             justify-content-md-between justify-content-center m-auto">
-            <img src="./img/Logo_TV_2015.png" alt="logo" class="img-fluid col-12 col-md-2 logo-img bg-info">
+            <img src="./src/img/Logo_TV_2015.png" alt="logo" class="img-fluid col-12 col-md-2 logo-img bg-info">
             <nav class="col-12  col-md-6 align-self-center bg-danger">
                 <ul class="nav d-flex justify-content-md-end 
                              justify-content-center  flex-column
                               flex-sm-row text-center">
                     <li class="nav-link text-dark">rol1</dd>
-                    <li class="nav-link text-dark">Seting del roll</dd>
-                    <li class="nav-link text-dark">Cerrar secion</dd>
+                        <li class="nav-link text-dark">Seting del roll</dd>
+                            <li class="nav-link text-dark">Cerrar secion</dd>
                 </ul>
             </nav>
         </div>
@@ -56,12 +56,10 @@
         </aside>
         <!-- esta es la pestñana que aparecera cuando se registra un nuevo cliente -->
         <main class=" col-md bg-info ">
-            <div name="registrar-presupuestos"
-                class="d-flex flex-column flex-md-row gap-2 pb-3 align-items-center d-none row">
+            <div name="registrar-presupuestos" class="d-flex flex-column flex-md-row gap-2 pb-3 align-items-center d-none row">
                 <div class="col-12 col-md-2">
                     <label for="presupuesto-nombre-registrar">CIF / NIF de cliente</label>
-                    <input type="text" class="form-control" name="presupuesto-nombre-registrar"
-                        id="presupuesto-nombre-registrar" placeholder="ej: G123653214">
+                    <input type="text" class="form-control" name="presupuesto-nombre-registrar" id="presupuesto-nombre-registrar" placeholder="ej: G123653214">
                 </div>
                 <div class="col-12 col-md border ficha-cliente">
                     <p class="cliente-cif">nif cliente</p>
@@ -73,8 +71,7 @@
                 </div>
                 <div class="col-12 gap-2 d-flex flex-column clientes-servicios">
                     <label for="presupuesto-codigo-registrar">Codifo presupuesto</label>
-                    <input type="text" class="form-control" name="presupuesto-codigo-registrar"
-                        id="presupuesto-codigo-registrar" placeholder="ej: MS542" disabled>
+                    <input type="text" class="form-control" name="presupuesto-codigo-registrar" id="presupuesto-codigo-registrar" placeholder="ej: MS542" disabled>
                     <!-- esto sera un desplegable con las opciones de los serviccios -->
                     <div class="clientes-servicios-resumen bg-dark">
                         <p class="servicio">datos del Servicio</p>
@@ -103,8 +100,7 @@
                         <td>Precio sin IVA</td>
                         <td>Precio con IVA</td>
                         <td>Fecha xx/xx/xxxx</td>
-                        <td><button name="servicio-id-numeroid" id="id-3" data-bs-toggle="modal"
-                                data-bs-target="#modal-servicio">Seleccionar</button> (boton que seleciona el servicio)
+                        <td><button name="servicio-id-numeroid" id="id-3" data-bs-toggle="modal" data-bs-target="#modal-servicio">Seleccionar</button> (boton que seleciona el servicio)
                         </td>
                     </tr>
                     <tr>
@@ -112,25 +108,22 @@
                         <td>Precio sin IVA</td>
                         <td>Precio con IVA</td>
                         <td>Fecha xx/xx/xxxx</td>
-                        <td><button name="servicio-id-numeroid" id="id-3" data-bs-toggle="modal"
-                                data-bs-target="#modal-servicio">Seleccionar</button> (boton que seleciona el servicio)
+                        <td><button name="servicio-id-numeroid" id="id-3" data-bs-toggle="modal" data-bs-target="#modal-servicio">Seleccionar</button> (boton que seleciona el servicio)
                         </td>
                     </tr>
                     <tr>
                         <td>Cod Presupuesto</td>
                         <td>Precio sin IVA</td>
                         <td>Precio con IVA</td>
-                        <td>Fecha xx/xx/xxxx</td> 
-                        <td><button name="servicio-id-numeroid" id="id-3" data-bs-toggle="modal"
-                                data-bs-target="#modal-servicio">Seleccionar</button> (boton que seleciona el servicio)
+                        <td>Fecha xx/xx/xxxx</td>
+                        <td><button name="servicio-id-numeroid" id="id-3" data-bs-toggle="modal" data-bs-target="#modal-servicio">Seleccionar</button> (boton que seleciona el servicio)
                         </td>
                     </tr>
                 </table>
 
                 <!-- actualizar modal con lod datos de la factura y sus serviucios+2 -->
 
-                <div class="modal fade" id="modal-servicio" tabindex="-1" aria-hidden="true"
-                    aria-labelledby="label-modal-servicio" data-bs-backdrop="static">
+                <div class="modal fade" id="modal-servicio" tabindex="-1" aria-hidden="true" aria-labelledby="label-modal-servicio" data-bs-backdrop="static">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable ">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -157,11 +150,9 @@
                                 </div>
                                 <button name="presupuesto-pdf" id="presupuesto-pdf" data-bs-dismiss="modal">Generar PDF
                                 </button>
-                                <button name="presupuesto-aprobar" id="presupuesto-aprobar"
-                                    data-bs-dismiss="modal">Aprobar presupuesto
+                                <button name="presupuesto-aprobar" id="presupuesto-aprobar" data-bs-dismiss="modal">Aprobar presupuesto
                                 </button>
-                                <button name="presupuesto-cancelar" id="presupuesto-cancelar"
-                                    data-bs-dismiss="modal">Cancelar presupuesto
+                                <button name="presupuesto-cancelar" id="presupuesto-cancelar" data-bs-dismiss="modal">Cancelar presupuesto
                                 </button>
                             </div>
                         </div>
@@ -172,6 +163,7 @@
         </main>
     </section>
 </body>
-<script src="js/bootstrap.bundle.min.js"></script>
+<script src="./js/bootstrap_js/bootstrap.bundle.min.js"></script>
+<script src="./js/app/app.js"></script>
 
 </html>

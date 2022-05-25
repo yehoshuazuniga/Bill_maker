@@ -1,5 +1,5 @@
 <?php
-include './elPuertasYelCoyote.php';
+include '../seguridad/elPuertasYelCoyote.php';
 
 class Constructor extends PuertasYcoyote
 {
@@ -30,7 +30,7 @@ class Constructor extends PuertasYcoyote
                     justify-content-md-between justify-content-center m-auto">
 
 
-                            <img src="./img/Logo_TV_2015.png" alt="logo" class="img-fluid col-12 col-md-2 logo-img bg-info">
+                            <img src="./src/img/Logo_TV_2015.png" alt="logo" class="img-fluid col-12 col-md-2 logo-img bg-info">
                             <nav class="col-12  col-md-6 align-self-center bg-danger">
                                 <ul class="nav d-flex justify-content-md-end 
                                     justify-content-center  flex-column

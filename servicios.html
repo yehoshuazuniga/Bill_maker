@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="Author" content="Yehoshua Zuñiga">
-    <link rel="stylesheet" href="./css/bootstrap.min.css">
-    <link rel="stylesheet" href="./css/misestilos.css">
+    <link rel="stylesheet" href="./css/bootstrap_css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/mi_estilo/misestilos.css">
     <title>Servicios</title>
 
 </head>
@@ -18,14 +18,14 @@
             justify-content-md-between justify-content-center m-auto">
 
 
-            <img src="./img/Logo_TV_2015.png" alt="logo" class="img-fluid col-12 col-md-2 logo-img bg-info">
+            <img src="./src/img/Logo_TV_2015.png" alt="logo" class="img-fluid col-12 col-md-2 logo-img bg-info">
             <nav class="col-12  col-md-6 align-self-center bg-danger">
                 <ul class="nav d-flex justify-content-md-end 
                              justify-content-center  flex-column
                               flex-sm-row text-center">
                     <li class="nav-link text-dark">rol1</dd>
-                    <li class="nav-link text-dark">Seting del roll</dd>
-                    <li class="nav-link text-dark">Cerrar secion</dd>
+                        <li class="nav-link text-dark">Seting del roll</dd>
+                            <li class="nav-link text-dark">Cerrar secion</dd>
                 </ul>
             </nav>
         </div>
@@ -61,26 +61,19 @@
         <main class=" col-md bg-info">
             <div name="registrar-servicios" class="d-flex flex-column d-none gap-2 pb-3">
                 <label for="servicio-nombre-registrar">Nombre del servicio </label>
-                <input type="text" name="servicio-nombre-registrar" id="servicio-nombre-registrar"
-                    placeholder="ej: Mi servicio">
+                <input type="text" name="servicio-nombre-registrar" id="servicio-nombre-registrar" placeholder="ej: Mi servicio">
                 <label for="servicio-codigo-registrar">Codifo servicio</label>
-                <input type="text" name="servicio-codigo-registrar" id="servicio-codigo-registrar"
-                    placeholder="ej: MS542">
+                <input type="text" name="servicio-codigo-registrar" id="servicio-codigo-registrar" placeholder="ej: MS542">
                 <label for="servicio-descripcion-registrar">Descripción</label>
-                <input type="text" name="servicio-descripcion-registrar" id="servicio-descripcion-registrar"
-                    placeholder=" Descripcion del servicio">
+                <input type="text" name="servicio-descripcion-registrar" id="servicio-descripcion-registrar" placeholder=" Descripcion del servicio">
                 <label for="servicio-precioSinIva-registrar">Precio sin IVA</label>
-                <input type="decimal" step="any" name="servicio-precioSinIva-registrar"
-                    id="servicio-precioSinIva-registrar" placeholder="15.55">
+                <input type="decimal" step="any" name="servicio-precioSinIva-registrar" id="servicio-precioSinIva-registrar" placeholder="15.55">
                 <label for="servicio-precioConIva-registrar">Precio con IVA</label>
-                <input type="number" name="servicio-precioConIva-registrar" id="servicio-precioConIva-registrar"
-                    placeholder="17.49">
+                <input type="number" name="servicio-precioConIva-registrar" id="servicio-precioConIva-registrar" placeholder="17.49">
                 <label for="servicio-productoExterno-registrar">Es un productos externo?</label>
-                <input type="checkbox" name="servicio-productoExterno-registrar"
-                    id="servicio-productoExterno-registrar">
+                <input type="checkbox" name="servicio-productoExterno-registrar" id="servicio-productoExterno-registrar">
                 <label for="servicio-codigoProductoExterno-registrar">Codigo del producto externo</label>
-                <input type="text" maxlength="7" class="servicio-codigoProductoExterno-registrar"
-                    id="servicio-codigoProductoExterno-registrar">
+                <input type="text" maxlength="7" class="servicio-codigoProductoExterno-registrar" id="servicio-codigoProductoExterno-registrar">
                 <button name="registrar-servicio" id="registrar-servicio" data-bs-dismiss="modal">Registrar
                     servicio</button>
             </div>
@@ -104,8 +97,7 @@
                         <td>Email</td>
                         <td>es externo? (introducr un si/no)</td>
                         <td>cod producto externo</td>
-                        <td><button name="servicio-id-numeroid" id="id-1">Seleccionar</button> (boton que seleciona el
-                            servicio) </td>
+                        <td><button name="servicio-id-numeroid" id="id-1">Seleccionar</button> (boton que seleciona el servicio) </td>
                     </tr>
                     <tr>
                         <td>serv12345</td>
@@ -114,8 +106,7 @@
                         <td>Email</td>
                         <td>es externo? (introducr un si/no)</td>
                         <td>cod producto externo</td>
-                        <td><button name="servicio-id-numeroid" id="id-2">Seleccionar</button> (boton que seleciona el
-                            servicio) </td>
+                        <td><button name="servicio-id-numeroid" id="id-2">Seleccionar</button> (boton que seleciona el servicio) </td>
                     </tr>
                     <tr>
                         <td>serv12345</td>
@@ -124,13 +115,11 @@
                         <td>Email</td>
                         <td>es externo? (introducr un si/no)</td>
                         <td>cod producto externo</td>
-                        <td><button name="servicio-id-numeroid" id="id-3" data-bs-toggle="modal"
-                                data-bs-target="#modal-servicio">Seleccionar</button> (boton que seleciona el servicio)
+                        <td><button name="servicio-id-numeroid" id="id-3" data-bs-toggle="modal" data-bs-target="#modal-servicio">Seleccionar</button> (boton que seleciona el servicio)
                         </td>
                     </tr>
                 </table>
-                <div class="modal fade" id="modal-servicio" tabindex="-1" aria-hidden="true"
-                    aria-labelledby="label-modal-servicio" data-bs-backdrop="static">
+                <div class="modal fade" id="modal-servicio" tabindex="-1" aria-hidden="true" aria-labelledby="label-modal-servicio" data-bs-backdrop="static">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -141,30 +130,22 @@
                             </div>
                             <div class="modal-body row m-3">
                                 <label class="text-dark" for="servicio-nombre-registro">Servicio</label>
-                                <input type="text" name="servicio-nombre-registro" id="servicio-nombre-registro"
-                                    placeholder="ej: Mi empresa">
+                                <input type="text" name="servicio-nombre-registro" id="servicio-nombre-registro" placeholder="ej: Mi empresa">
                                 <label class="text-dark" for="servicio-codigo-registro">Cod. Servicio</label>
-                                <input type="text" name="servicio-codigo-registro" id="servicio-codigo-registro"
-                                    placeholder="SERV123">
+                                <input type="text" name="servicio-codigo-registro" id="servicio-codigo-registro" placeholder="SERV123">
                                 <label class="text-dark" for="servicio-descripcion-registro">Direccion</label>
-                                <input type="text" name="servicio-descripcion-registro"
-                                    id="servicio-descripcion-registro" placeholder="descripcion del servicio">
+                                <input type="text" name="servicio-descripcion-registro" id="servicio-descripcion-registro" placeholder="descripcion del servicio">
                                 <label class="text-dark" for="servicio-precioSinIva-registro">Precio sin IVA</label>
-                                <input type="decimal" step="any" name="servicio-precioSinIva-registro"
-                                    id="servicio-precioSinIva-registro" placeholder="15.55">
+                                <input type="decimal" step="any" name="servicio-precioSinIva-registro" id="servicio-precioSinIva-registro" placeholder="15.55">
                                 <label class="text-dark" for="servicio-precioConIva-registro">Precio con IVA</label>
-                                <input type="number" name="servicio-precioConIva-registro"
-                                    id="servicio-precioConIva-registro" placeholder="17.49">
+                                <input type="number" name="servicio-precioConIva-registro" id="servicio-precioConIva-registro" placeholder="17.49">
                                 <label class="text-dark" for="servicio-productoExterno-registro">Es un productos
                                     externo?</label>
-                                <input type="checkbox" name="servicio-productoExterno-registrar"
-                                    id="servicio-productoExterno-registrar">
+                                <input type="checkbox" name="servicio-productoExterno-registrar" id="servicio-productoExterno-registrar">
                                 <label class="text-dark" for="servicio-codigoProductoExterno-registrar">Codigo del
                                     producto externo</label>
-                                <input type="text" maxlength="7" class="servicio-codigoProductoExterno-registrar"
-                                    id="servicio-codigoProductoExterno-registrar">
-                                <button name="mofificar-servicio" id="mofificar-servicio"
-                                    data-bs-dismiss="modal">Moficar
+                                <input type="text" maxlength="7" class="servicio-codigoProductoExterno-registrar" id="servicio-codigoProductoExterno-registrar">
+                                <button name="mofificar-servicio" id="mofificar-servicio" data-bs-dismiss="modal">Moficar
                                 </button>
                                 <button name="dar-baja-servicio" id="dar-baja-servicio" data-bs-dismiss="modal">Dar baja
                                 </button>
@@ -177,5 +158,7 @@
         </main>
     </section>
 </body>
-<script src="js/bootstrap.bundle.min.js"></script>
+<script src="./js/bootstrap_js/bootstrap.bundle.min.js"></script>
+<script src="./js/app/app.js"></script>
+
 </html>

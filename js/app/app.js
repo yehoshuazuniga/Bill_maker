@@ -196,7 +196,7 @@ function validacionusuario(varPOST, datos) {
             }
         }
     }
-    xhttp.open('POST', './php/accesoBD.php', true);
+    xhttp.open('POST', './php/base_datos/accesoBD.php', true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send(varPOST + '=' + datosEnvioServ);
 }
@@ -277,7 +277,7 @@ function registroUsuario() {
                 } */
             }
         }
-        xhttp.open('POST', './php/accesoBD.php', true);
+        xhttp.open('POST', './php/base_datos/accesoBD.php', true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhttp.send(varPOST + '=' + datosEnvioServ);
         //
