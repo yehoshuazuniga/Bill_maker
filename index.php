@@ -19,14 +19,9 @@
             <div class="col-auto col-md-4
                         pd-md-5 p-0 row
                         bg-primary">
-                <div class="registro_formulario
-                            col d-grid 
-                            mx-2
-                            mt-3
-                            gap-2 mb-0 
-                            align-self-start align-self-md-center" id="registro_formulario" name="registro_formulario">
-                    <label for="usuario-nick">Nombre del usuario</label>
-                    <input type="text" id="usuario_nick" name="usuario_np" placeholder="ejemplo: Mi_usuario@email.org" value="yehoshua_emp@bill-maker.com">
+                <div class="registro_formulario col d-grid  mx-2  mt-3 gap-2 mb-0  align-self-start align-self-md-center" id="registro_formulario">
+                    <label for="usuario_nick">Nombre del usuario</label>
+                    <input type="text" id="usuario_nick" name="usuario_np" placeholder="ejemplo: Mi_usuario@email.org" value="yehoshua_gt@bill-maker.com">
                     <label for="usuario_password">Password</label>
                     <input type="password" id="usuario_password" name="usuario_np" autocomplete="on" value="password">
                     <button name="boton_envio" id="envio" class="btn btn-primary"> Acceder</button>
@@ -35,7 +30,7 @@
                             solo sera visible cuando se de al boton de registrarse
 
                             -->
-                    <div class="modal fade" id="modal-registro" tabindex="-1" aria-hidden="true" aria-labelledby="label-modal-registro" data-bs-backdrop="static">
+                    <div class="modal fade" id="modal-registro" tabindex="-1" aria-hidden="true"  data-bs-backdrop="static">
                         <div class=" modal-dialog modal-dialog-centered modal-dialog-crollable">
                             <div class="modal-content bg-dark">
                                 <div class="modal-header">
@@ -44,7 +39,7 @@
                                     </h3>
                                     <button class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                                 </div>
-                                <div class="modal-body row m-3 bg-dark d-flex gap-2" name="formulario_registrar" id="formulario_registrar">
+                                <div class="modal-body row m-3 bg-dark d-flex gap-2" id="formulario_registrar">
                                     <label for="usuario_nick_registro">Nombre de la empresa</label>
                                     <input type="text" name="usuario_nick_registro" id="usuario_nick_registro" placeholder="Nombre fiscal">
                                     <label for="usuario_cif">CIF</label>
@@ -74,8 +69,8 @@
 
         </section>
     </div>
+    <script src="./js/bootstrap_js/bootstrap.bundle.min.js"></script>
+    <script src="./js/app/app.js"></script>
 </body>
-<script src="./js/bootstrap_js/bootstrap.bundle.min.js"></script>
-<script src="./js/app/app.js"></script>
 
 </html>

@@ -1,23 +1,41 @@
 <?php
+
 class PuertasYcoyote
 {
     const SALT = 'biLlMakEr';
 
     //con seciones
-    function tockerUsuario($idPersonaje)
+    static function tockenSession($bd, $idPersonaje)
     {
-        session_start();
+        $cargo = null;
+        $roll = 'roll';
+        $bdName = array_pop($bd);
+        $bbdd = 'BBDD';
+        $id = array_shift($idPersonaje);
+        $id = substr($id, 2, 2);
+        $nombre = ucfirst(strtolower(array_shift($idPersonaje)));
+        $apellido = array_pop($idPersonaje) == 'DEFAULT'?'': ucfirst(strtolower(array_shift($idPersonaje)));
+        $usuario = trim($nombre . ' ' . $apellido);
 
-        //empleado EP
-        //gerente GR
-        $cod = substr(strtolower($idPersonaje), 2,4);
-        $valor = 0;
-        for($i=0 ; strlen($cod) ; $i++){
-            $valor += ord($cod[$i]);
+
+        switch ($id) {
+            case 'GR':
+                $cargo = 'gerente';
+                break;
+            case 'EM':
+                $cargo = 'empleado';
+                break;
+
+            default:
+                $cargo = null;
+                break;
         }
-
-        //evaluamos el valor y identifiamos el roll
-        $_SESSION['nombre'] = "Laura";
+        if ($cargo != null && gettype($cargo) == 'string' && gettype($bdName) == 'string') {
+            session_start();
+            $_SESSION[$bbdd] = $bdName;
+            $_SESSION[$roll] = $cargo;
+            $_SESSION[$cargo] = $usuario;
+        }
     }
     //hash
     public static function passHash($password)
@@ -30,24 +48,6 @@ class PuertasYcoyote
         return ($hassBBDD == self::passHash($passwordEnt));
     }
 
-    //tener en cnuenta las seciones
-    public static function menusConTokens()
-    {
-        if (isset($_SESSION["roll"])) {
-
-
-            if ($_SESSION['roll'] === 1/* aqui tiene que ir el rol del sujeto  gerente*/) {
-                //self::menuGerente();
-            } else if ($_SESSION{
-                'roll'} === 1/* aqui tiene que ir el rol del sujeto  empleado*/) {
-              //  self::menuEmpleado();
-            }
-        } else {
-            /* redireccion a la pagina de registro */
-        }
-    }
-
-
     public static function filtrado($texto)
     {
         $texto = trim($texto);
@@ -55,8 +55,31 @@ class PuertasYcoyote
         $texto = stripslashes($texto);
         return $texto;
     }
-
-    function cerrarSecion(){
-        
+   
+    static function validadcionSesiones(){
+        if(count($_SESSION)!==3 && !isset($_SESSION['roll']) && 
+        (!isset($_SESSION['empleado']) || !isset($_SESSION['gerente']) && 
+        !isset($_SESSION['BBDD']))){
+            header('Location: index.php');
+        }
     }
-}
+
+
+    function cerrarSesion()
+    {
+        $estado = false;
+        $_SESSION = array();
+        setcookie('PHPSESSID', '', time() - 1);
+        session_destroy();
+        if (count($_SESSION) <= 0) {
+            $estado = true;
+        }
+        return $estado;
+    }
+}/*
+-----------+--------+----------+-----------+--------------------------+-----------------+---------------+------------------------------------+---------------+
+| idGerente | nombre | apellido | dni       | email                    | direccion       | basedatos     | usuario                            | password      |
++-----------+--------+----------+-----------+--------------------------+-----------------+---------------+------------------------------------+---------------+
+| brfsd52   | pedro  | axz      | 5276142a  | studyehoshua@gmddail.com | calle falsa 123 | billMaker     | yehosddhua_g@bill-maddker.com      | password      |
+| DPGT92    | Juan   | alfonoso | g85963641 | mabel.munoz@gmail.com    | c/dancing power | dancing_power | juan.alfonoso_gt@dancing-power.com | dancing power |
++-----------+--------+----------+-----------+--------------------------+-----------------+---------------+------------------------------------+---------------*/

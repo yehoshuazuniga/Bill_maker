@@ -59,9 +59,9 @@ CREATE TABLE IF NOT EXISTS `acceso` (
 -- Data for table `gerente`
 -- -----------------------------------------------------
 START TRANSACTION;
-INSERT INTO gerente  VALUES ('brfsd52', 'pedro', 'axz', '5276142a', 
+INSERT INTO gerente  VALUES ('BMGR000', 'pedro', 'axz', '5276142a', 
 'studyehoshua@gmddail.com', 'calle falsa 123', 'billMaker', 
-'yehosddhua_g@bill-maddker.com', 'password');
+'yehoshua_gt@bill-maker.com', 'password');
 
 COMMIT;
 
@@ -70,7 +70,9 @@ COMMIT;
 -- Data for table `empleado`
 -- -----------------------------------------------------
 START TRANSACTION;
-INSERT INTO `empleado`  VALUES ('BMEM000', 'Yehoshua', 'DEFAULT', '523641258a', 'studyehoshua@gmail.com', 'calle fasa 3',  'BMGR000', 'yehoshua_emp@bill-maker.com', 'password');
+INSERT INTO `empleado`  VALUES ('BMEM000', 'Yehoshua', 'DEFAULT', 
+'523641258a', 'studyehoshua@gmail.com', 'calle fasa 3',  '
+BMGR000', 'yehoshua_emp@bill-maker.com', 'password');
 
 COMMIT;
 
@@ -79,7 +81,7 @@ COMMIT;
 -- Data for table `acceso``
 -- -----------------------------------------------------
 START TRANSACTION;
-INSERT INTO `acceso` (`usuario`) VALUES ('yehoshua_g@bill-maker.com');
+INSERT INTO `acceso` (`usuario`) VALUES ('yehoshua_gt@bill-maker.com');
 INSERT INTO `acceso` (`usuario`) VALUES ('yehoshua_emp@bill-maker.com');
 
 COMMIT;

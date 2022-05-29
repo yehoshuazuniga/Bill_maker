@@ -1,5 +1,5 @@
 <?php
-require './crearBD.php';
+require __DIR__.'/crearBD.php';
 class Funciones_en_BBDD extends BBDD
 {
 
@@ -44,6 +44,50 @@ class Funciones_en_BBDD extends BBDD
     {
 
         $this->$propiedad = $valor;
+    }
+
+    function extraerDatos($usu, $pass)
+    {
+        $datos = [];
+
+        $sent1 = '  SELECT  g.basedatos FROM gerente g , empleado e
+                        WHERE g.idGerente=e.idGerente AND ( (e.usuario= :usu AND e.password = :pass) OR
+                                                            (g.usuario= :usu AND g.password = :pass));
+                    ';
+        $sentPre = $this->conexion->prepare($sent1);
+        $sentPre->execute(
+            array(
+                ':usu' => $usu,
+                ':pass' => $pass
+            )
+        );
+
+        $datos = $sentPre->fetchAll(PDO::FETCH_ASSOC);
+        
+        $sent2 = 'SELECT idEmpleado, nombre, apellido FROM empleado WHERE usuario = :usu  AND password = :pass;';
+        $sentpre2 = $this->conexion->prepare($sent2);
+        $sentpre2->execute(
+            array(
+                ':usu' => $usu,
+                ':pass' => $pass
+            )
+        );
+
+        $sent3 = 'SELECT idGerente, nombre, apellido  FROM gerente WHERE usuario = :usu  AND password = :pass;';
+        $sentpre3 = $this->conexion->prepare($sent3);
+        $sentpre3->execute(
+            array(
+                ':usu' => $usu,
+                ':pass' => $pass
+            )
+        );
+        if($sentpre2->rowCount()>0){
+            array_push( $datos, $sentpre2->fetchAll(PDO::FETCH_ASSOC)[0]);
+        }
+        if($sentpre3->rowCount()>0){
+            array_push( $datos, $sentpre3->fetchAll(PDO::FETCH_ASSOC)[0] );
+        }
+        return $datos;
     }
 
     function verificarUsuario($usu, $pass)
@@ -161,7 +205,7 @@ class Funciones_en_BBDD extends BBDD
             $sentPre->execute();
             if ($sentPre->rowCount() > 0) $usuariosRegistrados_2[$i] = $usuario;
         }
-        if(count($usuariosRegistrados_2) === 2 && $this->registrarUsuarios($usuariosRegistrados_2))$respuesta = "Usuarios empleado y gerente generados, los recibira por mail "; 
+        if (count($usuariosRegistrados_2) === 2 && $this->registrarUsuarios($usuariosRegistrados_2)) $respuesta = "Usuarios empleado y gerente generados, los recibira por mail ";
         return $respuesta;
     }
 
@@ -170,45 +214,15 @@ class Funciones_en_BBDD extends BBDD
         $grabadoEnBBDD = null;
         if (count($usuarioGR_EM) === 2) {
             for ($i = 0; $i < count($usuarioGR_EM); $i++) {
-                $grabadoEnBBDD=false;
+                $grabadoEnBBDD = false;
                 $sql = 'INSERT INTO billmaker.acceso VALUES (?)';
                 $sentPre = $this->conexion->prepare($sql);
                 $sentPre->bindParam(1, $usuarioGR_EM[$i], PDO::PARAM_STR);
                 $sentPre->execute();
-                if($sentPre->rowCount()>0) $grabadoEnBBDD=true;
+                if ($sentPre->rowCount() > 0) $grabadoEnBBDD = true;
             }
         }
         return $grabadoEnBBDD;
     }
 }
 
-$conex = Funciones_en_BBDD::singleton();
-
-
-if (isset($_POST['accesousuario'])) {
-
-    $datosEnt = json_decode($_POST['accesousuario']);
-    echo json_encode($conex->verificarUsuario($datosEnt->usuario_nick, $datosEnt->usuario_password));
-}
-
-
-if (isset($_POST['nuevoUsuario'])) {
-    $datosEnt = json_decode($_POST['nuevoUsuario']);
-    //var_dump($datosEnt);
-    if ($conex->existeParametro('dni', 'dni', $datosEnt->usuario_cif)) {
-        echo json_encode('La empresa ya ha sido dada de alta');
-    } else {
-        $conex->crearBDyTablas($datosEnt->usuario_nick_registro);
-        echo json_encode($conex->registrarGer_Emp($datosEnt));
-    }
-}
-
-//$conex->verificarUsuario('yehoshua_emp@bill-maker.com', 'passssword');
-//CUANDO PARAMOETRO SE PUEDE INTRODUCIR CON UNA SENTENCIA PREPARADA
-//$conex->verificarUsuario('yehoshua_g@bill-maker.com','password');
-//$conex->sumarSaldo("85697123B", 1500);
-//   $datosEnt=json_decode(str_replace('-','_', $_POST['accesousuario']));
- ////echo json_encode('se esta registrando');
-
-        //echo json_encode('hola va todo bien');
-// var_dump($datosEnt);

@@ -2,8 +2,16 @@ document.addEventListener('readystatechange', cargarEventos, false);
 
 function cargarEventos() {
     if (document.readyState === 'interactive') {
-        document.getElementById('envio').addEventListener('click', busquedaSocio, false);
-        document.getElementById('registrar').addEventListener('click', registroUsuario, false);
+        if (!!document.getElementById('registrar')) {
+            document.getElementById('registrar').addEventListener('click', registroUsuario, false);
+        }
+        if (!!document.getElementById('envio')) {
+            document.getElementById('envio').addEventListener('click', busquedaSocio, false);
+        }
+        if (!!document.getElementById('cerrarSesion')) {
+            document.getElementById('cerrarSesion').addEventListener('click', cerrarsesion, false);
+        }
+
         // eventos pequeños
     }
 }
@@ -177,12 +185,13 @@ function comprobarCamposRegistroUsuario(inputForm) {
 }
 
 function validacionusuario(varPOST, datos) {
-    let loc = './inicio.html';
+    let loc = './inicio.php';
     let datosEnvioServ = JSON.stringify(datos);
     const xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
             const objInfo = JSON.parse(this.responseText);
+            alert(objInfo);
             if (typeof objInfo === "boolean") {
                 if (objInfo) {
                     cambiaLoc(loc);
@@ -196,7 +205,7 @@ function validacionusuario(varPOST, datos) {
             }
         }
     }
-    xhttp.open('POST', './php/base_datos/accesoBD.php', true);
+    xhttp.open('POST', './php/appFunciones.php', true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send(varPOST + '=' + datosEnvioServ);
 }
@@ -277,7 +286,7 @@ function registroUsuario() {
                 } */
             }
         }
-        xhttp.open('POST', './php/base_datos/accesoBD.php', true);
+        xhttp.open('POST', './php/appFunciones.php', true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhttp.send(varPOST + '=' + datosEnvioServ);
         //
@@ -287,5 +296,24 @@ function registroUsuario() {
         alert('revisa los datos');
     }
 }
-
 // fin de funiones de la pagina index
+
+//funciones paginas interiores
+function cerrarsesion() {
+    let loc = './index.php';
+    const varPOST = 'cerrarSesion';
+    let datosEnvioServ = JSON.stringify(true);
+    const xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+            const objInfo = JSON.parse(this.responseText);
+            alert(objInfo[0]);
+            if (objInfo[1]) {
+                cambiaLoc(loc);
+            }
+        }
+    }
+    xhttp.open('POST', './php/appFunciones.php', true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(varPOST + '=' + datosEnvioServ);
+}
