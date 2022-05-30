@@ -2,19 +2,19 @@
 app::llamarLayout('header');
 ?>
 <section class="row bg-primary">
-    <aside class="col col-lg-auto pe-4 col-12 ">
+    <aside class="col col-lg-auto pe-4 col-12 "  id="funcionesPagina">
         <ul class="nav d-flex flex-lg-column flex-row justify-content-around pe-md-5 pe-0">
-            <li class="mb-lg-5 mb-0">
-                Lista de proveedores
+            <li class="mb-lg-5 mb-0 btn listarClientes" id="panelLista">
+                Listado de proveedores
             </li>
-            <li class="mb-lg-5 mb-0">
+            <li class="mb-lg-5 mb-0 btn registrarCliente" id="panelParaRegistro">
                 Alta proveedor
             </li>
         </ul>
     </aside>
     <!-- esta es la pestñana que aparecera cuando se registra un nuevo cliente -->
     <main class="col-12 col-md bg-info">
-        <div name="registrar-proveedores" class="d-flex flex-column d-none gap-2 pb-3">
+        <div id="registrar-vista" class="d-flex flex-column d-none gap-2 pb-3">
             <label for="proveedor-nombre-registrar">Nombre proveedor</label>
             <input type="text" name="proveedor-nombre-registrar" id="proveedor-nombre-registrar" placeholder="ej: Mi proveedor">
             <label for="proveedor-cif-registrar">CIF</label>
@@ -31,7 +31,7 @@ app::llamarLayout('header');
         </div>
         <!-- ENCONTRAR LA FORMA DE ENVIAR UN CONTRASEÑA POR MAIL O HACERLO QUE AL INICIAR SECION CAMBIE LA CONTRASEÑA-->
         <!-- esto se sera una lista interactiva que se rellenara automaticamente cuando con js  con unos registro que obtendra de php-DDBB -->
-        <div name="lista-proveedores" class="d-flex flex-column table-responsive">
+        <div id="lista-vista" class="d-flex flex-column table-responsive">
             <table class="table  table-hover table-sm">
                 <tr class="table-dark">
                     <td>NIF xxxxxx</td>

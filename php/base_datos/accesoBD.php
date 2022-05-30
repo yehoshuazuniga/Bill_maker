@@ -3,13 +3,14 @@ require __DIR__.'/crearBD.php';
 class Funciones_en_BBDD extends BBDD
 {
 
-    private $conexion;
     public static $instancia; // contenedor de la instancia 
     private $h;
     private $usu;
     private $pw;
     private $nombreBD;
-    private function __construct($host = 'localhost', $usuario = 'root2', $pass = '', $database = 'billmaker')
+    private $conexion;
+
+    public function __construct($database = 'billmaker', $usuario = 'root2', $pass = '',$host = 'localhost')
     {
         $this->h = $host;
         $this->usu = $usuario;
@@ -166,11 +167,7 @@ class Funciones_en_BBDD extends BBDD
         $nuevaConex = $this->crearBd($nombreBD); // esto crea la base de datos y devuelve una nueva conexcion a esa base de dato creada
         $this->crearTablas($nuevaConex);
     }
-    //esta funcion esta vacia
-    function parametroUsado($datosEnt)
-    {
-    }
-
+  
     //registro del empleado y gerente 
     function registrarGer_Emp($datosEnt)
     {
@@ -223,6 +220,11 @@ class Funciones_en_BBDD extends BBDD
             }
         }
         return $grabadoEnBBDD;
+    }
+// esta funcion solo es de prueba no sirv epara nada mas
+    function consultaPrueba(){
+        $query = $this->conexion->query('show tables');
+        return ($query->rowCount());
     }
 }
 

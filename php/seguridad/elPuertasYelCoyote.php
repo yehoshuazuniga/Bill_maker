@@ -14,24 +14,29 @@ class PuertasYcoyote
         $id = array_shift($idPersonaje);
         $id = substr($id, 2, 2);
         $nombre = ucfirst(strtolower(array_shift($idPersonaje)));
-        $apellido = array_pop($idPersonaje) == 'DEFAULT'?'': ucfirst(strtolower(array_shift($idPersonaje)));
+        $auxApellido = array_shift($idPersonaje);
+        $apellido = $auxApellido == 'DEFAULT'?'': ucfirst(strtolower($auxApellido));
         $usuario = trim($nombre . ' ' . $apellido);
 
 
         switch ($id) {
+            case 'GT':
+                $cargo = 'gerente';
+                break;
             case 'GR':
                 $cargo = 'gerente';
                 break;
             case 'EM':
                 $cargo = 'empleado';
                 break;
-
+            case 'ED':
+                $cargo = 'empleado';
+                break;
             default:
                 $cargo = null;
                 break;
         }
         if ($cargo != null && gettype($cargo) == 'string' && gettype($bdName) == 'string') {
-            session_start();
             $_SESSION[$bbdd] = $bdName;
             $_SESSION[$roll] = $cargo;
             $_SESSION[$cargo] = $usuario;
@@ -56,7 +61,7 @@ class PuertasYcoyote
         return $texto;
     }
    
-    static function validadcionSesiones(){
+    static function validadcionSesionIniciada(){
         if(count($_SESSION)!==3 && !isset($_SESSION['roll']) && 
         (!isset($_SESSION['empleado']) || !isset($_SESSION['gerente']) && 
         !isset($_SESSION['BBDD']))){
@@ -64,6 +69,14 @@ class PuertasYcoyote
         }
     }
 
+    public static function sessionIniciada(){
+        session_start();
+        if(count($_SESSION)==3 && isset($_SESSION['roll']) && 
+        (isset($_SESSION['empleado']) || isset($_SESSION['gerente']) && 
+        isset($_SESSION['BBDD']))){
+            header('Location: inicio.php');
+        }
+    }
 
     function cerrarSesion()
     {

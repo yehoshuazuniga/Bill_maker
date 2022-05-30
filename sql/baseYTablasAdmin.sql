@@ -71,8 +71,7 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 INSERT INTO `empleado`  VALUES ('BMEM000', 'Yehoshua', 'DEFAULT', 
-'523641258a', 'studyehoshua@gmail.com', 'calle fasa 3',  '
-BMGR000', 'yehoshua_emp@bill-maker.com', 'password');
+'523641258a', 'studyehoshua@gmail.com', 'calle fasa 3',  'BMGR000', 'yehoshua_emp@bill-maker.com', 'password');
 
 COMMIT;
 

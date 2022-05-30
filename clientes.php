@@ -2,19 +2,20 @@
 app::llamarLayout('header');
 ?>
 <section class="row bg-primary">
-    <aside class="col col-lg-auto pe-4 col-12 ">
+    <h2 class="g2 text-center"> Clientes</h2>
+    <aside class="col col-lg-auto pe-4 col-12" id="funcionesPagina">
         <ul class="nav d-flex flex-lg-column flex-row justify-content-around pe-md-5 pe-0">
-            <li class="mb-lg-5 mb-0">
-                Lista de clientes
+            <li class="mb-lg-5 mb-0 btn listarClientes" id="panelLista">
+                Listado de clientes
             </li>
-            <li class="mb-lg-5 mb-0">
+            <li class="mb-lg-5 mb-0 btn registrarCliente" id="panelParaRegistro">
                 Alta cliente
             </li>
         </ul>
     </aside>
     <!-- esta es la pestñana que aparecera cuando se registra un nuevo cliente -->
-    <main class="col-12 col-md bg-info">
-        <div name="registrar-clientes" class="d-flex flex-column d-none gap-2 pb-3">
+    <div class="col-12 col-md bg-info">
+        <div id="registrar-vista" class="d-flex flex-column d-none gap-2 pb-3">
             <label for="cliente-nombre-registrar">Nombre </label>
             <input type="text" name="cliente-nombre-registrar" id="cliente-nombre-registrar" placeholder="ej: Mi empresa">
             <label for="cliente-cif-registrar">CIF</label>
@@ -31,7 +32,7 @@ app::llamarLayout('header');
         </div>
         <!-- ENCONTRAR LA FORMA DE ENVIAR UN CONTRASEÑA POR MAIL O HACERLO QUE AL INICIAR SECION CAMBIE LA CONTRASEÑA-->
         <!-- esto se sera una lista interactiva que se rellenara automaticamente cuando con js  con unos registro que obtendra de php-DDBB -->
-        <div name="lista-clientes" class="d-flex flex-column table-responsive">
+        <div id="lista-vista" class="d-flex flex-column table-responsive">
             <table class="table  table-hover table-sm">
                 <tr class="table-dark">
                     <td>NIF xxxxxx</td>
@@ -67,7 +68,7 @@ app::llamarLayout('header');
                     </td>
                 </tr>
             </table>
-            <div class="modal fade" id="modal-cliente" tabindex="-1" aria-hidden="true" aria-labelledby="label-modal-cliente" data-bs-backdrop="static">
+            <div class="modal fade" id="modal-cliente" tabindex="-1" aria-hidden="true"  data-bs-backdrop="static">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -80,7 +81,7 @@ app::llamarLayout('header');
                             <label class="text-dark" for="cliente-nombre-registro">Nombre comercial</label>
                             <input type="text" name="cliente-nombre-registro" id="cliente-nombre-registro" placeholder="ej: Mi empresa">
                             <label class="text-dark" for="cliente-dni-registro">CIF</label>
-                            <input type="text" name="cliente-cif-registro" id="cliente-cif-registro" placeholder="Y12345678X / 25148596D">
+                            <input type="text" name="cliente-cif-registro" id="cliente-dni-registro" placeholder="Y12345678X / 25148596D">
                             <label class="text-dark" for="cliente-direccion-registro">Direccion</label>
                             <input type="text" name="cliente-direccion-registro" id="cliente-direccion-registro" placeholder="Calle Anton 14">
                             <label class="text-dark" for="cliente-email-registro">Correo electronico</label>
@@ -97,7 +98,7 @@ app::llamarLayout('header');
 
             </div>
         </div>
-    </main>
+    </div>
 </section>
 <?php
 app::llamarLayout('footer');

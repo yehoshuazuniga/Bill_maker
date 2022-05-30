@@ -2,12 +2,12 @@
 app::llamarLayout('header');
 ?>
 <section class="row bg-primary">
-    <aside class="col col-lg-auto pe-4 col-12 ">
+    <aside class="col col-lg-auto pe-4 col-12 "  id="funcionesPagina">
         <ul class="nav d-flex flex-lg-column flex-row justify-content-around pe-md-5 pe-0">
-            <li class="mb-lg-5 mb-0">
-                Lista de servicios
+            <li class="mb-lg-5 mb-0 btn listarClientes" id="panelLista">
+                Listado de servicios
             </li>
-            <li class="mb-lg-5 mb-0">
+            <li class="mb-lg-5 mb-0 btn registrarCliente" id="panelParaRegistro">
                 Crear servicio
             </li>
         </ul>
@@ -15,7 +15,7 @@ app::llamarLayout('header');
 
     <!-- esta es la pestñana que aparecera cuando se registra un nuevo cliente -->
     <main class=" col-md bg-info">
-        <div name="registrar-servicios" class="d-flex flex-column d-none gap-2 pb-3">
+        <div id="registrar-vista" class="d-flex flex-column d-none gap-2 pb-3">
             <label for="servicio-nombre-registrar">Nombre del servicio </label>
             <input type="text" name="servicio-nombre-registrar" id="servicio-nombre-registrar" placeholder="ej: Mi servicio">
             <label for="servicio-codigo-registrar">Codifo servicio</label>
@@ -35,7 +35,7 @@ app::llamarLayout('header');
         </div>
         <!-- ENCONTRAR LA FORMA DE ENVIAR UN CONTRASEÑA POR MAIL O HACERLO QUE AL INICIAR SECION CAMBIE LA CONTRASEÑA-->
         <!-- esto se sera una lista interactiva que se rellenara automaticamente cuando con js  con unos registro que obtendra de php-DDBB -->
-        <div name="lista-servicios" class="d-flex flex-column table-responsive">
+        <div id="lista-vista" class="d-flex flex-column table-responsive">
             <table class="table  table-hover table-sm">
                 <tr class="table-dark">
                     <td>Cod Servicio</td>

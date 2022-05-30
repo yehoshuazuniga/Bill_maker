@@ -11,8 +11,55 @@ function cargarEventos() {
         if (!!document.getElementById('cerrarSesion')) {
             document.getElementById('cerrarSesion').addEventListener('click', cerrarsesion, false);
         }
-
+        if (!!document.getElementById('funcionesPagina')) {
+            //generarListas
+            document.getElementById('panelLista').addEventListener('click', panelListaClientes, false);
+            document.getElementById('panelParaRegistro').addEventListener('click', panelRegistrarClientes, false);
+        }
         // eventos pequeños
+        document.getElementById('logo').addEventListener('click', compo, true);
+    }
+}
+
+function compo() {
+    alert('funciono');
+    const varPOST = 'compo';
+    let datosEnvioServ = JSON.stringify(true);
+    const xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+            const objInfo = JSON.parse(this.responseText);
+            alert(objInfo);
+
+        }
+    }
+    xhttp.open('POST', './php/appFunciones.php', true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(varPOST + '=' + datosEnvioServ);
+}
+
+function panelListaClientes() {
+    panelListas = document.getElementById('lista-vista');
+    panelRegistro = document.getElementById('registrar-vista');
+    if (panelListas.classList.contains('d-none')) {
+        if (!panelRegistro.classList.contains('d-none')) {
+            panelRegistro.classList.add('d-none');
+        }
+        panelListas.classList.remove('d-none');
+
+    }
+
+}
+
+function panelRegistrarClientes() {
+    panelListas = document.getElementById('lista-vista');
+    panelRegistro = document.getElementById('registrar-vista');
+    if (panelRegistro.classList.contains('d-none')) {
+        if (!panelListas.classList.contains('d-none')) {
+            panelListas.classList.add('d-none');
+        }
+        panelRegistro.classList.remove('d-none');
+
     }
 }
 //pasamos objeto DOM  wn gtupos don
@@ -269,7 +316,10 @@ function registroUsuario() {
         xhttp.onreadystatechange = function() {
             if (this.readyState === 4 && this.status === 200) {
                 const objInfo = JSON.parse(this.responseText);
-                alert(objInfo);
+                alert(objInfo[0]);
+                if (!objInfo[1]) {
+                    cambiaLoc(loc);
+                }
                 //intentar inluir modales a cambio de alerts
                 //si devuelve true  salta aiso de que la empresa ya esta registrada 
                 // si devuelve false salta aviso de que la empresa se esta registrando ahora mismo

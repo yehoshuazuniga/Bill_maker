@@ -2,12 +2,12 @@
 app::llamarLayout('header');
 ?>
 <section class="row bg-primary">
-    <aside class="col col-lg-auto pe-4 col-12 ">
+    <aside class="col col-lg-auto pe-4 col-12 "  id="funcionesPagina">
         <ul class="nav d-flex flex-lg-column flex-row justify-content-around pe-md-5 pe-0">
-            <li class="mb-lg-5 mb-0">
-                Lista de empleados
+            <li class="mb-lg-5 mb-0 btn listarClientes" id="panelLista">
+                Listado de empleados
             </li>
-            <li class="mb-lg-5 mb-0">
+            <li class="mb-lg-5 mb-0 btn registrarCliente" id="panelParaRegistro">
                 Alta empleado
             </li>
         </ul>
@@ -15,7 +15,7 @@ app::llamarLayout('header');
 
     <!-- esta es la pestñana que aparecera cuando se registra un nuevo cliente -->
     <main class="col-12 col-md bg-info">
-        <div name="registrar-empleados" class="d-flex flex-column d-none gap-2 pb-3">
+        <div id="registrar-vista" class="d-flex flex-column d-none gap-2 pb-3">
             <label for="empleado-nombre-registrar">Nombre y Apellido</label>
             <input type="text" name="empleado-nombre-registrar" id="empleado-nombre-registrar" placeholder="ej: Juan">
             <label for="empleado-dni-registrar">DNI/NIE</label>
@@ -31,7 +31,7 @@ app::llamarLayout('header');
         </div>
         <!-- ENCONTRAR LA FORMA DE ENVIAR UN CONTRASEÑA POR MAIL O HACERLO QUE AL INICIAR SECION CAMBIE LA CONTRASEÑA-->
         <!-- esto se sera una lista interactiva que se rellenara automaticamente cuando con js  con unos registro que obtendra de php-DDBB -->
-        <div name="lista-empleados" class="d-flex flex-column table-responsive-md ">
+        <div id="lista-vista" class="d-flex flex-column table-responsive-md ">
             <table class="table  table-hover table-sm">
                 <tr class="table-dark">
                     <td>Codigo empleado</td>

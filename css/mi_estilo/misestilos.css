@@ -99,6 +99,7 @@ footer {
     grid-area: p6;
 }
 
-.cerrarSesion {
+.cerrarSesion,
+.botonesFunciones {
     cursor: pointer;
 }

@@ -2,7 +2,7 @@
 require './php/layout/manejadorLayout.php';
 require './php/seguridad/elPuertasYelCoyote.php';
 session_start();
-PuertasYcoyote::validadcionSesiones();
+PuertasYcoyote::validadcionSesionIniciada();
 
 ?>
 <!DOCTYPE html>
@@ -16,7 +16,7 @@ PuertasYcoyote::validadcionSesiones();
     <link rel="stylesheet" href="./css/bootstrap_css/bootstrap.min.css">
     <link rel="stylesheet" href="./css/mi_estilo/misestilos.css">
 
-    <title></title>
+    <title>titulo de pagina</title>
 
 </head>
 
@@ -26,7 +26,7 @@ PuertasYcoyote::validadcionSesiones();
             justify-content-md-between justify-content-center m-auto">
 
 
-            <img src="./src/img/Logo_TV_2015.png" alt="logo" class="img-fluid col-12 col-md-2 logo-img bg-info">
+            <img src="./src/img/Logo_TV_2015.png" alt="logo" class="img-fluid col-12 col-md-2 logo-img bg-info" id="logo">
             <nav class="col-12  col-md-6 align-self-center bg-danger">
                 <ul class="nav d-flex justify-content-md-end 
                              justify-content-center  flex-column
