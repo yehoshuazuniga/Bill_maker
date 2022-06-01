@@ -2,7 +2,7 @@
 app::llamarLayout('header');
 ?>
 <section class="row bg-primary">
-    <aside class="col col-lg-auto pe-4 col-12 "  id="funcionesPagina">
+    <aside class="col col-lg-auto pe-4 col-12 " id="funcionesPagina">
         <ul class="nav d-flex flex-lg-column flex-row justify-content-around pe-md-5 pe-0">
             <li class="mb-lg-5 mb-0 btn listarClientes" id="panelLista">
                 Listado de proveedores
@@ -27,7 +27,7 @@ app::llamarLayout('header');
             <input type="text" name="proveedor-personaContacto-registrar" id="proveedor-personaContacto-registrar" placeholder="6245854132">
             <label for="proveedor-telefono-registrar">Telefono de contacto</label>
             <input type="tel" name="proveedor-telefono-registrar" id="proveedor-telefono-registrar" placeholder="6245854132">
-            <button name="registrar" id="registrar" data-bs-dismiss="modal">registrar </button>
+            <button name="registrar" id="registrar" >Registrar proveedor </button>
         </div>
         <!-- ENCONTRAR LA FORMA DE ENVIAR UN CONTRASEÑA POR MAIL O HACERLO QUE AL INICIAR SECION CAMBIE LA CONTRASEÑA-->
         <!-- esto se sera una lista interactiva que se rellenara automaticamente cuando con js  con unos registro que obtendra de php-DDBB -->
@@ -87,7 +87,7 @@ app::llamarLayout('header');
                             <input type="email" name="proveedor-email-registro" id="proveedor-email-registro" placeholder="Mi_usuario@email.org">
                             <label class="text-dark" for="proveedor-telefono-registro">Telefono de contacto</label>
                             <input type="tel" name="proveedor-telefono-registro" id="proveedor-telefono-registro" placeholder="6245854132">
-                            <button name="mofificar-proveedor" id="mofificar-proveedor" data-bs-dismiss="modal">Moficar
+                            <button name="mofificar-proveedor" id="mofificar-proveedor" data-bs-dismiss="modal">Modificar
                             </button>
                             <button name="dar-baja-proveedor" id="dar-baja-proveedor" data-bs-dismiss="modal">Dar baja </button>
                         </div>

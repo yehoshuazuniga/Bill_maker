@@ -28,7 +28,7 @@ app::llamarLayout('header');
             <input type="text" name="cliente-personaContacto-registrar" id="cliente-personaContacto-registrar" placeholder="6245854132">
             <label for="cliente-telefono-registrar">Telefono de contacto</label>
             <input type="tel" name="cliente-telefono-registrar" id="cliente-telefono-registrar" placeholder="6245854132">
-            <button name="registrar" id="registrar" data-bs-dismiss="modal">registrar </button>
+            <button name="registrar" id="registrar" >Registrar </button>
         </div>
         <!-- ENCONTRAR LA FORMA DE ENVIAR UN CONTRASEÑA POR MAIL O HACERLO QUE AL INICIAR SECION CAMBIE LA CONTRASEÑA-->
         <!-- esto se sera una lista interactiva que se rellenara automaticamente cuando con js  con unos registro que obtendra de php-DDBB -->
@@ -88,7 +88,7 @@ app::llamarLayout('header');
                             <input type="email" name="cliente-email-registro" id="cliente-email-registro" placeholder="Mi_usuario@email.org">
                             <label class="text-dark" for="cliente-telefono-registro">Telefono de contacto</label>
                             <input type="tel" name="cliente-telefono-registro" id="cliente-telefono-registro" placeholder="6245854132">
-                            <button name="mofificar-cliente" id="mofificar-cliente" data-bs-dismiss="modal">Moficar
+                            <button name="mofificar-cliente" id="mofificar-cliente" data-bs-dismiss="modal">Modificar
                             </button>
                             <button name="dar-baja-cliente" id="dar-baja-cliente" data-bs-dismiss="modal">Dar baja
                             </button>

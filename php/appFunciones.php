@@ -21,6 +21,7 @@ if (isset($_POST['accesousuario'])) {
         $seguridad->tockenSession($datosSesiones[0], $datosSesiones[1]);
         if (count($_SESSION) === 3) {
             echo json_encode(true);
+            // hay q eliminar a apartir de este else
         } else {
             echo count($_SESSION);
         }
@@ -32,11 +33,22 @@ if (isset($_POST['accesousuario'])) {
 
 if (isset($_POST['nuevoUsuario'])) {
     $datosEnt = (json_decode($_POST['nuevoUsuario']));
+    //priemro se busca en la base de datos de billmaker y ya exte ese cif, 
+    //si existe se notifica al cliente y no se registra nada 
+    //las operacones devuel an cliente y un boolean
     if ($conex->existeParametro('dni', 'dni', $seguridad->filtrado($datosEnt->usuario_cif))) {
         echo json_encode(['La empresa ya ha sido dada de alta', true]);
     } else {
+    // si en cif no exixte se recopila la informacion y se registarn en 
+    //la tabla gerente y empelado de billmaker y la bbdd recien
         $conex->crearBDyTablas($seguridad->filtrado($datosEnt->usuario_nick_registro));
-        echo json_encode([$conex->registrarGer_Emp($datosEnt), false]);
+        $creaTablasCliente = $conex->registrarGer_Emp($datosEnt);
+        if(gettype($creaTablasCliente) =='string'){
+            $bdnname= str_replace(' ', '_', $datosEnt->usuario_nick_registro);
+            $conex= null;
+            $conex = new Funciones_en_BBDD($bdnname);
+            echo json_encode([($conex->registrarGer_Emp($datosEnt)),false]);
+        }
     }
 }
 

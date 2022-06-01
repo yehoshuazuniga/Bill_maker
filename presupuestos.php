@@ -2,7 +2,7 @@
 app::llamarLayout('header');
 ?>
 <section class="row bg-primary">
-    <aside class="col col-lg-auto pe-4 col-12 "  id="funcionesPagina">
+    <aside class="col col-lg-auto pe-4 col-12 " id="funcionesPagina">
         <ul class="nav d-flex flex-lg-column flex-row justify-content-around pe-md-5 pe-0">
             <li class="mb-lg-5 mb-0 btn listarClientes" id="panelLista">
                 Listado de presupuestos
@@ -28,16 +28,21 @@ app::llamarLayout('header');
                 <p class="cliente-contacto">contacto</p>
             </div>
             <div class="col-12 gap-2 d-flex flex-column clientes-servicios">
-                <label for="presupuesto-codigo-registrar">Codifo presupuesto</label>
+                <label for="presupuesto-codigo-registrar">Codigo presupuesto</label>
                 <input type="text" class="form-control" name="presupuesto-codigo-registrar" id="presupuesto-codigo-registrar" placeholder="ej: MS542" disabled>
                 <!-- esto sera un desplegable con las opciones de los serviccios -->
+                <select>
+                    <option value="proveedor1"> servicios 1</option>
+                    <option value="proveedor1"> servicios 1</option>
+                    <option value="proveedor1"> servicios 1</option>
+                </select>servicios
                 <div class="clientes-servicios-resumen bg-dark">
                     <p class="servicio">datos del Servicio</p>
                     <input type="hidden" name="idservicio" id="idServici">
                     <!-- parrafo en ibput se generan juntos  simepre -->
                 </div>
             </div>
-            <button name="registrar-presupuesto" id="registrar-presupuesto" class="" data-bs-dismiss="modal">Generar
+            <button name="registrar" id="registrar">Generar
                 Presupuesto</button>
         </div>
         <!-- ENCONTRAR LA FORMA DE ENVIAR UN CONTRASEÑA POR MAIL O HACERLO QUE AL INICIAR SECION CAMBIE LA CONTRASEÑA-->

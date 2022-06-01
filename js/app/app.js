@@ -2,8 +2,9 @@ document.addEventListener('readystatechange', cargarEventos, false);
 
 function cargarEventos() {
     if (document.readyState === 'interactive') {
+        tituloAutomatico();
         if (!!document.getElementById('registrar')) {
-            document.getElementById('registrar').addEventListener('click', registroUsuario, false);
+            // document.getElementById('registrar').addEventListener('click', registroUsuario, false);
         }
         if (!!document.getElementById('envio')) {
             document.getElementById('envio').addEventListener('click', busquedaSocio, false);
@@ -16,11 +17,35 @@ function cargarEventos() {
             document.getElementById('panelLista').addEventListener('click', panelListaClientes, false);
             document.getElementById('panelParaRegistro').addEventListener('click', panelRegistrarClientes, false);
         }
+        if (!!document.getElementById('registrar-vista')) {
+            document.getElementsByTagName('button')['registrar'].addEventListener('click', registrarCEFPS, false);
+        }
+
         // eventos pequeños
-        document.getElementById('logo').addEventListener('click', compo, true);
+        //   document.getElementById('logo').addEventListener('click', compo, true);
     }
 }
 
+function localizarDondeEstoy() {
+    str = window.document.location.href
+    var mySubString = str.substring(
+        str.indexOf("r/") + 2,
+        str.lastIndexOf(".")
+    );
+
+    if (mySubString == 'index') {
+        mySubString = 'Bill maker'
+    }
+    return (mySubString);
+}
+
+function tituloAutomatico() {
+    let nombre = localizarDondeEstoy();
+    nombre = (nombre.substring(0, 1)).toUpperCase() + "" + nombre.substring(1, nombre.length);
+
+    document.title = nombre;
+}
+//estas funcion se puede elimiar  solo es para probar
 function compo() {
     alert('funciono');
     const varPOST = 'compo';
@@ -37,7 +62,7 @@ function compo() {
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send(varPOST + '=' + datosEnvioServ);
 }
-
+//funcion que mestra los paneles de listar
 function panelListaClientes() {
     panelListas = document.getElementById('lista-vista');
     panelRegistro = document.getElementById('registrar-vista');
@@ -50,7 +75,7 @@ function panelListaClientes() {
     }
 
 }
-
+//funciones que muestran los paneles de alta o registar
 function panelRegistrarClientes() {
     panelListas = document.getElementById('lista-vista');
     panelRegistro = document.getElementById('registrar-vista');
@@ -66,22 +91,34 @@ function panelRegistrarClientes() {
 //devuelve un array {} asociatico (id=>valor)
 
 //funciones genericas para todas las paginas
+
+// se simplifica nombres largospar mail y codigos
 function nombreLargo(empresaNombre) {
     let nombreSeparado = []
     let cod = '';
     nombreSeparado = empresaNombre.split(' ');
-    for (let i = 0; i < nombreSeparado.length; i++) {
-        if (nombreSeparado[i].length > 3) {
-            cod += nombreSeparado[i].substring(0, 1);
+    if (nombreSeparado.length != 1) {
+        for (let i = 0; i < nombreSeparado.length; i++) {
+            if (nombreSeparado[i].length >= 3) {
+                cod += nombreSeparado[i].substring(0, 1);
+            }
         }
+    } else {
+        cod = empresaNombre;
     }
     return (cod.substring(0, 2).toUpperCase());
 }
-
+// simplifica nombres cortos  para mail y codigos
 function nombreCorto(empresaNombre) {
-    return (empresaNombre.replace(' ', '-'))
+    let nombre = '';
+    if (empresaNombre.includes(' ')) {
+        nombre = empresaNombre.replace(' ', '-')
+    } else {
+        nombre = empresaNombre.substring(0, 2).toUpperCase();
+    }
+    return (nombre);
 }
-
+// crea un mail para el usuario
 function crearEmail(empresaNombre, cargo, nombre, apellido) {
     const arroba = '@';
     let email = '';
@@ -106,7 +143,7 @@ function crearEmail(empresaNombre, cargo, nombre, apellido) {
 
     return (email.toLocaleLowerCase())
 }
-
+// crea id para empleado servicio gerente, falta agregar un metodo qpara que no cree 2 iguales , revisara en bbdd   
 function crearId(empresaNombre, cargo) {
     roll = '';
     let cod = nombreLargo(empresaNombre);
@@ -122,12 +159,19 @@ function crearId(empresaNombre, cargo) {
             break;
     }
 
-    //return
-    return (cod + roll + (Math.floor(Math.random() * 999))).toUpperCase();
+    nRand = (Math.floor((Math.random() * 899)))
+    nRand = String(nRand)
+    if (String(nRand).length == 1) {
+        nRand = '0' + String(nRand) + "";
+    }
+    if (nRand.length == 2) {
+        nRand = '0' + String(nRand) + "";
+    }
+    return ((cod + roll + nRand).toUpperCase());
     //agreagar un proceso que busque en la base de datos un id igual
     //si existe hay que hacerlo de nuevos
 }
-
+//recopila valores de donde se apunte, se pasa la direccion dom lo los que hay q extraer datos para el servidor
 function obtenerValores(grupo) {
     let idValue = {};
     for (const indi of grupo) {
@@ -136,34 +180,35 @@ function obtenerValores(grupo) {
 
     return idValue
 }
-
+// crea estructurar dom, no funciona
 function crearMensajesDom(mensaje) {
 
     //esto hay que mejorarlo
     document.getElementsByTagName('button')[1].appendChild(document.createElement('p').appendChild(document.createTextNode('ljdnjsn')))
     "ljdnjsn"
 }
-
+// para estructuras que se quiera solo un momento   
 function setTimeOut(funcName, retraso) {
     const timer = setTimeOut(funcName + "()", parseInt(retraso))
 }
 
-
+//cambia locaclizacion
 function cambiaLoc(localizacion) {
     window.location.href = localizacion;
 }
-
+//para formulario de registro
+//resalta en rojo lo invalido
 function invalido(elemento) {
     elemento.setAttribute('class', ' form-control ');
     elemento.classList.add('is-invalid');
 }
-
+//resalta en verde lo valido
 function valido(elemento) {
     elemento.setAttribute('class', ' form-control ');
     elemento.classList.add('is-valid');
 
 }
-
+//comprueba dni
 function validarDniCif(dni) {
     var expre = new RegExp("^[0-9]{7,8}[a-hA-H]{1}$|^[a-zA-Z]{1}[0-9]{7,8}$")
     respuesta = null;
@@ -171,7 +216,7 @@ function validarDniCif(dni) {
         respuesta = false;
     return respuesta;
 }
-
+//comprueba email
 function validarEmail(email) {
     var expre = new RegExp("^[-_.a-zA-Z0-9]{5,25}@[-_.a-zA-Z]{3,25}\.[a-z]{2,3}$")
     respuesta = null;
@@ -230,7 +275,7 @@ function comprobarCamposRegistroUsuario(inputForm) {
 
     return apto;
 }
-
+// envia usuario y pass al servidor para verificar si existe
 function validacionusuario(varPOST, datos) {
     let loc = './inicio.php';
     let datosEnvioServ = JSON.stringify(datos);
@@ -256,14 +301,15 @@ function validacionusuario(varPOST, datos) {
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send(varPOST + '=' + datosEnvioServ);
 }
-
+//funcion  para acceder de usuarios que ya tiene cuenta
+//solo se acceder con mail y passwor que a esten registradas
 function busquedaSocio() {
-    //funcion  para acceder de usuarios que ya tiene cuenta
-    //solo se acceder con mail y passwor que a esten registradas
+
     const varPOST = 'accesousuario';
     let divRegistro = document.getElementsByName('usuario_np');
     let datosEnvioServ = {};
     let extDatosEnvioServ = 0;
+    // este for se puede sustiruir por obtenerValores
     for (const input of divRegistro) {
         if (input.value != null && input.value != '') {
             datosEnvioServ[input.id] = input.value;
@@ -297,7 +343,7 @@ function registroUsuario() {
         //envio info al servidor
         //
         const varPOST = 'nuevoUsuario';
-        let loc = './index.html';
+        let loc = './index.php';
         //creaando id gerente 
 
         //esto hay que eliminarlo
@@ -366,4 +412,13 @@ function cerrarsesion() {
     xhttp.open('POST', './php/appFunciones.php', true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send(varPOST + '=' + datosEnvioServ);
+}
+
+
+//funcion para obtener registarr servicio
+function registrarCEFPS() {
+    let locDeDatos = document.getElementById('registrar-vista').getElementsByTagName('input')
+    let packEnvioServ = obtenerValores(locDeDatos);
+
+    alert(JSON.stringify(packEnvioServ))
 }

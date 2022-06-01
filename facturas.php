@@ -29,17 +29,20 @@ app::llamarLayout('header');
                 <p class="cliente-contacto">contacto</p>
             </div>
             <div class="col-12 gap-2 d-flex flex-column clientes-servicios">
-                <label for="factura-codigo-registrar">Codifo factura</label>
+                <label for="factura-codigo-registrar">Codigo factura</label>
                 <input type="text" class="form-control" name="factura-codigo-registrar" id="factura-codigo-registrar" placeholder="ej: MS542" disabled>
-                <!-- esto sera un desplegable con las opciones de los serviccios -->
+                <select>
+                    <option value="Servicio 1"> Servicio  1</option>
+                    <option value="Servicio 1"> Servicio  1</option>
+                    <option value="Servicio 1"> Servicio  1</option>
+                </select>
                 <div class="clientes-servicios-resumen bg-dark">
                     <p class="servicio">datos del Servicio</p>
                     <input type="hidden" name="idservicio" id="idServici">
                     <!-- parrafo en ibput se generan juntos  simepre -->
                 </div>
             </div>
-            <button name="registrar-factura" id="registrar-factura" class="" data-bs-dismiss="modal">Generar
-                Factura</button>
+            <button name="registrar" id="registrar" >Generar Factura</button>
         </div>
         <!-- ENCONTRAR LA FORMA DE ENVIAR UN CONTRASEÑA POR MAIL O HACERLO QUE AL INICIAR SECION CAMBIE LA CONTRASEÑA-->
         <!-- esto se sera una lista interactiva que se rellenara automaticamente cuando con js  con unos registro que obtendra de php-DDBB -->
@@ -120,7 +123,7 @@ app::llamarLayout('header');
 
             </div>
         </div>
-</main>
+    </main>
 </section>
 </body>
 <?php

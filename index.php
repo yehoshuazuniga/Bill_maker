@@ -1,6 +1,5 @@
 <?php
     include './php/seguridad/elPuertasYelCoyote.php';
-     PuertasYcoyote::sessionIniciada();
 ?>
 <!DOCTYPE html>
 <html lang="en">

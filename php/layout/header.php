@@ -3,7 +3,8 @@ require './php/layout/manejadorLayout.php';
 require './php/seguridad/elPuertasYelCoyote.php';
 session_start();
 PuertasYcoyote::validadcionSesionIniciada();
-
+PuertasYcoyote::seccionDesignada();
+ 
 ?>
 <!DOCTYPE html>
 <html lang="en">

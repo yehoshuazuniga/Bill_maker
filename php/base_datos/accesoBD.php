@@ -1,5 +1,5 @@
 <?php
-require __DIR__.'/crearBD.php';
+require __DIR__ . '/crearBD.php';
 class Funciones_en_BBDD extends BBDD
 {
 
@@ -10,7 +10,7 @@ class Funciones_en_BBDD extends BBDD
     private $nombreBD;
     private $conexion;
 
-    public function __construct($database = 'billmaker', $usuario = 'root2', $pass = '',$host = 'localhost')
+    public function __construct($database = 'billmaker', $usuario = 'root2', $pass = '', $host = 'localhost')
     {
         $this->h = $host;
         $this->usu = $usuario;
@@ -64,7 +64,7 @@ class Funciones_en_BBDD extends BBDD
         );
 
         $datos = $sentPre->fetchAll(PDO::FETCH_ASSOC);
-        
+
         $sent2 = 'SELECT idEmpleado, nombre, apellido FROM empleado WHERE usuario = :usu  AND password = :pass;';
         $sentpre2 = $this->conexion->prepare($sent2);
         $sentpre2->execute(
@@ -82,11 +82,11 @@ class Funciones_en_BBDD extends BBDD
                 ':pass' => $pass
             )
         );
-        if($sentpre2->rowCount()>0){
-            array_push( $datos, $sentpre2->fetchAll(PDO::FETCH_ASSOC)[0]);
+        if ($sentpre2->rowCount() > 0) {
+            array_push($datos, $sentpre2->fetchAll(PDO::FETCH_ASSOC)[0]);
         }
-        if($sentpre3->rowCount()>0){
-            array_push( $datos, $sentpre3->fetchAll(PDO::FETCH_ASSOC)[0] );
+        if ($sentpre3->rowCount() > 0) {
+            array_push($datos, $sentpre3->fetchAll(PDO::FETCH_ASSOC)[0]);
         }
         return $datos;
     }
@@ -167,7 +167,7 @@ class Funciones_en_BBDD extends BBDD
         $nuevaConex = $this->crearBd($nombreBD); // esto crea la base de datos y devuelve una nueva conexcion a esa base de dato creada
         $this->crearTablas($nuevaConex);
     }
-  
+
     //registro del empleado y gerente 
     function registrarGer_Emp($datosEnt)
     {
@@ -179,7 +179,7 @@ class Funciones_en_BBDD extends BBDD
         $nameBD_o_IdGerente = str_replace(' ', '_', $datosEnt->usuario_nick_registro);
         $usuariosRegistrados_2 = [];
         for ($i = 0; $i < count($cargos); $i++) {
-            $sql = "INSERT INTO billmaker.$cargos[$i] VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO $cargos[$i] VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $sentPre = $this->conexion->prepare($sql);
             if ($i === 0) {
                 $id = $datosEnt->idGerente;
@@ -202,7 +202,20 @@ class Funciones_en_BBDD extends BBDD
             $sentPre->execute();
             if ($sentPre->rowCount() > 0) $usuariosRegistrados_2[$i] = $usuario;
         }
-        if (count($usuariosRegistrados_2) === 2 && $this->registrarUsuarios($usuariosRegistrados_2)) $respuesta = "Usuarios empleado y gerente generados, los recibira por mail ";
+
+        if (count($usuariosRegistrados_2) === 2 && $this->registrarUsuarios($usuariosRegistrados_2)) {
+            $respuesta = "Tablas de datos generadas, usuario gerente y empleado generados, sus credenciales se enviaran por mail";
+            //echo $respuesta;
+        } else {
+            /*printf($usuario);
+            print_r($datosEnt); */
+            //echo "   paso por aqui";
+            if (count($usuariosRegistrados_2) === 2) {
+                $respuesta = "Usuarios, empleado y gerente, insertados en sus respectivas tablas";
+               // echo "paso por el segundo registro";
+            }
+        }
+
         return $respuesta;
     }
 
@@ -221,10 +234,10 @@ class Funciones_en_BBDD extends BBDD
         }
         return $grabadoEnBBDD;
     }
-// esta funcion solo es de prueba no sirv epara nada mas
-    function consultaPrueba(){
+    // esta funcion solo es de prueba no sirv epara nada mas
+    function consultaPrueba()
+    {
         $query = $this->conexion->query('show tables');
         return ($query->rowCount());
     }
 }
-

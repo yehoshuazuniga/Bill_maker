@@ -26,7 +26,7 @@ app::llamarLayout('header');
             <input type="email" name="empleado-email-registrar" id="empleado-email-registrar" placeholder="Mi_usuario@email.org">
             <label for="empleado-telefono-registrar">Telefono de contacto</label>
             <input type="tel" name="empleado-telefono-registrar" id="empleado-telefono-registrar" placeholder="6245854132">
-            <button name="registrar-cliente" id="registrar-cliente" data-bs-dismiss="modal">Registrar cliente
+            <button name="registrar" id="registrar" >Registrar empleado
             </button>
         </div>
         <!-- ENCONTRAR LA FORMA DE ENVIAR UN CONTRASEÑA POR MAIL O HACERLO QUE AL INICIAR SECION CAMBIE LA CONTRASEÑA-->
@@ -87,7 +87,7 @@ app::llamarLayout('header');
                             <input type="email" name="empleado-email-registro" id="empleado-email-registro" placeholder="Mi_usuario@email.org">
                             <label class="text-dark" for="empleado-telefono-registro">Telefono de contacto</label>
                             <input type="tel" name="empleado-telefono-registro" id="empleado-telefono-registro" placeholder="6245854132">
-                            <button name="mofificar-empleado" id="mofificar-empleado" data-bs-dismiss="modal">Moficar
+                            <button name="mofificar-empleado" id="mofificar-empleado" data-bs-dismiss="modal">Modificar
                             </button>
                             <button name="dar-baja-empleado" id="dar-baja-empleado" data-bs-dismiss="modal">Dar baja
                             </button>

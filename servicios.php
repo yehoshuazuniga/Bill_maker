@@ -2,7 +2,7 @@
 app::llamarLayout('header');
 ?>
 <section class="row bg-primary">
-    <aside class="col col-lg-auto pe-4 col-12 "  id="funcionesPagina">
+    <aside class="col col-lg-auto pe-4 col-12 " id="funcionesPagina">
         <ul class="nav d-flex flex-lg-column flex-row justify-content-around pe-md-5 pe-0">
             <li class="mb-lg-5 mb-0 btn listarClientes" id="panelLista">
                 Listado de servicios
@@ -18,7 +18,7 @@ app::llamarLayout('header');
         <div id="registrar-vista" class="d-flex flex-column d-none gap-2 pb-3">
             <label for="servicio-nombre-registrar">Nombre del servicio </label>
             <input type="text" name="servicio-nombre-registrar" id="servicio-nombre-registrar" placeholder="ej: Mi servicio">
-            <label for="servicio-codigo-registrar">Codifo servicio</label>
+            <label for="servicio-codigo-registrar">Codigo servicio</label>
             <input type="text" name="servicio-codigo-registrar" id="servicio-codigo-registrar" placeholder="ej: MS542">
             <label for="servicio-descripcion-registrar">Descripción</label>
             <input type="text" name="servicio-descripcion-registrar" id="servicio-descripcion-registrar" placeholder=" Descripcion del servicio">
@@ -28,10 +28,14 @@ app::llamarLayout('header');
             <input type="number" name="servicio-precioConIva-registrar" id="servicio-precioConIva-registrar" placeholder="17.49">
             <label for="servicio-productoExterno-registrar">Es un productos externo?</label>
             <input type="checkbox" name="servicio-productoExterno-registrar" id="servicio-productoExterno-registrar">
+            <select>
+                <option value="proveedor1"> preveedor 1</option>
+                <option value="proveedor1"> preveedor 1</option>
+                <option value="proveedor1"> preveedor 1</option>
+            </select>
             <label for="servicio-codigoProductoExterno-registrar">Codigo del producto externo</label>
             <input type="text" maxlength="7" class="servicio-codigoProductoExterno-registrar" id="servicio-codigoProductoExterno-registrar">
-            <button name="registrar-servicio" id="registrar-servicio" data-bs-dismiss="modal">Registrar
-                servicio</button>
+            <button name="registrar" id="registrar">Registrar servicio</button>
         </div>
         <!-- ENCONTRAR LA FORMA DE ENVIAR UN CONTRASEÑA POR MAIL O HACERLO QUE AL INICIAR SECION CAMBIE LA CONTRASEÑA-->
         <!-- esto se sera una lista interactiva que se rellenara automaticamente cuando con js  con unos registro que obtendra de php-DDBB -->
@@ -101,7 +105,7 @@ app::llamarLayout('header');
                             <label class="text-dark" for="servicio-codigoProductoExterno-registrar">Codigo del
                                 producto externo</label>
                             <input type="text" maxlength="7" class="servicio-codigoProductoExterno-registrar" id="servicio-codigoProductoExterno-registrar">
-                            <button name="mofificar-servicio" id="mofificar-servicio" data-bs-dismiss="modal">Moficar
+                            <button name="mofificar-servicio" id="mofificar-servicio">Modificar
                             </button>
                             <button name="dar-baja-servicio" id="dar-baja-servicio" data-bs-dismiss="modal">Dar baja
                             </button>

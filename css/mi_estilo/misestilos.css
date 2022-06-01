@@ -103,3 +103,15 @@ footer {
 .botonesFunciones {
     cursor: pointer;
 }
+
+#registrar-vista {
+    width: 100%;
+    margin: 0;
+}
+
+@media (min-width: 995px) {
+    #registrar-vista {
+        width: 75%;
+        margin: 0 auto 0 auto;
+    }
+}

@@ -15,7 +15,7 @@ class PuertasYcoyote
         $id = substr($id, 2, 2);
         $nombre = ucfirst(strtolower(array_shift($idPersonaje)));
         $auxApellido = array_shift($idPersonaje);
-        $apellido = $auxApellido == 'DEFAULT'?'': ucfirst(strtolower($auxApellido));
+        $apellido = $auxApellido == 'DEFAULT' ? '' : ucfirst(strtolower($auxApellido));
         $usuario = trim($nombre . ' ' . $apellido);
 
 
@@ -60,21 +60,32 @@ class PuertasYcoyote
         $texto = stripslashes($texto);
         return $texto;
     }
-   
-    static function validadcionSesionIniciada(){
-        if(count($_SESSION)!==3 && !isset($_SESSION['roll']) && 
-        (!isset($_SESSION['empleado']) || !isset($_SESSION['gerente']) && 
-        !isset($_SESSION['BBDD']))){
+
+    static function validadcionSesionIniciada()
+    {
+        if (
+            count($_SESSION) !== 3 && !isset($_SESSION['roll']) &&
+            (!isset($_SESSION['empleado']) || !isset($_SESSION['gerente']) &&
+                !isset($_SESSION['BBDD']))
+        ) {
             header('Location: index.php');
         }
     }
 
-    public static function sessionIniciada(){
-        session_start();
-        if(count($_SESSION)==3 && isset($_SESSION['roll']) && 
-        (isset($_SESSION['empleado']) || isset($_SESSION['gerente']) && 
-        isset($_SESSION['BBDD']))){
-            header('Location: inicio.php');
+    public static function seccionDesignada()
+    {
+        $loc = $_SERVER['PHP_SELF'];
+        if (isset($_SESSION['roll'])) {
+            if (isset($_SESSION['roll'])) {
+                if ($_SESSION['roll'] === 'empleado' && ((strpos($loc, 'proveedores') > 0) || (strpos($loc, 'servicios') > 0) || (strpos($loc, 'proveedores') > 0))) {
+                    header('Location: inicio.php');
+                } else{
+                    if ($_SESSION['roll'] === 'gerente' && ((strpos($loc, 'facturas') > 0) || (strpos($loc, 'clientes') > 0) || (strpos($loc, 'presupuestos') > 0))) {
+                        header('Location: inicio.php');
+
+                    }
+                }
+            }
         }
     }
 
