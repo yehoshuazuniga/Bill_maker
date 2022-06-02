@@ -118,7 +118,7 @@ class BBDD
     {
         //  $this->conexion = new mysqli('localhost', 'banco', '', 'banco');
 
-        $sql = "CREATE TABLE IF NOT EXISTS preveedor (
+        $sql = "CREATE TABLE IF NOT EXISTS proveedor (
                 nif VARCHAR(10) NOT NULL,
                 nombre VARCHAR(45) NOT NULL,
                 direccion VARCHAR(45) NULL,

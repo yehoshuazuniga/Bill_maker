@@ -64,3 +64,8 @@ if (isset($_POST['cerrarSesion'])) {
 if(isset($_POST['compo']) && count($_SESSION)===3){
     echo json_encode($conex->consultaPrueba());
 }
+
+if(isset($_POST['proveedores'])){
+    
+    echo json_encode($conex->proveedoresProdExter());
+}

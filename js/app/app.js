@@ -20,11 +20,33 @@ function cargarEventos() {
         if (!!document.getElementById('registrar-vista')) {
             document.getElementsByTagName('button')['registrar'].addEventListener('click', registrarCEFPS, false);
         }
+        if (!!document.getElementById('servicio-productoExterno-registrar')) {
+            document.getElementById('servicio-productoExterno-registrar').addEventListener('change', llamarProveedoresServ, false);
+        }
+
+        if (!!document.getElementById('idProveedores')) {
+            document.getElementById('idProveedores').addEventListener('change', idProveedorProdExt, true)
+
+        }
 
         // eventos pequeños
         //   document.getElementById('logo').addEventListener('click', compo, true);
     }
 }
+
+
+//crea un objeto html 
+
+function crearObjHtml(elemento, arrayAtributoValor) {
+    obj = document.createElement(elemento);
+    for (const key in arrayAtributoValor) {
+        obj.setAttribute(key, arrayAtributoValor[key]);
+    }
+    return obj;
+}
+
+
+// devuelve el nombre de la pagina de donde estas
 
 function localizarDondeEstoy() {
     str = window.document.location.href
@@ -416,9 +438,89 @@ function cerrarsesion() {
 
 
 //funcion para obtener registarr servicio
+//fatla funcion ue lo envie al servidor y lo registre
+
 function registrarCEFPS() {
     let locDeDatos = document.getElementById('registrar-vista').getElementsByTagName('input')
     let packEnvioServ = obtenerValores(locDeDatos);
 
     alert(JSON.stringify(packEnvioServ))
+}
+//llamar a proveedores del servidor
+
+//funcio publicar proveedores
+function mostrarProveedores(datosDelServ) {
+    packProveedores = datosDelServ;
+    // alert(JSON.stringify(packProveedores))
+    checkbox = document.getElementById('servicio-productoExterno-registrar')
+    select = document.getElementById('idProveedores');
+    hidden = document.createElement('input').setAttribute('type', 'hidden');
+    if (select.classList.contains('d-none') && checkbox.checked) {
+        select.classList.remove('d-none');
+        for (let i = 0; i < packProveedores.length; i++) {
+            proveedor = packProveedores[i];
+            option = document.createElement('option');
+            texto = document.createTextNode(proveedor['nombre']);
+            option.setAttribute('value', proveedor['dni']);
+            option.appendChild(texto);
+            select.appendChild(option);
+        }
+    } else {
+        options = select.getElementsByTagName('option');
+        while (select.hasChildNodes()) {
+            select.removeChild(select.lastChild);
+        }
+
+        select.classList.add('d-none');
+    }
+}
+
+function llamarProveedoresServ() {
+    let varPOST = 'proveedores';
+    const xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+            const objInfo = JSON.parse(this.responseText);
+            mostrarProveedores(objInfo);
+        }
+    }
+    xhttp.open('POST', './php/appFunciones.php', true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(varPOST);
+}
+// cre un imput text pcuando se confirme el proveedor
+function imputCodProExt() {
+    btn = document.getElementById('registrar');
+    contenedor = document.getElementById('registrar-vista');
+
+    label = document.createElement('label');
+    textoLabel = document.createTextNode('Codigo del producto externo');
+    label.setAttribute('for', 'servicio-codigoProductoExterno-registrar');
+    label.appendChild(textoLabel);
+
+    inputText = document.createElement('input');
+    inputText.setAttribute('type', 'text');
+    inputText.setAttribute('maxlength', '7');
+    inputText.setAttribute('id', 'servicio-codigoProductoExterno-registrar');
+
+    contenedor.insertBefore(label, btn);
+    contenedor.insertBefore(inputText, btn);
+
+    //< label for= "servicio-codigoProductoExterno-registrar" > Codigo del producto externo</label >
+    //  <input type="text" maxlength="7" class="servicio-codigoProductoExterno-registrar" id="servicio-codigoProductoExterno-registrar" disabled>
+
+
+}
+
+//regsitra el dni del proveedor
+function idProveedorProdExt(e) {
+    select = document.getElementById('idProveedores');
+    dniProveedor = e.target.value;
+    atributos = { 'type': 'hidden', 'value': dniProveedor, 'id': 'dniProveedor' };
+    objetoHTML = crearObjHtml('input', atributos);
+    select.appendChild(objetoHTML);
+    if (select.getElementsByTagName('input').length > 1) {
+        select.removeChild(select.getElementsByTagName('input')[0]);
+    }
+    imputCodProExt();
 }

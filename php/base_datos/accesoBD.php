@@ -234,10 +234,23 @@ class Funciones_en_BBDD extends BBDD
         }
         return $grabadoEnBBDD;
     }
+    // funcion que devuelve los proveedores para el listadp de productos externos en
+    function proveedoresProdExter(){
+        $packEncioEnt = null;
+        //$sql = 'SELECT nombre, nif FROM preveedor ';
+        // vamos a utilizar como ejemplo a gerente de billmaker es la unica bbdd que tiene registros;
+        $sql ='SELECT nombre, dni FROM billmaker.gerente';
+        $sentencia = $this->conexion->query($sql);
+        $packEncioEnt = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+        return $packEncioEnt;
+    }
+
+
     // esta funcion solo es de prueba no sirv epara nada mas
     function consultaPrueba()
     {
         $query = $this->conexion->query('show tables');
         return ($query->rowCount());
     }
+
 }
