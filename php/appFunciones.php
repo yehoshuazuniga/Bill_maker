@@ -3,7 +3,7 @@ include __DIR__ . '/base_datos/accesoBD.php';
 include __DIR__ . '/seguridad/elPuertasYelCoyote.php';
 $conex = Funciones_en_BBDD::singleton();
 session_start();
-if (isset($_SESSION['BBDD']) && count($_SESSION)===3) {
+if (isset($_SESSION['BBDD']) && count($_SESSION) === 4) {
     $bd = $_SESSION['BBDD'];
     $conex = new Funciones_en_BBDD($bd);
     //$conex->consultaPrueba();
@@ -19,7 +19,7 @@ if (isset($_POST['accesousuario'])) {
 
     if ($conex->verificarUsuario($usuario, $pass) && count($datosSesiones) > 1) {
         $seguridad->tockenSession($datosSesiones[0], $datosSesiones[1]);
-        if (count($_SESSION) === 3) {
+        if (count($_SESSION) === 4) {
             echo json_encode(true);
             // hay q eliminar a apartir de este else
         } else {
@@ -39,15 +39,16 @@ if (isset($_POST['nuevoUsuario'])) {
     if ($conex->existeParametro('dni', 'dni', $seguridad->filtrado($datosEnt->usuario_cif))) {
         echo json_encode(['La empresa ya ha sido dada de alta', true]);
     } else {
-    // si en cif no exixte se recopila la informacion y se registarn en 
-    //la tabla gerente y empelado de billmaker y la bbdd recien
+        // si en cif no exixte se recopila la informacion y se registarn en 
+        //la tabla gerente y empelado de billmaker y la bbdd recien
         $conex->crearBDyTablas($seguridad->filtrado($datosEnt->usuario_nick_registro));
+        //eto registra los usuario en la bbdd de billmaker
         $creaTablasCliente = $conex->registrarGer_Emp($datosEnt);
-        if(gettype($creaTablasCliente) =='string'){
-            $bdnname= str_replace(' ', '_', $datosEnt->usuario_nick_registro);
-            $conex= null;
+        if (gettype($creaTablasCliente) == 'string') {
+            $bdnname = str_replace(' ', '_', $seguridad->filtrado($datosEnt->usuario_nick_registro));
+            $conex = null;
             $conex = new Funciones_en_BBDD($bdnname);
-            echo json_encode([($conex->registrarGer_Emp($datosEnt)),false]);
+            echo json_encode([($conex->registrarGer_Emp($datosEnt)), false]);
         }
     }
 }
@@ -61,11 +62,35 @@ if (isset($_POST['cerrarSesion'])) {
     }
 }
 
-if(isset($_POST['compo']) && count($_SESSION)===3){
+if (isset($_POST['compo']) && count($_SESSION) === 4) {
     echo json_encode($conex->consultaPrueba());
 }
 
-if(isset($_POST['proveedores'])){
-    
+if (isset($_POST['proveedorProExt'])) {
+
     echo json_encode($conex->proveedoresProdExter());
+}
+
+if(isset($_POST['clientes'])){
+    echo json_encode('hola '. $_POST['clientes']);
+   
+}
+if(isset($_POST['empleados'])){
+    echo json_encode('hola '. $_POST['empleados']);
+   
+}
+if(isset($_POST['facturas'])){
+    echo json_encode('hola '. $_POST['facturas']);
+   
+}
+if(isset($_POST['proveedores'])){
+    echo json_encode('hola '. $_POST['proveedores']);
+   
+}
+if(isset($_POST['presupuestos'])){
+    echo json_encode('hola '. $_POST['presupuestos']);
+}
+if(isset($_POST['servicios'])){
+    echo json_encode('hola '. $_POST['servicios']);
+   
 }

@@ -11,8 +11,8 @@ class PuertasYcoyote
         $roll = 'roll';
         $bdName = array_pop($bd);
         $bbdd = 'BBDD';
-        $id = array_shift($idPersonaje);
-        $id = substr($id, 2, 2);
+        $cod = array_shift($idPersonaje);
+        $id = substr($cod, 2, 2);
         $nombre = ucfirst(strtolower(array_shift($idPersonaje)));
         $auxApellido = array_shift($idPersonaje);
         $apellido = $auxApellido == 'DEFAULT' ? '' : ucfirst(strtolower($auxApellido));
@@ -40,6 +40,7 @@ class PuertasYcoyote
             $_SESSION[$bbdd] = $bdName;
             $_SESSION[$roll] = $cargo;
             $_SESSION[$cargo] = $usuario;
+            $_SESSION['codSujeto']= $cod;
         }
     }
     //hash
@@ -64,7 +65,7 @@ class PuertasYcoyote
     static function validadcionSesionIniciada()
     {
         if (
-            count($_SESSION) !== 3 && !isset($_SESSION['roll']) &&
+            count($_SESSION) !== 4 && !isset($_SESSION['roll']) &&
             (!isset($_SESSION['empleado']) || !isset($_SESSION['gerente']) &&
                 !isset($_SESSION['BBDD']))
         ) {
@@ -100,10 +101,4 @@ class PuertasYcoyote
         }
         return $estado;
     }
-}/*
------------+--------+----------+-----------+--------------------------+-----------------+---------------+------------------------------------+---------------+
-| idGerente | nombre | apellido | dni       | email                    | direccion       | basedatos     | usuario                            | password      |
-+-----------+--------+----------+-----------+--------------------------+-----------------+---------------+------------------------------------+---------------+
-| brfsd52   | pedro  | axz      | 5276142a  | studyehoshua@gmddail.com | calle falsa 123 | billMaker     | yehosddhua_g@bill-maddker.com      | password      |
-| DPGT92    | Juan   | alfonoso | g85963641 | mabel.munoz@gmail.com    | c/dancing power | dancing_power | juan.alfonoso_gt@dancing-power.com | dancing power |
-+-----------+--------+----------+-----------+--------------------------+-----------------+---------------+------------------------------------+---------------*/
+}

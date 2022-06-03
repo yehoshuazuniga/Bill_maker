@@ -28,13 +28,8 @@ app::llamarLayout('header');
             <input type="number" name="servicio-precioConIva-registrar" id="servicio-precioConIva-registrar" placeholder="17.49">
             <label for="servicio-productoExterno-registrar">Es un productos externo?</label>
             <input type="checkbox" name="servicio-productoExterno-registrar" id="servicio-productoExterno-registrar">
-            <select>
-                <option value="proveedor1"> preveedor 1</option>
-                <option value="proveedor1"> preveedor 1</option>
-                <option value="proveedor1"> preveedor 1</option>
+            <select id="idProveedores" class="form-select align-self-end mb-3 d-none">
             </select>
-            <label for="servicio-codigoProductoExterno-registrar">Codigo del producto externo</label>
-            <input type="text" maxlength="7" class="servicio-codigoProductoExterno-registrar" id="servicio-codigoProductoExterno-registrar">
             <button name="registrar" id="registrar">Registrar servicio</button>
         </div>
         <!-- ENCONTRAR LA FORMA DE ENVIAR UN CONTRASEÑA POR MAIL O HACERLO QUE AL INICIAR SECION CAMBIE LA CONTRASEÑA-->
@@ -47,7 +42,6 @@ app::llamarLayout('header');
                     <td>Precio sin IVA</td>
                     <td>Precio con IVA</td>
                     <td>es externo? (introducr un si/no)</td>
-                    <td>es externo? (introducr un si/no)</td>
                     <td>Seleccionar</td>
                 </tr>
                 <tr>
@@ -56,25 +50,6 @@ app::llamarLayout('header');
                     <td>Telefono</td>
                     <td>Email</td>
                     <td>es externo? (introducr un si/no)</td>
-                    <td>cod producto externo</td>
-                    <td><button name="servicio-id-numeroid" id="id-1">Seleccionar</button> (boton que seleciona el servicio) </td>
-                </tr>
-                <tr>
-                    <td>serv12345</td>
-                    <td>Nombre</td>
-                    <td>Telefono</td>
-                    <td>Email</td>
-                    <td>es externo? (introducr un si/no)</td>
-                    <td>cod producto externo</td>
-                    <td><button name="servicio-id-numeroid" id="id-2">Seleccionar</button> (boton que seleciona el servicio) </td>
-                </tr>
-                <tr>
-                    <td>serv12345</td>
-                    <td>Nombre</td>
-                    <td>Telefono</td>
-                    <td>Email</td>
-                    <td>es externo? (introducr un si/no)</td>
-                    <td>cod producto externo</td>
                     <td><button name="servicio-id-numeroid" id="id-3" data-bs-toggle="modal" data-bs-target="#modal-servicio">Seleccionar</button> (boton que seleciona el servicio)
                     </td>
                 </tr>

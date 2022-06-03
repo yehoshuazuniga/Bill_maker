@@ -4,7 +4,6 @@
 gulpfile.js
 package.json
 package-lock.json
-src/
 node_modules
 build/
 vendor/
@@ -14,5 +13,6 @@ prueba.html
 .vscode
 labsuseraws.pem
 pru.html
-pru.php     
+pru*   
 servicios_pruebaJS*
+tablas.mwb*

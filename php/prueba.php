@@ -1,4 +1,4 @@
 <?php
-require './elPuertasYelCoyote.php';
-
+session_start();
+print_r($_SESSION);
 //puertasYcoyote::menuEmpleado();

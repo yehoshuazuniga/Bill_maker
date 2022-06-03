@@ -25,6 +25,7 @@ class BBDD
                 apellido VARCHAR(45) NOT NULL,
                 dni VARCHAR(10) NOT NULL,
                 email VARCHAR(30) NOT NULL,
+                telefono VARCHAR(9) NULL,
                 direccion VARCHAR(45) NULL,
                 basedatos VARCHAR(45) NOT NULL,
                 usuario VARCHAR(45) NOT NULL,
@@ -44,20 +45,26 @@ class BBDD
     {
         //  $this->conexion = new mysqli('localhost', 'banco', '', 'banco');
 
-        $sql = "CREATE TABLE IF NOT EXISTS empleado (
-                idEmpleado VARCHAR(7) NOT NULL,
-                nombre VARCHAR(45) NOT NULL,
-                apellido VARCHAR(45) NOT NULL,
-                dni VARCHAR(10) NOT NULL,
-                email VARCHAR(30) NOT NULL,
-                direccion VARCHAR(45) NULL,
-                idGerente VARCHAR(7) NOT NULL,
-                usuario VARCHAR(45) NOT NULL,
-                password VARCHAR(45) NOT NULL,
-                PRIMARY KEY (idEmpleado),
-                UNIQUE INDEX dni_UNIQUE (dni ASC),
-                UNIQUE INDEX usuaarioEmpleado_UNIQUE (usuario ASC),
-                UNIQUE INDEX email_UNIQUE (email ASC))";
+        $sql = "CREATE TABLE IF NOT EXISTS `empleados` (
+                `idEmpleado` VARCHAR(7) NOT NULL,
+                `nombre` VARCHAR(45) NOT NULL,
+                `apellido` VARCHAR(45) NOT NULL,
+                `dni` VARCHAR(10) NOT NULL,
+                `email` VARCHAR(30) NOT NULL,
+                `telefono` VARCHAR(9) NULL,
+                `direccion` VARCHAR(45) NULL,
+                `idGerente` VARCHAR(7) NOT NULL,
+                `usuario` VARCHAR(45) NOT NULL,
+                `password` VARCHAR(45) NOT NULL,
+                PRIMARY KEY (`idEmpleado`),
+                UNIQUE INDEX `dni_UNIQUE` (`dni` ASC),
+                UNIQUE INDEX `usuaarioEmpleado_UNIQUE` (`usuario` ASC),
+                INDEX `idGerente_idx` (`idGerente` ASC),
+                UNIQUE INDEX `email_UNIQUE` (`email` ASC),
+                CONSTRAINT `idGerente`
+                    FOREIGN KEY (`idGerente`)
+                    REFERENCES `gerente` (`idGerente`))
+        ";
 
         $enlace->query($sql);
         // if(!$sentencia)
@@ -67,15 +74,53 @@ class BBDD
         //  $this->conexion = new mysqli('localhost', 'banco', '', 'banco');
 
         $sql = "CREATE TABLE IF NOT EXISTS clientes (
-                nif VARCHAR(10) NOT NULL,
+                dni VARCHAR(10) NOT NULL,
                 nombreEmpresa VARCHAR(45) NOT NULL,
                 direccion VARCHAR(45) NULL,
                 email VARCHAR(45) NOT NULL,
                 telefono VARCHAR(9) NOT NULL,
                 personaContacto VARCHAR(45) NULL,
-                PRIMARY KEY (nif),
-                UNIQUE INDEX nif_UNIQUE (nif ASC))
-                 ";
+                PRIMARY KEY (dni),
+                UNIQUE INDEX dni_UNIQUE (dni ASC))
+                ";
+
+        $enlace->query($sql);
+        // if(!$sentencia)
+    }
+    function tablaProveedor($enlace)
+    {
+        //  $this->conexion = new mysqli('localhost', 'banco', '', 'banco');
+
+        $sql = "CREATE TABLE IF NOT EXISTS proveedores (
+                dni VARCHAR(10) NOT NULL,
+                nombre VARCHAR(45) NOT NULL,
+                direccion VARCHAR(45) NULL,
+                email VARCHAR(45) NOT NULL,
+                telefono VARCHAR(9) NOT NULL,
+                personaContacto VARCHAR(45) NULL,
+                PRIMARY KEY (dni),
+                UNIQUE INDEX dni_UNIQUE (dni ASC))
+                ";
+
+        $enlace->query($sql);
+        // if(!$sentencia)
+    }
+    function tablaProducExter($enlace)
+    {
+        //  $this->conexion = new mysqli('localhost', 'banco', '', 'banco');
+
+        $sql = "CREATE TABLE IF NOT EXISTS productos_externos (
+                idProducto VARCHAR(7) NOT NULL,
+                dniProveedor VARCHAR(10) NOT NULL,
+                nombre VARCHAR(45) NOT NULL,
+                descripcion VARCHAR(45) NOT NULL,
+                precio INT NOT NULL,
+                PRIMARY KEY (idProducto),
+                UNIQUE INDEX idCliente_UNIQUE (idProducto ASC),
+                INDEX dniProveedor_idx (dniProveedor ASC),
+                CONSTRAINT dniProveedor
+                    FOREIGN KEY (dniProveedor)
+                    REFERENCES proveedores (dni))";
 
         $enlace->query($sql);
         // if(!$sentencia)
@@ -91,43 +136,67 @@ class BBDD
                 descripcion VARCHAR(45) NOT NULL,
                 precio INT NOT NULL,
                 PRIMARY KEY (idServicios),
-                UNIQUE INDEX idServicios_UNIQUE (idServicios ASC))
-                ";
+                UNIQUE INDEX idServicios_UNIQUE (idServicios ASC),
+                INDEX idProducto_idx (idProducto ASC),
+                    FOREIGN KEY (idProducto)
+                    REFERENCES productos_externos (idProducto)
+                )";
 
         $enlace->query($sql);
         // if(!$sentencia)
     }
-    function tablaProducExter($enlace)
+    function tablaPresupuestos($enlace)
     {
         //  $this->conexion = new mysqli('localhost', 'banco', '', 'banco');
 
-        $sql = "CREATE TABLE IF NOT EXISTS productos_externos (
-                idProducto VARCHAR(7) NOT NULL,
-                nifProveedor VARCHAR(10) NOT NULL,
-                nombre VARCHAR(45) NOT NULL,
-                descripcion VARCHAR(45) NOT NULL,
+        $sql = "CREATE TABLE IF NOT EXISTS presupuestos (
+                idPresupuesto VARCHAR(9) NOT NULL,
+                dniCliente VARCHAR(10) NOT NULL,
+                idServicios VARCHAR(7) NOT NULL,
+                idEmpleado VARCHAR(7) NOT NULL,
                 precio INT NOT NULL,
-                PRIMARY KEY (idProducto),
-                UNIQUE INDEX idCliente_UNIQUE (idProducto ASC))
-                ";
+                fechaCreacion DATETIME NOT NULL,
+                PRIMARY KEY (idPresupuesto),
+                UNIQUE INDEX idCliente_UNIQUE (dniCliente ASC),
+                INDEX idEmpleado_idx (idEmpleado ASC),
+                UNIQUE INDEX idEmpleado_UNIQUE (idEmpleado ASC),
+                CONSTRAINT idServicios
+                    FOREIGN KEY (idServicios)
+                    REFERENCES servicios (idServicios),
+                CONSTRAINT idEmpleado
+                    FOREIGN KEY (idEmpleado)
+                    REFERENCES empleados (idEmpleado),
+                CONSTRAINT dniCliente
+                    FOREIGN KEY (dniCliente)
+                    REFERENCES clientes (dni))";
 
         $enlace->query($sql);
         // if(!$sentencia)
     }
-    function tablaProveedor($enlace)
+    function tablaFacturas($enlace)
     {
         //  $this->conexion = new mysqli('localhost', 'banco', '', 'banco');
 
-        $sql = "CREATE TABLE IF NOT EXISTS proveedor (
-                nif VARCHAR(10) NOT NULL,
-                nombre VARCHAR(45) NOT NULL,
-                direccion VARCHAR(45) NULL,
-                email VARCHAR(45) NOT NULL,
-                telefono VARCHAR(9) NOT NULL,
-                personaContacto VARCHAR(45) NULL,
-                PRIMARY KEY (nif),
-                UNIQUE INDEX nif_UNIQUE (nif ASC))
-                ";
+        $sql = "CREATE TABLE IF NOT EXISTS facturas (
+                idFacturas VARCHAR(9) NOT NULL UNIQUE,
+                dni VARCHAR(10) NOT NULL,
+                idServicios VARCHAR(7) NOT NULL,
+                idEmpleado VARCHAR(7) NOT NULL,
+                idPresupuesto VARCHAR(45) NULL,
+                precioTotalSinIva INT NOT NULL,
+                fechaCreacion DATETIME NOT NULL,
+                PRIMARY KEY (idFacturas),
+                INDEX idPresupuesto_idx (idPresupuesto ASC),
+                UNIQUE INDEX dni_UNIQUE (dni ASC),
+                UNIQUE INDEX idEmpleado_UNIQUE (idEmpleado ASC),
+                    FOREIGN KEY (idServicios)
+                    REFERENCES servicios (idServicios),
+                    FOREIGN KEY (idEmpleado)
+                    REFERENCES empleados (idEmpleado),
+                    FOREIGN KEY (idPresupuesto)
+                    REFERENCES presupuestos (idPresupuesto),
+                    FOREIGN KEY (dni)
+                    REFERENCES clientes (dni))";
 
         $enlace->query($sql);
         // if(!$sentencia)
@@ -142,63 +211,21 @@ class BBDD
                 ingresos INT NOT NULL,
                 gastos INT NOT NULL,
                 arcas INT NOT NULL,
+                INDEX idProducto_idx (idProducto ASC),
+                INDEX idFactura_idx (idFactura ASC),
                 UNIQUE INDEX idFactura_UNIQUE (idFactura ASC),
-                UNIQUE INDEX idProducto_UNIQUE (idProducto ASC))
+                UNIQUE INDEX idProducto_UNIQUE (idProducto ASC),
+                    FOREIGN KEY (idProducto)
+                    REFERENCES productos_externos (idProducto),
+                    FOREIGN KEY (idFactura)
+                    REFERENCES facturas (idFacturas))
                 ";
 
         $enlace->query($sql);
         // if(!$sentencia)
     }
-    function tablaFacturas($enlace)
-    {
-        //  $this->conexion = new mysqli('localhost', 'banco', '', 'banco');
 
-        $sql = "CREATE TABLE IF NOT EXISTS facturas (
-                idFacturas VARCHAR(7) NOT NULL,
-                nif VARCHAR(10) NOT NULL,
-                idServicios VARCHAR(7) NOT NULL,
-                idEmpleado VARCHAR(7) NOT NULL,
-                idPresupuesto VARCHAR(45) NULL,
-                precioTotalSinIva INT NOT NULL,
-                fechaCreacion DATETIME NOT NULL,
-                PRIMARY KEY (idFacturas),
-                UNIQUE INDEX idFacturas_UNIQUE (idFacturas ASC),
-                UNIQUE INDEX nif_UNIQUE (nif ASC),
-                UNIQUE INDEX idEmpleado_UNIQUE (idEmpleado ASC),
-                CONSTRAINT nif
-                    FOREIGN KEY (nif)
-                    REFERENCES CLIENTES (nif)
-                    ON DELETE NO ACTION
-                    ON UPDATE NO ACTION)
-                ";
 
-        $enlace->query($sql);
-        // if(!$sentencia)
-    }
-    function tablaPresupuestos($enlace)
-    {
-        //  $this->conexion = new mysqli('localhost', 'banco', '', 'banco');
-
-        $sql = "CREATE TABLE IF NOT EXISTS PRESUPUESTO (
-                idPresupuesto VARCHAR(7) NOT NULL,
-                nifCliente VARCHAR(10) NOT NULL,
-                idServicios VARCHAR(7) NOT NULL,
-                idEmpleado VARCHAR(7) NOT NULL,
-                precio INT NOT NULL,
-                fechaCreacion DATETIME NOT NULL,
-                PRIMARY KEY (idPresupuesto),
-                UNIQUE INDEX idCliente_UNIQUE (nifCliente ASC),
-                UNIQUE INDEX idEmpleado_UNIQUE (idEmpleado ASC),
-                CONSTRAINT nifCliente
-                    FOREIGN KEY (nifCliente)
-                    REFERENCES CLIENTES (nif)
-                    ON DELETE NO ACTION
-                    ON UPDATE NO ACTION)
-                ";
-
-        $enlace->query($sql);
-        // if(!$sentencia)
-    }
     function tabalaAcceso($enlace)
     {
         //  $this->conexion = new mysqli('localhost', 'banco', '', 'banco');
@@ -217,13 +244,13 @@ class BBDD
         $this->tablaGerente($enlace);
         $this->tablaEmpleado($enlace);
         $this->tablaClientes($enlace);
-        $this->tablaServicios($enlace);
-        $this->tablaProducExter($enlace);
         $this->tablaProveedor($enlace);
-        $this->tablaFondos($enlace);
-        $this->tablaFacturas($enlace);
+        $this->tablaProducExter($enlace);
+        $this->tablaServicios($enlace);
         $this->tablaPresupuestos($enlace);
-        $this->tabalaAcceso($enlace);
+        $this->tablaFacturas($enlace);
+        $this->tablaFondos($enlace);
+        // $this->tabalaAcceso($enlace);
     }
 
 

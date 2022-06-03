@@ -51,7 +51,7 @@ class Funciones_en_BBDD extends BBDD
     {
         $datos = [];
 
-        $sent1 = '  SELECT  g.basedatos FROM gerente g , empleado e
+        $sent1 = '  SELECT  g.basedatos FROM gerente g , empleados e
                         WHERE g.idGerente=e.idGerente AND ( (e.usuario= :usu AND e.password = :pass) OR
                                                             (g.usuario= :usu AND g.password = :pass));
                     ';
@@ -65,7 +65,7 @@ class Funciones_en_BBDD extends BBDD
 
         $datos = $sentPre->fetchAll(PDO::FETCH_ASSOC);
 
-        $sent2 = 'SELECT idEmpleado, nombre, apellido FROM empleado WHERE usuario = :usu  AND password = :pass;';
+        $sent2 = 'SELECT idEmpleado, nombre, apellido FROM empleados WHERE usuario = :usu  AND password = :pass;';
         $sentpre2 = $this->conexion->prepare($sent2);
         $sentpre2->execute(
             array(
@@ -98,7 +98,7 @@ class Funciones_en_BBDD extends BBDD
                         FROM acceso
                         where usuario IN (
                             SELECT a.usuario
-                            FROM gerente g , empleado e, acceso a
+                            FROM gerente g , empleados e, acceso a
                             where   (a.usuario = g.usuario AND 
                                     g.usuario = :usu and 
                                     g.password = :pass )
@@ -139,7 +139,8 @@ class Funciones_en_BBDD extends BBDD
         // $newConex = Funciones_en_BBDD::singleton();
         if ($bd !== 'billmaker') {
             $newConex = null;
-            $newConex = new Funciones_en_BBDD('localhost', 'root2', '', $bd);
+            //$database = 'billmaker', $usuario = 'root2', $pass = '', $host = 'localhost'
+            $newConex = new Funciones_en_BBDD($bd, 'root2', '','localhost');
         }
 
         $sentencia = "SELECT ? FROM $tabla  WHERE $whereParan = ?";
@@ -152,9 +153,9 @@ class Funciones_en_BBDD extends BBDD
             $cambios = true;
 
             // echo 'existe';
-        } else {
+        } /* else {
             //   echo ' no existe';
-        }
+        } */
 
         return $cambios;
     }
@@ -174,12 +175,12 @@ class Funciones_en_BBDD extends BBDD
         $id = null;
         $usuario = null;
         $respuesta = null;
-        $cargos = ['gerente', 'empleado'];
+        $cargos = ['gerente', 'empleados'];
         $nombreApellido = explode(' ', $datosEnt->usuario_contacto);
-        $nameBD_o_IdGerente = str_replace(' ', '_', $datosEnt->usuario_nick_registro);
+        $nameBD_o_IdGerente = str_replace(' ', '_', (ltrim($datosEnt->usuario_nick_registro)));
         $usuariosRegistrados_2 = [];
         for ($i = 0; $i < count($cargos); $i++) {
-            $sql = "INSERT INTO $cargos[$i] VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO $cargos[$i] VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
             $sentPre = $this->conexion->prepare($sql);
             if ($i === 0) {
                 $id = $datosEnt->idGerente;
@@ -195,10 +196,11 @@ class Funciones_en_BBDD extends BBDD
             $sentPre->bindParam(3, $nombreApellido[1], PDO::PARAM_STR);
             $sentPre->bindParam(4, $datosEnt->usuario_cif, PDO::PARAM_STR);
             $sentPre->bindParam(5, $datosEnt->usuario_email, PDO::PARAM_STR);
-            $sentPre->bindParam(6, $datosEnt->usuario_direccion, PDO::PARAM_STR);
-            $sentPre->bindParam(7, $nameBD_o_IdGerente, PDO::PARAM_STR);
-            $sentPre->bindParam(8, $usuario, PDO::PARAM_STR);
-            $sentPre->bindParam(9, $datosEnt->usuario_password_registro, PDO::PARAM_STR);
+            $sentPre->bindParam(6, $datosEnt->telefono, PDO::PARAM_STR);
+            $sentPre->bindParam(7, $datosEnt->usuario_direccion, PDO::PARAM_STR);
+            $sentPre->bindParam(8, $nameBD_o_IdGerente, PDO::PARAM_STR);
+            $sentPre->bindParam(9, $usuario, PDO::PARAM_STR);
+            $sentPre->bindParam(10, $datosEnt->usuario_password_registro, PDO::PARAM_STR);
             $sentPre->execute();
             if ($sentPre->rowCount() > 0) $usuariosRegistrados_2[$i] = $usuario;
         }
@@ -245,6 +247,37 @@ class Funciones_en_BBDD extends BBDD
         return $packEncioEnt;
     }
 
+    //funcion filtra solicitante de vista_list
+    function identificaLista_vita($solicitante){
+        switch ($solicitante) {
+            case 'clientes':
+                # code...
+                break;
+            case 'empleados':
+                # code...
+                break;
+            case 'facturas':
+                # code...
+                break;
+            case 'presupuestos':
+                # code...
+                break;
+            case 'servicios':
+                # code...
+                break;
+            
+            default:
+                # code...
+                break;
+        }
+    }
+
+    //esta funcion estrae las datos de la tabla que le pasemos
+    function datosLista_vista($tabla){
+    
+        
+
+    }
 
     // esta funcion solo es de prueba no sirv epara nada mas
     function consultaPrueba()

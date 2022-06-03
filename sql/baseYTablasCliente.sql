@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS gerente (
 -- -----------------------------------------------------
 -- Table EMPLEADO
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS empleado (
+CREATE TABLE IF NOT EXISTS empleados (
   idEmpleado VARCHAR(7) NOT NULL,
   idGerente VARCHAR(7) NOT NULL,
   nombre VARCHAR(45) NOT NULL,
@@ -41,8 +41,7 @@ CREATE TABLE IF NOT EXISTS empleado (
   PRIMARY KEY (idEmpleado),
   UNIQUE INDEX dni_UNIQUE (dni ASC),
   UNIQUE INDEX usuaarioEmpleado_UNIQUE (usuario ASC),
-  UNIQUE INDEX email_UNIQUE (email ASC))
-;
+  UNIQUE INDEX email_UNIQUE (email ASC));
 
 
 -- -----------------------------------------------------
@@ -91,7 +90,7 @@ CREATE TABLE IF NOT EXISTS productos_externos (
 -- -----------------------------------------------------
 -- Table PROVEEDOR
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS proveedor (
+CREATE TABLE IF NOT EXISTS proveedores (
   nif VARCHAR(10) NOT NULL,
   nombre VARCHAR(45) NOT NULL,
   direccion VARCHAR(45) NULL,
@@ -143,7 +142,7 @@ CREATE TABLE IF NOT EXISTS facturas (
 -- -----------------------------------------------------
 -- Table PRESUPUESTO
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS presupuesto (
+CREATE TABLE IF NOT EXISTS presupuestos (
   idPresupuesto VARCHAR(7) NOT NULL,
   nifCliente VARCHAR(10) NOT NULL,
   idServicios VARCHAR(7) NOT NULL,
@@ -155,10 +154,8 @@ CREATE TABLE IF NOT EXISTS presupuesto (
   UNIQUE INDEX idEmpleado_UNIQUE (idEmpleado ASC),
   CONSTRAINT nifCliente
     FOREIGN KEY (nifCliente)
-    REFERENCES CLIENTES (nif)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-;
+    REFERENCES clientes (nif)
+    );
 
 -- -----------------------------------------------------
 -- Data for table GERENTE
@@ -176,9 +173,4 @@ START TRANSACTION;
 INSERT INTO empleado (idEmpleado, idGerente, Nombre, apellido, dni, email, direccion, usuario, password) VALUES ('BMEM000', 'BMGR000', 'Yehoshua', DEFAULT, '523641258a', 'studyehoshua@gmail.com', 'calle fasa 3', 'yehoshua_emp@bill-maker.com', 'password');
 
 COMMIT;
-
-
-
-
-
 

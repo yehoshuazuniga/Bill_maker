@@ -3,8 +3,8 @@ document.addEventListener('readystatechange', cargarEventos, false);
 function cargarEventos() {
     if (document.readyState === 'interactive') {
         tituloAutomatico();
-        if (!!document.getElementById('registrar')) {
-            // document.getElementById('registrar').addEventListener('click', registroUsuario, false);
+        if (!!document.getElementById('formulario_registrar')) {
+            document.getElementById('registrar').addEventListener('click', registroUsuario, false);
         }
         if (!!document.getElementById('envio')) {
             document.getElementById('envio').addEventListener('click', busquedaSocio, false);
@@ -27,6 +27,9 @@ function cargarEventos() {
         if (!!document.getElementById('idProveedores')) {
             document.getElementById('idProveedores').addEventListener('change', idProveedorProdExt, true)
 
+        }
+        if (!!document.getElementById('lista-vista')) {
+            crearLIstas();
         }
 
         // eventos pequeños
@@ -84,7 +87,7 @@ function compo() {
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send(varPOST + '=' + datosEnvioServ);
 }
-//funcion que mestra los paneles de listar
+//funcion que mestra los paneles de listar de la pagina
 function panelListaClientes() {
     panelListas = document.getElementById('lista-vista');
     panelRegistro = document.getElementById('registrar-vista');
@@ -454,7 +457,6 @@ function mostrarProveedores(datosDelServ) {
     // alert(JSON.stringify(packProveedores))
     checkbox = document.getElementById('servicio-productoExterno-registrar')
     select = document.getElementById('idProveedores');
-    hidden = document.createElement('input').setAttribute('type', 'hidden');
     if (select.classList.contains('d-none') && checkbox.checked) {
         select.classList.remove('d-none');
         for (let i = 0; i < packProveedores.length; i++) {
@@ -466,17 +468,18 @@ function mostrarProveedores(datosDelServ) {
             select.appendChild(option);
         }
     } else {
-        options = select.getElementsByTagName('option');
+        document.getElementById('registrar-vista').removeChild(document.getElementById('idProveedores').nextSibling.nextSibling)
+        document.getElementById('registrar-vista').removeChild(document.getElementById('idProveedores').nextSibling.nextSibling)
         while (select.hasChildNodes()) {
             select.removeChild(select.lastChild);
         }
+        select.classList.add('d-none')
 
-        select.classList.add('d-none');
     }
 }
 
 function llamarProveedoresServ() {
-    let varPOST = 'proveedores';
+    let varPOST = 'proveedorProExt';
     const xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
@@ -523,4 +526,21 @@ function idProveedorProdExt(e) {
         select.removeChild(select.getElementsByTagName('input')[0]);
     }
     imputCodProExt();
+}
+
+//crea las lista en el panel de lista vista
+function crearLIstas() {
+    nombrePagina = localizarDondeEstoy(); // aqui va la funcion localizarDondeEstoy
+    nombreSolicitud = nombrePagina;
+
+    xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+            const objInfo = JSON.parse(this.responseText);
+            alert(objInfo);
+        }
+    }
+    xhttp.open('POST', './php/appFunciones.php', true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(nombrePagina + '=' + nombreSolicitud);
 }
