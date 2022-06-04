@@ -28,7 +28,7 @@ app::llamarLayout('header');
             <input type="text" name="cliente-personaContacto-registrar" id="cliente-personaContacto-registrar" placeholder="6245854132">
             <label for="cliente-telefono-registrar">Telefono de contacto</label>
             <input type="tel" name="cliente-telefono-registrar" id="cliente-telefono-registrar" placeholder="6245854132">
-            <button name="registrar" id="registrar" >Registrar </button>
+            <button name="registrar" id="registrar">Registrar </button>
         </div>
         <!-- ENCONTRAR LA FORMA DE ENVIAR UN CONTRASEÑA POR MAIL O HACERLO QUE AL INICIAR SECION CAMBIE LA CONTRASEÑA-->
         <!-- esto se sera una lista interactiva que se rellenara automaticamente cuando con js  con unos registro que obtendra de php-DDBB -->
@@ -48,27 +48,11 @@ app::llamarLayout('header');
                     <td>Telefono</td>
                     <td>Email</td>
 
-                    <td><button name="empleado-id-numeroid" id="id-1">Seleccionar</button> (boton que seleciona el empleado) </td>
-                </tr>
-                <tr>
-                    <td>NIF xxxxxx</td>
-                    <td>Nombre</td>
-                    <td>Telefono</td>
-                    <td>Email</td>
-
-                    <td><button name="empleado-id-numeroid" id="id-2">Seleccionar</button> (boton que seleciona el empleado) </td>
-                </tr>
-                <tr>
-                    <td>NIF xxxxxx</td>
-                    <td>Nombre</td>
-                    <td>Telefono</td>
-                    <td>Email</td>
-
                     <td><button name="empleado-id-numeroid" id="id-3" data-bs-toggle="modal" data-bs-target="#modal-empleado">Seleccionar</button> (boton que seleciona el empleado)
                     </td>
                 </tr>
             </table>
-            <div class="modal fade" id="modal-cliente" tabindex="-1" aria-hidden="true"  data-bs-backdrop="static">
+            <div class="modal fade" id="modal-empleado" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -77,7 +61,7 @@ app::llamarLayout('header');
                             </h3>
                             <button class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                         </div>
-                        <div class="modal-body row m-3">
+                        <div id="modal-body" class="modal-body row m-3">
                             <label class="text-dark" for="cliente-nombre-registro">Nombre comercial</label>
                             <input type="text" name="cliente-nombre-registro" id="cliente-nombre-registro" placeholder="ej: Mi empresa">
                             <label class="text-dark" for="cliente-dni-registro">CIF</label>
@@ -88,7 +72,7 @@ app::llamarLayout('header');
                             <input type="email" name="cliente-email-registro" id="cliente-email-registro" placeholder="Mi_usuario@email.org">
                             <label class="text-dark" for="cliente-telefono-registro">Telefono de contacto</label>
                             <input type="tel" name="cliente-telefono-registro" id="cliente-telefono-registro" placeholder="6245854132">
-                            <button name="mofificar-cliente" id="mofificar-cliente" data-bs-dismiss="modal">Modificar
+                            <button name="mofificar-cliente" id="mofificar" data-bs-dismiss="modal">Modificar
                             </button>
                             <button name="dar-baja-cliente" id="dar-baja-cliente" data-bs-dismiss="modal">Dar baja
                             </button>

@@ -48,21 +48,19 @@ app::llamarLayout('header');
         <!-- ENCONTRAR LA FORMA DE ENVIAR UN CONTRASEÑA POR MAIL O HACERLO QUE AL INICIAR SECION CAMBIE LA CONTRASEÑA-->
         <!-- esto se sera una lista interactiva que se rellenara automaticamente cuando con js  con unos registro que obtendra de php-DDBB -->
         <div id="lista-vista" class="d-flex flex-column table-responsive">
-            <table class="table  table-hover table-sm">
+            <table class="table  table-hover table-sm" id="tabla-datos-pagina">
                 <tr class="table-dark">
 
                     <!-- rellenar con  -->
                     <td>Cod Presupuesto</td>
                     <td>Precio sin IVA</td>
                     <td>Precio con IVA</td>
-                    <td>Fecha de creacion</td>
                     <td>Seleccionar</td>
                 </tr>
                 <tr>
                     <td>Cod Presupuesto</td>
                     <td>Precio sin IVA</td>
                     <td>Precio con IVA</td>
-                    <td>Fecha xx/xx/xxxx</td>
                     <td><button name="servicio-id-numeroid" id="id-3" data-bs-toggle="modal" data-bs-target="#modal-servicio">Seleccionar</button> (boton que seleciona el servicio)
                     </td>
                 </tr>
@@ -70,7 +68,6 @@ app::llamarLayout('header');
                     <td>Cod Presupuesto</td>
                     <td>Precio sin IVA</td>
                     <td>Precio con IVA</td>
-                    <td>Fecha xx/xx/xxxx</td>
                     <td><button name="servicio-id-numeroid" id="id-3" data-bs-toggle="modal" data-bs-target="#modal-servicio">Seleccionar</button> (boton que seleciona el servicio)
                     </td>
                 </tr>
@@ -78,7 +75,6 @@ app::llamarLayout('header');
                     <td>Cod Presupuesto</td>
                     <td>Precio sin IVA</td>
                     <td>Precio con IVA</td>
-                    <td>Fecha xx/xx/xxxx</td>
                     <td><button name="servicio-id-numeroid" id="id-3" data-bs-toggle="modal" data-bs-target="#modal-servicio">Seleccionar</button> (boton que seleciona el servicio)
                     </td>
                 </tr>
@@ -95,7 +91,7 @@ app::llamarLayout('header');
                             </h3>
                             <button class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                         </div>
-                        <div class="modal-body row m-3 bg-dark">
+                        <div id="modal-body" class="modal-body row m-3 bg-dark">
                             <div class="col-12 col-md border ficha-cliente-presupuesto sticky-top bg-dark">
                                 <p class="cliente-cif">nif cliente</p>
                                 <p class="cliente-nombre">Nombre</p>

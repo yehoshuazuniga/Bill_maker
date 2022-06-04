@@ -140,7 +140,7 @@ class Funciones_en_BBDD extends BBDD
         if ($bd !== 'billmaker') {
             $newConex = null;
             //$database = 'billmaker', $usuario = 'root2', $pass = '', $host = 'localhost'
-            $newConex = new Funciones_en_BBDD($bd, 'root2', '','localhost');
+            $newConex = new Funciones_en_BBDD($bd, 'root2', '', 'localhost');
         }
 
         $sentencia = "SELECT ? FROM $tabla  WHERE $whereParan = ?";
@@ -214,7 +214,7 @@ class Funciones_en_BBDD extends BBDD
             //echo "   paso por aqui";
             if (count($usuariosRegistrados_2) === 2) {
                 $respuesta = "Usuarios, empleado y gerente, insertados en sus respectivas tablas";
-               // echo "paso por el segundo registro";
+                // echo "paso por el segundo registro";
             }
         }
 
@@ -237,45 +237,74 @@ class Funciones_en_BBDD extends BBDD
         return $grabadoEnBBDD;
     }
     // funcion que devuelve los proveedores para el listadp de productos externos en
-    function proveedoresProdExter(){
-        $packEncioEnt = null;
+    function proveedoresProdExter()
+    {
+        $packEnvioEnt = null;
         //$sql = 'SELECT nombre, nif FROM preveedor ';
         // vamos a utilizar como ejemplo a gerente de billmaker es la unica bbdd que tiene registros;
-        $sql ='SELECT nombre, dni FROM billmaker.gerente';
+        $sql = 'SELECT nombre, dni FROM billmaker.gerente';
         $sentencia = $this->conexion->query($sql);
-        $packEncioEnt = $sentencia->fetchAll(PDO::FETCH_ASSOC);
-        return $packEncioEnt;
+        $packEnvioEnt = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+        return $packEnvioEnt;
     }
 
     //funcion filtra solicitante de vista_list
-    function identificaLista_vita($solicitante){
+    function identificaLista_vita($solicitante, $dni = '')
+    {
+
+        $sql = '';
+        $sql2 = '';
         switch ($solicitante) {
             case 'clientes':
-                # code...
+
+                $sql = 'SELECT dni, nombreEmpresa, telefono, mail, direccion  FROM ' . $solicitante;
                 break;
+
             case 'empleados':
-                # code...
+                if ($dni !== '') {
+                    $sql2 = ', dni, direccion ';
+                }
+                $sql = 'SELECT idEmpleado, nombre, apellido, telefono, email ' . $sql2 . 'FROM ' . $solicitante;
                 break;
             case 'facturas':
-                # code...
+                if ($dni !== '') {
+                    $sql2 = ', dni, direccion ';
+                }
+                $sql =
+                    'SELECT idFacturas, idPresupuesto, precioTotalSinIva  ' . $sql2 . 'FROM ' . $solicitante;
                 break;
             case 'presupuestos':
-                # code...
+                $sql = 'SELECT idPresupuesto, precio FROM ' . $solicitante;
+                break;
+            case 'proveedores':
+                $sql = 'SELECT * FROM ' . $solicitante;
                 break;
             case 'servicios':
-                # code...
-                break;
-            
-            default:
-                # code...
+                $sql = 'SELECT * ' . $sql2 . ' FROM ' . $solicitante;
                 break;
         }
+        return $sql;
     }
 
     //esta funcion estrae las datos de la tabla que le pasemos
-    function datosLista_vista($tabla){
-    
-        
+    function datosLista_vista($tabla)
+    {
+        $sql = $this->identificaLista_vita($tabla);
+        $sentencia = $this->conexion->query($sql);
+        $packEnvioEnt = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+        return $packEnvioEnt;
+    }
+
+    function devolverUnRegistro($tabla, $dni)
+    {
+        $sql = $this->identificaLista_vita($tabla, $dni );
+
+        $sql =  $sql.' WHERE dni=?';
+        $sentPre = $this->conexion->prepare($sql);
+        $sentPre->bindParam(1,$dni,PDO::PARAM_STR);
+        $sentPre->execute();
+
+        return $sentPre->fetchAll(PDO::FETCH_ASSOC);
 
     }
 
@@ -285,5 +314,4 @@ class Funciones_en_BBDD extends BBDD
         $query = $this->conexion->query('show tables');
         return ($query->rowCount());
     }
-
 }

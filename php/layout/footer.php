@@ -7,8 +7,8 @@
             </div>
             <p> Todos los derechos Reservados <?php echo date('Y'); ?> &copy;</p>
         </footer>
-        <script src="./js/bootstrap_js/bootstrap.bundle.min.js"></script>
         <script src="./js/app/app.js"></script>
+       <script src="./js/bootstrap_js/bootstrap.bundle.min.js"></script>
         </body>
 
         </html>

@@ -31,8 +31,10 @@ function cargarEventos() {
         if (!!document.getElementById('lista-vista')) {
             crearLIstas();
         }
+        if (!!document.getElementById('mofificar')) {
+            document.getElementById('mofificar').addEventListener('click', desbloquearInputs, true);
 
-        // eventos pequeños
+        } // eventos pequeños
         //   document.getElementById('logo').addEventListener('click', compo, true);
     }
 }
@@ -308,7 +310,7 @@ function validacionusuario(varPOST, datos) {
     xhttp.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
             const objInfo = JSON.parse(this.responseText);
-            alert(objInfo);
+            // alert(objInfo);
             if (typeof objInfo === "boolean") {
                 if (objInfo) {
                     cambiaLoc(loc);
@@ -515,7 +517,7 @@ function imputCodProExt() {
 
 }
 
-//regsitra el dni del proveedor
+//regsitra el dni del proveedor en un input hidden
 function idProveedorProdExt(e) {
     select = document.getElementById('idProveedores');
     dniProveedor = e.target.value;
@@ -528,6 +530,67 @@ function idProveedorProdExt(e) {
     imputCodProExt();
 }
 
+function tablaListaClientes(datos) {}
+
+function tablaListaEmpleados(datos) {}
+
+function tablaListaFacturas(datos) {}
+
+function tablaListaPresupuestos(datos) {}
+
+//crea la tabla de los proveedores con eventos
+function tablaListaProveedores(datos) {
+    tablaProveedoresId = document.getElementById('tabla-datos-pagina').getElementsByTagName('tbody')[0];
+    let fila = '';
+    for (let i = 0; i < datos.length; i++) {
+        const element = datos[i];
+
+        fila = `<tr>
+                <td>NIF ${element['dni']}</td>
+                <td>${element['nombre']}</td>
+                <td>${element['telefono']}</td>
+                <td>${element['email']}</td>
+                <td>
+                     <button name="botones-lista" id="${element['dni']}" data-bs-toggle="modal" data-bs-target="#modal-proveedor">Seleccionar</button>
+                </td>
+            </tr>`;
+        tablaProveedoresId.innerHTML += fila;
+    }
+    //cuando creamos los botones, le añadimos a todos un escuchador
+    if (document.getElementsByName('botones-lista').length > 0) {
+        boton = document.getElementsByName('botones-lista');
+        for (let i = 0; i < boton.length; i++) {
+            boton[i].addEventListener('mouseover', rellenarModal, true);
+        }
+    }
+
+}
+
+function tablaListaServicios(datos) {}
+// filta que lista se va a usar
+function seleccionarTabla(nombreTabla, datosTabla) {
+    switch (nombreTabla) {
+        case 'clientes':
+            tablaListaClientes(datosTabla);
+            break;
+        case 'empleados':
+            tablaListaEmpleados(datosTabla);
+            break;
+        case 'facturas':
+            tablaListaFacturas(datosTabla);
+            break;
+        case 'presupuestos':
+            tablaListaPresupuestos(datosTabla);
+            break;
+        case 'proveedores':
+            tablaListaProveedores(datosTabla);
+            break;
+        case 'servicios':
+            tablaListaServicios(datosTabla)
+            break;
+    }
+}
+
 //crea las lista en el panel de lista vista
 function crearLIstas() {
     nombrePagina = localizarDondeEstoy(); // aqui va la funcion localizarDondeEstoy
@@ -537,10 +600,48 @@ function crearLIstas() {
     xhttp.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
             const objInfo = JSON.parse(this.responseText);
-            alert(objInfo);
+            seleccionarTabla(nombrePagina, objInfo);
         }
     }
     xhttp.open('POST', './php/appFunciones.php', true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send(nombrePagina + '=' + nombreSolicitud);
+}
+
+function camposModal(datos) {
+    modal = document.getElementById('modal-body');
+    input = modal.getElementsByTagName('input');
+    input[0].value = datos['dni'];
+    input[1].value = datos['nombre'];
+    input[2].value = datos['direccion'];
+    input[3].value = datos['email'];
+    input[4].value = datos['telefono'];
+    input[5].value = datos['personaContacto'];
+}
+
+function rellenarModal(e) {
+    dni = e.target.id;
+    pagina = localizarDondeEstoy();
+    varServ = 'soicitarUnRegistro';
+    packEnvioServ = JSON.stringify([pagina, dni]);
+
+    xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+            const objInfo = JSON.parse(this.responseText);
+            camposModal(objInfo[0]);
+            //    alert(JSON.stringify(objInfo));
+        }
+    }
+    xhttp.open('POST', './php/appFunciones.php', true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(varServ + '=' + packEnvioServ);
+}
+
+function desbloquearInputs() {
+    modal = document.getElementById('modal-body');
+    input = modal.getElementsByTagName('input');
+    for (let i = 0; i < input.length; i++) {
+        input[i].disabled = false;
+    }
 }

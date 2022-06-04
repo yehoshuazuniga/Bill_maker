@@ -2,7 +2,7 @@
 app::llamarLayout('header');
 ?>
 <section class="row bg-primary">
-    <aside class="col col-lg-auto pe-4 col-12 "  id="funcionesPagina">
+    <aside class="col col-lg-auto pe-4 col-12 " id="funcionesPagina">
         <ul class="nav d-flex flex-lg-column flex-row justify-content-around pe-md-5 pe-0">
             <li class="mb-lg-5 mb-0 btn listarClientes" id="panelLista">
                 Listado de empleados
@@ -26,13 +26,13 @@ app::llamarLayout('header');
             <input type="email" name="empleado-email-registrar" id="empleado-email-registrar" placeholder="Mi_usuario@email.org">
             <label for="empleado-telefono-registrar">Telefono de contacto</label>
             <input type="tel" name="empleado-telefono-registrar" id="empleado-telefono-registrar" placeholder="6245854132">
-            <button name="registrar" id="registrar" >Registrar empleado
+            <button name="registrar" id="registrar">Registrar empleado
             </button>
         </div>
         <!-- ENCONTRAR LA FORMA DE ENVIAR UN CONTRASEÑA POR MAIL O HACERLO QUE AL INICIAR SECION CAMBIE LA CONTRASEÑA-->
         <!-- esto se sera una lista interactiva que se rellenara automaticamente cuando con js  con unos registro que obtendra de php-DDBB -->
         <div id="lista-vista" class="d-flex flex-column table-responsive-md ">
-            <table class="table  table-hover table-sm">
+            <table class="table  table-hover table-sm" id="tabla-datos-pagina">
                 <tr class="table-dark">
                     <td>Codigo empleado</td>
                     <td>Nombre y apellido</td>
@@ -76,7 +76,7 @@ app::llamarLayout('header');
                             </h3>
                             <button class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                         </div>
-                        <div class="modal-body row m-3">
+                        <div id="modal-body" class="modal-body row m-3">
                             <label class="text-dark" for="empleado-nombre-registro">Nombre</label>
                             <input type="text" name="empleado-nombre-registro" id="empleado-nombre-registro" placeholder="ej: Juan">
                             <label class="text-dark" for="empleado-dni-registro">DNI/NIE</label>
@@ -87,7 +87,7 @@ app::llamarLayout('header');
                             <input type="email" name="empleado-email-registro" id="empleado-email-registro" placeholder="Mi_usuario@email.org">
                             <label class="text-dark" for="empleado-telefono-registro">Telefono de contacto</label>
                             <input type="tel" name="empleado-telefono-registro" id="empleado-telefono-registro" placeholder="6245854132">
-                            <button name="mofificar-empleado" id="mofificar-empleado" data-bs-dismiss="modal">Modificar
+                            <button name="mofificar-empleado" id="mofificar" data-bs-dismiss="modal">Modificar
                             </button>
                             <button name="dar-baja-empleado" id="dar-baja-empleado" data-bs-dismiss="modal">Dar baja
                             </button>

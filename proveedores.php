@@ -27,45 +27,22 @@ app::llamarLayout('header');
             <input type="text" name="proveedor-personaContacto-registrar" id="proveedor-personaContacto-registrar" placeholder="6245854132">
             <label for="proveedor-telefono-registrar">Telefono de contacto</label>
             <input type="tel" name="proveedor-telefono-registrar" id="proveedor-telefono-registrar" placeholder="6245854132">
-            <button name="registrar" id="registrar" >Registrar proveedor </button>
+            <button name="registrar" id="registrar">Registrar proveedor </button>
         </div>
         <!-- ENCONTRAR LA FORMA DE ENVIAR UN CONTRASEÑA POR MAIL O HACERLO QUE AL INICIAR SECION CAMBIE LA CONTRASEÑA-->
         <!-- esto se sera una lista interactiva que se rellenara automaticamente cuando con js  con unos registro que obtendra de php-DDBB -->
         <div id="lista-vista" class="d-flex flex-column table-responsive">
-            <table class="table  table-hover table-sm">
+            <table class="table  table-hover table-sm" id="tabla-datos-pagina">
                 <tr class="table-dark">
-                    <td>NIF xxxxxx</td>
+                    <td>NIF</td>
                     <td>Nombre proveedor</td>
                     <td>Telefono</td>
                     <td>Email</td>
 
                     <td>Seleccionar</td>
                 </tr>
-                <tr>
-                    <td>NIF xxxxxx</td>
-                    <td>Nombre</td>
-                    <td>Telefono</td>
-                    <td>Email</td>
 
-                    <td><button name="empleado-id-numeroid" id="id-1">Seleccionar</button> (boton que seleciona el empleado) </td>
-                </tr>
-                <tr>
-                    <td>NIF xxxxxx</td>
-                    <td>Nombre</td>
-                    <td>Telefono</td>
-                    <td>Email</td>
 
-                    <td><button name="empleado-id-numeroid" id="id-2">Seleccionar</button> (boton que seleciona el empleado) </td>
-                </tr>
-                <tr>
-                    <td>NIF xxxxxx</td>
-                    <td>Nombre</td>
-                    <td>Telefono</td>
-                    <td>Email</td>
-
-                    <td><button name="empleado-id-numeroid" id="id-3" data-bs-toggle="modal" data-bs-target="#modal-empleado">Seleccionar</button> (boton que seleciona el empleado)
-                    </td>
-                </tr>
             </table>
             <div class="modal fade" id="modal-proveedor" tabindex="-1" aria-hidden="true" aria-labelledby="label-modal-proveedor" data-bs-backdrop="static">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -76,18 +53,21 @@ app::llamarLayout('header');
                             </h3>
                             <button class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                         </div>
-                        <div class="modal-body row m-3">
+                        <div id="modal-body" class="modal-body row m-3">
                             <label class="text-dark" for="proveedor-nombre-registro">Nombre comercial</label>
-                            <input type="text" name="proveedor-nombre-registro" id="proveedor-nombre-registro" placeholder="ej: Mi empresa">
+                            <input type="text" name="proveedor-nombre-registro" id="proveedor-nombre-registro" placeholder="ej: Mi empresa" disabled>
                             <label class="text-dark" for="proveedor-dni-registro">CIF</label>
-                            <input type="text" name="proveedor-cif-registro" id="proveedor-cif-registro" placeholder="Y12345678X / 25148596D">
+                            <input type="text" name="proveedor-cif-registro" id="proveedor-cif-registro" placeholder="Y12345678X / 25148596D" disabled>
                             <label class="text-dark" for="proveedor-direccion-registro">Direccion</label>
-                            <input type="text" name="proveedor-direccion-registro" id="proveedor-direccion-registro" placeholder="Calle Anton 14">
+                            <input type="text" name="proveedor-direccion-registro" id="proveedor-direccion-registro" placeholder="Calle Anton 14" disabled>
                             <label class="text-dark" for="proveedor-email-registro">Correo electronico</label>
-                            <input type="email" name="proveedor-email-registro" id="proveedor-email-registro" placeholder="Mi_usuario@email.org">
+                            <input type="email" name="proveedor-email-registro" id="proveedor-email-registro" placeholder="Mi_usuario@email.org" disabled>
                             <label class="text-dark" for="proveedor-telefono-registro">Telefono de contacto</label>
-                            <input type="tel" name="proveedor-telefono-registro" id="proveedor-telefono-registro" placeholder="6245854132">
-                            <button name="mofificar-proveedor" id="mofificar-proveedor" data-bs-dismiss="modal">Modificar
+                            <input type="tel" name="proveedor-telefono-registro" id="proveedor-telefono-registro" placeholder="6245854132" disabled>
+                            <label class="text-dark" for="proveedor-pcontacto-registro">Persona de contacto</label>
+                            <input type="text" name="proveedor-pcontacto-registro" id="proveedor-pcontacto-registro" placeholder="Juan Manuel" disabled>
+
+                            <button name="mofificar-proveedor" id="mofificar" >Modificar
                             </button>
                             <button name="dar-baja-proveedor" id="dar-baja-proveedor" data-bs-dismiss="modal">Dar baja </button>
                         </div>

@@ -32,9 +32,9 @@ app::llamarLayout('header');
                 <label for="factura-codigo-registrar">Codigo factura</label>
                 <input type="text" class="form-control" name="factura-codigo-registrar" id="factura-codigo-registrar" placeholder="ej: MS542" disabled>
                 <select>
-                    <option value="Servicio 1"> Servicio  1</option>
-                    <option value="Servicio 1"> Servicio  1</option>
-                    <option value="Servicio 1"> Servicio  1</option>
+                    <option value="Servicio 1"> Servicio 1</option>
+                    <option value="Servicio 1"> Servicio 1</option>
+                    <option value="Servicio 1"> Servicio 1</option>
                 </select>
                 <div class="clientes-servicios-resumen bg-dark">
                     <p class="servicio">datos del Servicio</p>
@@ -42,12 +42,12 @@ app::llamarLayout('header');
                     <!-- parrafo en ibput se generan juntos  simepre -->
                 </div>
             </div>
-            <button name="registrar" id="registrar" >Generar Factura</button>
+            <button name="registrar" id="registrar">Generar Factura</button>
         </div>
         <!-- ENCONTRAR LA FORMA DE ENVIAR UN CONTRASEÑA POR MAIL O HACERLO QUE AL INICIAR SECION CAMBIE LA CONTRASEÑA-->
         <!-- esto se sera una lista interactiva que se rellenara automaticamente cuando con js  con unos registro que obtendra de php-DDBB -->
         <div id="lista-vista" class="d-flex flex-column table-responsive">
-            <table class="table  table-hover table-sm">
+            <table class="table  table-hover table-sm" id="tabla-datos-pagina">
                 <tr class="table-dark">
 
                     <!-- rellenar con  -->
@@ -57,24 +57,7 @@ app::llamarLayout('header');
                     <td>Precio con IVA</td>
                     <td>Seleccionar</td>
                 </tr>
-                <tr>
-                    <td>Cod Factura</td>
-                    <td>Cod Presupuesto</td>
-                    <td>Precio sin IVA</td>
-                    <td>Precio con IVA</td>
 
-                    <td><button name="servicio-id-numeroid" id="id-3" data-bs-toggle="modal" data-bs-target="#modal-servicio">Seleccionar</button> (boton que seleciona el servicio)
-                    </td>
-                </tr>
-                <tr>
-                    <td>Cod Factura</td>
-                    <td>Cod Presupuesto</td>
-                    <td>Precio sin IVA</td>
-                    <td>Precio con IVA</td>
-
-                    <td><button name="servicio-id-numeroid" id="id-3" data-bs-toggle="modal" data-bs-target="#modal-servicio">Seleccionar</button> (boton que seleciona el servicio)
-                    </td>
-                </tr>
                 <tr>
                     <td>Cod Factura</td>
                     <td>Cod Presupuesto</td>
@@ -97,7 +80,7 @@ app::llamarLayout('header');
                             </h3>
                             <button class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                         </div>
-                        <div class="modal-body row m-3 bg-dark">
+                        <div id="modal-body" class="modal-body row m-3 bg-dark">
                             <div class="col-12 col-md border ficha-cliente-factura sticky-top bg-dark">
                                 <p class="cliente-cif">nif cliente</p>
                                 <p class="cliente-nombre">Nombre</p>
@@ -107,11 +90,16 @@ app::llamarLayout('header');
                                 <p class="cliente-contacto">contacto</p>
                             </div>
                             <!-- arreglar el proble del scroll en top -->
-                            <div class="clientes-servicios-resumen-factura bg-dark overflow-scroll">
-                                <p class="servicio">datos del Servicio</p>
+                            <div class="clientes-servicios-resumen-factura bg-dark  border my-1 d-flex justify-content-between">
+                                <p class="servicio">Datos del Servicio</p>
 
                                 <input type="hidden" name="idservicio" id="idServici">
                                 <!-- parrafo en ibput se generan juntos  simepre -->
+                            </div>
+                            <div class="clientes-servicios-resumen-factura bg-dark  border my-1 d-flex justify-content-between">
+                                <p class="servicio">Precio total</p>
+
+
                             </div>
                             <button name="factura-pdf" id="factura-pdf" data-bs-dismiss="modal">Generar PDF
                             </button>

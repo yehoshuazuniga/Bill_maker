@@ -35,7 +35,7 @@ app::llamarLayout('header');
         <!-- ENCONTRAR LA FORMA DE ENVIAR UN CONTRASEÑA POR MAIL O HACERLO QUE AL INICIAR SECION CAMBIE LA CONTRASEÑA-->
         <!-- esto se sera una lista interactiva que se rellenara automaticamente cuando con js  con unos registro que obtendra de php-DDBB -->
         <div id="lista-vista" class="d-flex flex-column table-responsive">
-            <table class="table  table-hover table-sm">
+            <table class="table  table-hover table-sm" id="tabla-datos-pagina">
                 <tr class="table-dark">
                     <td>Cod Servicio</td>
                     <td>Servicio/Producto</td>
@@ -63,7 +63,7 @@ app::llamarLayout('header');
                             </h3>
                             <button class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                         </div>
-                        <div class="modal-body row m-3">
+                        <div id="modal-body" class="modal-body row m-3">
                             <label class="text-dark" for="servicio-nombre-registro">Servicio</label>
                             <input type="text" name="servicio-nombre-registro" id="servicio-nombre-registro" placeholder="ej: Mi empresa">
                             <label class="text-dark" for="servicio-codigo-registro">Cod. Servicio</label>
@@ -80,7 +80,7 @@ app::llamarLayout('header');
                             <label class="text-dark" for="servicio-codigoProductoExterno-registrar">Codigo del
                                 producto externo</label>
                             <input type="text" maxlength="7" class="servicio-codigoProductoExterno-registrar" id="servicio-codigoProductoExterno-registrar">
-                            <button name="mofificar-servicio" id="mofificar-servicio">Modificar
+                            <button name="mofificar-servicio" id="mofificar">Modificar
                             </button>
                             <button name="dar-baja-servicio" id="dar-baja-servicio" data-bs-dismiss="modal">Dar baja
                             </button>

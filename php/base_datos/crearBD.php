@@ -149,20 +149,16 @@ class BBDD
     {
         //  $this->conexion = new mysqli('localhost', 'banco', '', 'banco');
 
-        $sql = "CREATE TABLE IF NOT EXISTS presupuestos (
+        $sql = "CREATE TABLE IF NOT EXISTS presupuestsos (
                 idPresupuesto VARCHAR(9) NOT NULL,
                 dniCliente VARCHAR(10) NOT NULL,
-                idServicios VARCHAR(7) NOT NULL,
                 idEmpleado VARCHAR(7) NOT NULL,
                 precio INT NOT NULL,
                 fechaCreacion DATETIME NOT NULL,
                 PRIMARY KEY (idPresupuesto),
                 UNIQUE INDEX idCliente_UNIQUE (dniCliente ASC),
                 INDEX idEmpleado_idx (idEmpleado ASC),
-                UNIQUE INDEX idEmpleado_UNIQUE (idEmpleado ASC),
-                CONSTRAINT idServicios
-                    FOREIGN KEY (idServicios)
-                    REFERENCES servicios (idServicios),
+                UNIQUE INDEX idPresupuesto_UNIQUE (idPresupuesto ASC),
                 CONSTRAINT idEmpleado
                     FOREIGN KEY (idEmpleado)
                     REFERENCES empleados (idEmpleado),
@@ -178,25 +174,22 @@ class BBDD
         //  $this->conexion = new mysqli('localhost', 'banco', '', 'banco');
 
         $sql = "CREATE TABLE IF NOT EXISTS facturas (
-                idFacturas VARCHAR(9) NOT NULL UNIQUE,
-                dni VARCHAR(10) NOT NULL,
-                idServicios VARCHAR(7) NOT NULL,
-                idEmpleado VARCHAR(7) NOT NULL,
-                idPresupuesto VARCHAR(45) NULL,
-                precioTotalSinIva INT NOT NULL,
-                fechaCreacion DATETIME NOT NULL,
-                PRIMARY KEY (idFacturas),
-                INDEX idPresupuesto_idx (idPresupuesto ASC),
-                UNIQUE INDEX dni_UNIQUE (dni ASC),
-                UNIQUE INDEX idEmpleado_UNIQUE (idEmpleado ASC),
-                    FOREIGN KEY (idServicios)
-                    REFERENCES servicios (idServicios),
-                    FOREIGN KEY (idEmpleado)
-                    REFERENCES empleados (idEmpleado),
-                    FOREIGN KEY (idPresupuesto)
-                    REFERENCES presupuestos (idPresupuesto),
-                    FOREIGN KEY (dni)
-                    REFERENCES clientes (dni))";
+            idFacturas VARCHAR(9) NOT NULL UNIQUE,
+            dni VARCHAR(10) NOT NULL,
+            idEmpleado VARCHAR(7) NOT NULL,
+            idPresupuesto VARCHAR(45) NULL,
+            precioTotalSinIva INT NOT NULL,
+            fechaCreacion DATETIME NOT NULL,
+            PRIMARY KEY (idFacturas),
+            INDEX idPresupuesto_idx (idPresupuesto ASC),
+            UNIQUE INDEX dni_UNIQUE (dni ASC),
+            UNIQUE INDEX idEmpleado_UNIQUE (idEmpleado ASC),
+            FOREIGN KEY (idEmpleado)
+            REFERENCES empleados (idEmpleado),
+            FOREIGN KEY (idPresupuesto)
+            REFERENCES presupuestos (idPresupuesto),
+            FOREIGN KEY (dni)
+            REFERENCES clientes (dni))";
 
         $enlace->query($sql);
         // if(!$sentencia)
