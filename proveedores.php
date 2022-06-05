@@ -51,7 +51,7 @@ app::llamarLayout('header');
                             <h3 class="modal-title">
                                 Registro tus datos
                             </h3>
-                            <button class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                            <button class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" id=cerrar-modal></button>
                         </div>
                         <div id="modal-body" class="modal-body row m-3">
                             <label class="text-dark" for="proveedor-nombre-registro">Nombre comercial</label>

@@ -24,7 +24,7 @@
                         bg-primary">
                 <div class="registro_formulario col d-grid  mx-2  mt-3 gap-2 mb-0  align-self-start align-self-md-center" id="registro_formulario">
                     <label for="usuario_nick">Nombre del usuario</label>
-                    <input type="text" id="usuario_nick" name="usuario_np" placeholder="ejemplo: Mi_usuario@email.org" value="yehoshua_gt@bill-maker.com">
+                    <input type="text" id="usuario_nick" name="usuario_np" placeholder="ejemplo: Mi_usuario@email.org" value="arturo.soria_ep@chocolates-union.com">
                     <label for="usuario_password">Password</label>
                     <input type="password" id="usuario_password" name="usuario_np" autocomplete="on" value="password">
                     <button name="boton_envio" id="envio" class="btn btn-primary"> Acceder</button>
@@ -40,7 +40,7 @@
                                     <h3 class="modal-title">
                                         Registro tus datos
                                     </h3>
-                                    <button class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                                    <button class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" id=cerrar-modal></button>
                                 </div>
                                 <div class="modal-body row m-3 bg-dark d-flex gap-2" id="formulario_registrar">
                                     <label for="usuario_nick_registro">Nombre de la empresa</label>

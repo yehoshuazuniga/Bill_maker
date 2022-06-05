@@ -35,6 +35,10 @@ function cargarEventos() {
             document.getElementById('mofificar').addEventListener('click', desbloquearInputs, true);
 
         } // eventos pequeños
+        if (!!document.getElementById('cerrar-modal')) {
+            document.getElementById('cerrar-modal').addEventListener('click', bloquearInputs, true);
+
+        } // eventos pequeños
         //   document.getElementById('logo').addEventListener('click', compo, true);
     }
 }
@@ -530,13 +534,122 @@ function idProveedorProdExt(e) {
     imputCodProExt();
 }
 
-function tablaListaClientes(datos) {}
+function tablaListaClientes(datos) {
 
-function tablaListaEmpleados(datos) {}
+    tablaProveedoresId = document.getElementById('tabla-datos-pagina').getElementsByTagName('tbody')[0];
+    let fila = '';
+    for (let i = 0; i < datos.length; i++) {
+        const element = datos[i];
 
-function tablaListaFacturas(datos) {}
+        fila = `<tr>
+                    <td>${element['nombreEmpresa']}</td>
+                    <td>${element['dni']}</td>
+                    <td>${element['telefono'] == null ? '- - - - - -' : element['telefono']}</td>
+                    <td>${element['email']}</td>
+                    <td>
+                        <button name="botones-lista" id="${element['dni']}" data-bs-toggle="modal" data-bs-target="#modal-cliente">Seleccionar</button>
 
-function tablaListaPresupuestos(datos) {}
+                    </td>
+                </tr>`;
+        tablaProveedoresId.innerHTML += fila;
+    }
+    //cuando creamos los botones, le añadimos a todos un escuchador
+    if (document.getElementsByName('botones-lista').length > 0) {
+        boton = document.getElementsByName('botones-lista');
+        for (let i = 0; i < boton.length; i++) {
+            boton[i].addEventListener('mouseover', rellenarModal, true);
+        }
+    }
+
+}
+
+function tablaListaEmpleados(datos) {
+
+    tablaProveedoresId = document.getElementById('tabla-datos-pagina').getElementsByTagName('tbody')[0];
+    let fila = '';
+    for (let i = 0; i < datos.length; i++) {
+        const element = datos[i];
+
+        nombre = (element['nombre'].substring(0, 1)).toLocaleLowerCase() + '' + element['nombre'].substring(1, element['nombre'].length);
+        apellido = ((element['apellido']).substring(0, 1)).toLocaleLowerCase() + '' + (element['apellido']).substring(1, element['apellido'].length);
+
+        fila = `<tr>
+                    <td>${element['idEmpleado']}</td>
+                    <td> ${nombre} ${apellido}</td>
+                    <td>${element['telefono'] == null ? '- - - - - -' : element['telefono']}</td>
+                    <td>${element['email']}</td>
+                    <td>
+                        <button name="botones-lista" id="${element['dni']}" data-bs-toggle="modal" data-bs-target="#modal-empleado">Seleccionar</button>
+
+                    </td>
+                </tr>`;
+        tablaProveedoresId.innerHTML += fila;
+    }
+    //cuando creamos los botones, le añadimos a todos un escuchador
+    if (document.getElementsByName('botones-lista').length > 0) {
+        boton = document.getElementsByName('botones-lista');
+        for (let i = 0; i < boton.length; i++) {
+            boton[i].addEventListener('mouseover', rellenarModal, true);
+        }
+    }
+}
+
+function tablaListaFacturas(datos) {
+
+    tablaProveedoresId = document.getElementById('tabla-datos-pagina').getElementsByTagName('tbody')[0];
+    let fila = '';
+    for (let i = 0; i < datos.length; i++) {
+        const element = datos[i];
+
+        fila = `<tr>
+                    <td>${element['idFacturas']}</td>
+                    <td>${element['idPresupuesto'] == null ? '' : element['idPresupuesto']}</td>
+                    <td>${element['precioTotalSinIva']} €</td>
+                    <td>${parseInt(element['precioTotalSinIva']) * 1.21} €</td>
+
+                    <td>
+                       <button name="botones-lista"  id="${element['idFacturas']}" data-bs-toggle="modal" data-bs-target="#modal-factura">Seleccionar</button>
+                    </td>
+                </tr>
+                `;
+        tablaProveedoresId.innerHTML += fila;
+    }
+    //cuando creamos los botones, le añadimos a todos un escuchador
+    if (document.getElementsByName('botones-lista').length > 0) {
+        boton = document.getElementsByName('botones-lista');
+        for (let i = 0; i < boton.length; i++) {
+            boton[i].addEventListener('mouseover', rellenarModal, true);
+        }
+    }
+
+}
+
+function tablaListaPresupuestos(datos) {
+
+    tablaProveedoresId = document.getElementById('tabla-datos-pagina').getElementsByTagName('tbody')[0];
+    let fila = '';
+    for (let i = 0; i < datos.length; i++) {
+        const element = datos[i];
+
+        fila = `<tr>
+                    <td>${element['idPresupuesto']}</td>
+                    <td>${element['precio']} €</td>
+                    <td>${parseInt((element['precio'] * 1.21))} €</td>
+                    <td>
+                        <button name="botones-lista" id="${element['idPresupuesto']}" data-bs-toggle="modal" data-bs-target="#modal-presupuesto">Seleccionar</button>
+                    </td>
+                </tr>`;
+        tablaProveedoresId.innerHTML += fila;
+    }
+    //cuando creamos los botones, le añadimos a todos un escuchador
+    if (document.getElementsByName('botones-lista').length > 0) {
+        boton = document.getElementsByName('botones-lista');
+        for (let i = 0; i < boton.length; i++) {
+            boton[i].addEventListener('mouseover', rellenarModal, true);
+        }
+    }
+
+}
 
 //crea la tabla de los proveedores con eventos
 function tablaListaProveedores(datos) {
@@ -566,7 +679,33 @@ function tablaListaProveedores(datos) {
 
 }
 
-function tablaListaServicios(datos) {}
+function tablaListaServicios(datos) {
+
+    tablaProveedoresId = document.getElementById('tabla-datos-pagina').getElementsByTagName('tbody')[0];
+    let fila = '';
+    for (let i = 0; i < datos.length; i++) {
+        const element = datos[i];
+
+        fila = `<tr>
+                    <td>${element['idServicios']}</td>
+                    <td>${element['nombre']}</td>
+                    <td>${element['descripcion']}</td>
+                    <td>${(element['idProducto'] == null ? 'No' : 'Si')}</td>
+                    <td>${element['precio']} €</td>
+                    <td><button name="botones-lista" id="${element['idServicios']}" data-bs-toggle="modal" data-bs-target="#modal-servicio">Seleccionar</button> 
+                    </td>
+                </tr>`;
+        tablaProveedoresId.innerHTML += fila;
+    }
+    //cuando creamos los botones, le añadimos a todos un escuchador
+    if (document.getElementsByName('botones-lista').length > 0) {
+        boton = document.getElementsByName('botones-lista');
+        for (let i = 0; i < boton.length; i++) {
+            boton[i].addEventListener('mouseover', rellenarModal, true);
+        }
+    }
+
+}
 // filta que lista se va a usar
 function seleccionarTabla(nombreTabla, datosTabla) {
     switch (nombreTabla) {
@@ -590,6 +729,29 @@ function seleccionarTabla(nombreTabla, datosTabla) {
             break;
     }
 }
+//funcion que fuiltra el modal que se tiene que rellenar
+function seleccionarModal(nombrePagina, datosParaMOdal) {
+    switch (nombrePagina) {
+        case 'clientes':
+            camposModalClientes(datosParaMOdal);
+            break;
+        case 'empleados':
+            camposModalEmpleados(datosParaMOdal);
+            break;
+        case 'facturas':
+            camposModalFacturas(datosParaMOdal);
+            break;
+        case 'presupuestos':
+            camposModalPresupuestos(datosParaMOdal);
+            break;
+        case 'proveedores':
+            camposModalProveedores(datosParaMOdal);
+            break;
+        case 'servicios':
+            camposModalServicios(datosParaMOdal)
+            break;
+    }
+}
 
 //crea las lista en el panel de lista vista
 function crearLIstas() {
@@ -608,7 +770,61 @@ function crearLIstas() {
     xhttp.send(nombrePagina + '=' + nombreSolicitud);
 }
 
-function camposModal(datos) {
+function camposModalClientes(datos) {
+    modal = document.getElementById('modal-body');
+    input = modal.getElementsByTagName('input');
+    input[0].value = datos['nombreEmpresa'];
+    input[1].value = datos['dni'];
+    input[2].value = datos['direccion'];
+    input[3].value = datos['email'];
+    input[4].value = datos['telefono'];
+}
+
+function camposModalEmpleados(datos) {
+    nombre = (datos['nombre'].substring(0, 1)).toLocaleLowerCase() + '' + datos['nombre'].substring(1, datos['nombre'].length);
+    apellido = ((datos['apellido']).substring(0, 1)).toLocaleLowerCase() + '' + (datos['apellido']).substring(1, datos['apellido'].length);
+
+    modal = document.getElementById('modal-body');
+    input = modal.getElementsByTagName('input');
+
+    input[0].value = nombre + ' ' + apellido;
+    input[1].value = datos['dni'];
+    input[2].value = datos['direccion'];
+    input[3].value = datos['email'];
+    input[4].value = datos['telefono'] == null ? '- - - - - -' : datos['telefono'];
+}
+
+function camposModalFacturas(datos) {
+    modal = document.getElementById('modal-body');
+    span = modal.getElementsByTagName('span');
+    c = 0;
+    //alert(JSON.stringify(datos))
+    for (const k in datos) {
+        if (Object.hasOwnProperty.call(datos, k)) {
+            const dato = datos[k];
+            span[c].innerHTML = dato;
+            c++;
+        }
+    }
+    //   span[span.length].innerHTML = (parseInt(datos['precioTotalSinIva']) * 1.21);
+}
+
+function camposModalPresupuestos(datos) {
+    modal = document.getElementById('modal-body');
+    span = modal.getElementsByTagName('span');
+    c = 0;
+    //alert(JSON.stringify(datos))
+    for (const k in datos) {
+        if (Object.hasOwnProperty.call(datos, k)) {
+            const dato = datos[k];
+            span[c].innerHTML = dato;
+            c++;
+        }
+    }
+    //  span[span.length].innerHTML = (parseInt(datos[span.length]) * 1.21);
+}
+
+function camposModalProveedores(datos) {
     modal = document.getElementById('modal-body');
     input = modal.getElementsByTagName('input');
     input[0].value = datos['dni'];
@@ -619,7 +835,22 @@ function camposModal(datos) {
     input[5].value = datos['personaContacto'];
 }
 
+function camposModalServicios(datos) {
+    modal = document.getElementById('modal-body');
+    input = modal.getElementsByTagName('input');
+    input[0].value = datos['nombre'];
+    input[1].value = datos['idServicios'];
+    input[2].value = datos['descripcion'];
+    input[3].value = datos['precio'];
+    input[4].value = (parseInt(datos['precio']) * 1.21);
+    input[5].checked = datos['idProducto'] == 'null' ? false : true;
+    input[6].value = datos['idProducto'];
+}
+
+
+
 function rellenarModal(e) {
+    //alert(e.target.id)
     dni = e.target.id;
     pagina = localizarDondeEstoy();
     varServ = 'soicitarUnRegistro';
@@ -629,7 +860,8 @@ function rellenarModal(e) {
     xhttp.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
             const objInfo = JSON.parse(this.responseText);
-            camposModal(objInfo[0]);
+            seleccionarModal(pagina, objInfo[0]);
+            // camposModalProveedores(objInfo[0]);
             //    alert(JSON.stringify(objInfo));
         }
     }
@@ -643,5 +875,13 @@ function desbloquearInputs() {
     input = modal.getElementsByTagName('input');
     for (let i = 0; i < input.length; i++) {
         input[i].disabled = false;
+    }
+}
+
+function bloquearInputs() {
+    modal = document.getElementById('modal-body');
+    input = modal.getElementsByTagName('input');
+    for (let i = 0; i < input.length; i++) {
+        input[i].disabled = true;
     }
 }

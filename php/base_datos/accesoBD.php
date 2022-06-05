@@ -49,11 +49,12 @@ class Funciones_en_BBDD extends BBDD
 
     function extraerDatos($usu, $pass)
     {
+        //  echo " $usu -----  $pass ";
         $datos = [];
 
         $sent1 = '  SELECT  g.basedatos FROM gerente g , empleados e
                         WHERE g.idGerente=e.idGerente AND ( (e.usuario= :usu AND e.password = :pass) OR
-                                                            (g.usuario= :usu AND g.password = :pass));
+                                                            (g.usuario= :usu AND g.password = :pass)) LIMIT 1 
                     ';
         $sentPre = $this->conexion->prepare($sent1);
         $sentPre->execute(
@@ -257,24 +258,20 @@ class Funciones_en_BBDD extends BBDD
         switch ($solicitante) {
             case 'clientes':
 
-                $sql = 'SELECT dni, nombreEmpresa, telefono, mail, direccion  FROM ' . $solicitante;
+                $sql = 'SELECT *  FROM ' . $solicitante;
                 break;
 
             case 'empleados':
-                if ($dni !== '') {
-                    $sql2 = ', dni, direccion ';
-                }
-                $sql = 'SELECT idEmpleado, nombre, apellido, telefono, email ' . $sql2 . 'FROM ' . $solicitante;
+
+                $sql = 'SELECT idEmpleado, nombre, apellido, telefono, email, dni, direccion FROM ' . $solicitante;
                 break;
             case 'facturas':
-                if ($dni !== '') {
-                    $sql2 = ', dni, direccion ';
-                }
+
                 $sql =
-                    'SELECT idFacturas, idPresupuesto, precioTotalSinIva  ' . $sql2 . 'FROM ' . $solicitante;
+                    'SELECT * FROM ' . $solicitante;
                 break;
             case 'presupuestos':
-                $sql = 'SELECT idPresupuesto, precio FROM ' . $solicitante;
+                $sql = 'SELECT * FROM ' . $solicitante;
                 break;
             case 'proveedores':
                 $sql = 'SELECT * FROM ' . $solicitante;
@@ -297,15 +294,36 @@ class Funciones_en_BBDD extends BBDD
 
     function devolverUnRegistro($tabla, $dni)
     {
-        $sql = $this->identificaLista_vita($tabla, $dni );
+        $sql = $this->identificaLista_vita($tabla, $dni);
 
-        $sql =  $sql.' WHERE dni=?';
+        $where =  ' WHERE dni=?';
+        if ($tabla === 'servicios') {
+            $where =  ' WHERE idServicios=?';
+        }
+        if ($tabla === 'presupuestos') {
+            $sql = '';
+            $sql =  'SELECT c.dni, c.nombreEmpresa, p.idPresupuesto, 
+                    c.direccion, c.email, c.telefono, 
+                    c.personaContacto, p.fechaCreacion, p.precio 
+                    FROM presupuestos p, clientes c';
+            $where =  ' WHERE p.dniCliente=c.dni AND p.idPresupuesto=?';
+
+        }
+
+        if ($tabla === 'facturas') {
+            $sql = '';
+            $sql =  'SELECT c.dni, c.nombreEmpresa, f.idFacturas, f.idPresupuesto, c.direccion, c.email, c.telefono, 
+                        c.personaContacto, f.fechaCreacion, f.precioTotalSinIva FROM
+                        facturas f, clientes c ';
+            $where =  ' WHERE f.dni=c.dni AND f.idFacturas=?';
+        }
+
+        $sql = $sql . '' . $where;
         $sentPre = $this->conexion->prepare($sql);
-        $sentPre->bindParam(1,$dni,PDO::PARAM_STR);
+        $sentPre->bindParam(1, $dni, PDO::PARAM_STR);
         $sentPre->execute();
 
         return $sentPre->fetchAll(PDO::FETCH_ASSOC);
-
     }
 
     // esta funcion solo es de prueba no sirv epara nada mas

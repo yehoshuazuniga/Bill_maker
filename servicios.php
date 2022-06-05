@@ -2,6 +2,7 @@
 app::llamarLayout('header');
 ?>
 <section class="row bg-primary">
+    <h2 class="g2 text-center"> Servicios</h2>
     <aside class="col col-lg-auto pe-4 col-12 " id="funcionesPagina">
         <ul class="nav d-flex flex-lg-column flex-row justify-content-around pe-md-5 pe-0">
             <li class="mb-lg-5 mb-0 btn listarClientes" id="panelLista">
@@ -14,7 +15,7 @@ app::llamarLayout('header');
     </aside>
 
     <!-- esta es la pestñana que aparecera cuando se registra un nuevo cliente -->
-    <main class=" col-md bg-info">
+    <div class="col-12 col-md bg-info">
         <div id="registrar-vista" class="d-flex flex-column d-none gap-2 pb-3">
             <label for="servicio-nombre-registrar">Nombre del servicio </label>
             <input type="text" name="servicio-nombre-registrar" id="servicio-nombre-registrar" placeholder="ej: Mi servicio">
@@ -39,20 +40,12 @@ app::llamarLayout('header');
                 <tr class="table-dark">
                     <td>Cod Servicio</td>
                     <td>Servicio/Producto</td>
+                    <td>Descripcion</td>
+                    <td>es externo?</td>
                     <td>Precio sin IVA</td>
-                    <td>Precio con IVA</td>
-                    <td>es externo? (introducr un si/no)</td>
                     <td>Seleccionar</td>
                 </tr>
-                <tr>
-                    <td>serv12345</td>
-                    <td>Nombre</td>
-                    <td>Telefono</td>
-                    <td>Email</td>
-                    <td>es externo? (introducr un si/no)</td>
-                    <td><button name="servicio-id-numeroid" id="id-3" data-bs-toggle="modal" data-bs-target="#modal-servicio">Seleccionar</button> (boton que seleciona el servicio)
-                    </td>
-                </tr>
+
             </table>
             <div class="modal fade" id="modal-servicio" tabindex="-1" aria-hidden="true" aria-labelledby="label-modal-servicio" data-bs-backdrop="static">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -61,25 +54,25 @@ app::llamarLayout('header');
                             <h3 class="modal-title">
                                 Registro tus datos
                             </h3>
-                            <button class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                            <button class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" id=cerrar-modal></button>
                         </div>
                         <div id="modal-body" class="modal-body row m-3">
                             <label class="text-dark" for="servicio-nombre-registro">Servicio</label>
-                            <input type="text" name="servicio-nombre-registro" id="servicio-nombre-registro" placeholder="ej: Mi empresa">
+                            <input type="text" name="servicio-nombre-registro" id="servicio-nombre-registro" placeholder="ej: Mi Servicio" disabled>
                             <label class="text-dark" for="servicio-codigo-registro">Cod. Servicio</label>
-                            <input type="text" name="servicio-codigo-registro" id="servicio-codigo-registro" placeholder="SERV123">
+                            <input type="text" name="servicio-codigo-registro" id="servicio-codigo-registro" placeholder="SERV123" disabled>
                             <label class="text-dark" for="servicio-descripcion-registro">Direccion</label>
-                            <input type="text" name="servicio-descripcion-registro" id="servicio-descripcion-registro" placeholder="descripcion del servicio">
+                            <input type="text" name="servicio-descripcion-registro" id="servicio-descripcion-registro" placeholder="descripcion del servicio" disabled>
                             <label class="text-dark" for="servicio-precioSinIva-registro">Precio sin IVA</label>
-                            <input type="decimal" step="any" name="servicio-precioSinIva-registro" id="servicio-precioSinIva-registro" placeholder="15.55">
+                            <input type="decimal" step="any" name="servicio-precioSinIva-registro" id="servicio-precioSinIva-registro" placeholder="15.55" disabled>
                             <label class="text-dark" for="servicio-precioConIva-registro">Precio con IVA</label>
-                            <input type="number" name="servicio-precioConIva-registro" id="servicio-precioConIva-registro" placeholder="17.49">
+                            <input type="number" name="servicio-precioConIva-registro" id="servicio-precioConIva-registro" placeholder="17.49" disabled>
                             <label class="text-dark" for="servicio-productoExterno-registro">Es un productos
                                 externo?</label>
-                            <input type="checkbox" name="servicio-productoExterno-registrar" id="servicio-productoExterno-registrar">
+                            <input type="checkbox" name="servicio-productoExterno-registrar" id="servicio-productoExterno-registrar" disabled>
                             <label class="text-dark" for="servicio-codigoProductoExterno-registrar">Codigo del
                                 producto externo</label>
-                            <input type="text" maxlength="7" class="servicio-codigoProductoExterno-registrar" id="servicio-codigoProductoExterno-registrar">
+                            <input type="text" maxlength="7" class="servicio-codigoProductoExterno-registrar" id="servicio-codigoProductoExterno-registrar" disabled>
                             <button name="mofificar-servicio" id="mofificar">Modificar
                             </button>
                             <button name="dar-baja-servicio" id="dar-baja-servicio" data-bs-dismiss="modal">Dar baja
@@ -90,10 +83,8 @@ app::llamarLayout('header');
 
             </div>
         </div>
-    </main>
+    </div>
 </section>
-</body>
-<script src="./js/bootstrap_js/bootstrap.bundle.min.js"></script>
-<script src="./js/app/app.js"></script>
-
-</html>
+<?php
+app::llamarLayout('footer');
+?>

@@ -16,8 +16,10 @@ if (isset($_POST['accesousuario'])) {
     $usuario = $seguridad->filtrado($datosEnt->usuario_nick);
     $pass = $seguridad->filtrado($datosEnt->usuario_password);
     $datosSesiones = $conex->extraerDatos($usuario, $pass);
-
+    
     if ($conex->verificarUsuario($usuario, $pass) && count($datosSesiones) > 1) {
+     // echo'accede 1';
+        //print_r($datosSesiones);
         $seguridad->tockenSession($datosSesiones[0], $datosSesiones[1]);
         if (count($_SESSION) === 4) {
             echo json_encode(true);

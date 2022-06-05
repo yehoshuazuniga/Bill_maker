@@ -41,53 +41,29 @@ app::llamarLayout('header');
 
                     <td>Seleccionar</td>
                 </tr>
-                <tr>
-                    <td>Codigo empleado</td>
-                    <td>Nombre</td>
-                    <td>Telefono</td>
-                    <td>Email</td>
-
-                    <td><button name="empleado-id-numeroid" id="id-1">Seleccionar</button> (boton que seleciona el empleado) </td>
-                </tr>
-                <tr>
-                    <td>Codigo empleado</td>
-                    <td>Nombre</td>
-                    <td>Telefono</td>
-                    <td>Email</td>
-
-                    <td><button name="empleado-id-numeroid" id="id-2">Seleccionar</button> (boton que seleciona el empleado) </td>
-                </tr>
-                <tr>
-                    <td>Codigo empleado</td>
-                    <td>Nombre</td>
-                    <td>Telefono</td>
-                    <td>Email</td>
-
-                    <td><button name="empleado-id-numeroid" id="id-3" data-bs-toggle="modal" data-bs-target="#modal-empleado">Seleccionar</button> (boton que seleciona el empleado)
-                    </td>
-                </tr>
+                
             </table>
             <div class="modal fade" id="modal-empleado" tabindex="-1" aria-hidden="true" aria-labelledby="label-modal-empleado" data-bs-backdrop="static">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h3 class="modal-title">
+                            <h3 class="modal-title"> disabled
                                 Registro tus datos
                             </h3>
-                            <button class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                            <button class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" id=cerrar-modal></button>
                         </div>
                         <div id="modal-body" class="modal-body row m-3">
                             <label class="text-dark" for="empleado-nombre-registro">Nombre</label>
-                            <input type="text" name="empleado-nombre-registro" id="empleado-nombre-registro" placeholder="ej: Juan">
+                            <input type="text" name="empleado-nombre-registro" id="empleado-nombre-registro" placeholder="ej: Juan" disabled>
                             <label class="text-dark" for="empleado-dni-registro">DNI/NIE</label>
-                            <input type="text" name="empleado-dni-registro" id="empleado-dni-registro" placeholder="Y12345678X / 25148596D">
+                            <input type="text" name="empleado-dni-registro" id="empleado-dni-registro" placeholder="Y12345678X / 25148596D" disabled>
                             <label class="text-dark" for="empleado-direccion-registro">Direccion</label>
-                            <input type="text" name="empleado-direccion-registro" id="empleado-direccion-registro" placeholder="Calle Anton 14">
+                            <input type="text" name="empleado-direccion-registro" id="empleado-direccion-registro" placeholder="Calle Anton 14" disabled>
                             <label class="text-dark" for="empleado-email-registro">Correo electronico</label>
-                            <input type="email" name="empleado-email-registro" id="empleado-email-registro" placeholder="Mi_usuario@email.org">
+                            <input type="email" name="empleado-email-registro" id="empleado-email-registro" placeholder="Mi_usuario@email.org" disabled>
                             <label class="text-dark" for="empleado-telefono-registro">Telefono de contacto</label>
-                            <input type="tel" name="empleado-telefono-registro" id="empleado-telefono-registro" placeholder="6245854132">
-                            <button name="mofificar-empleado" id="mofificar" data-bs-dismiss="modal">Modificar
+                            <input type="tel" name="empleado-telefono-registro" id="empleado-telefono-registro" placeholder="6245854132" disabled>
+                            <button name="mofificar-empleado" id="mofificar">Modificar
                             </button>
                             <button name="dar-baja-empleado" id="dar-baja-empleado" data-bs-dismiss="modal">Dar baja
                             </button>

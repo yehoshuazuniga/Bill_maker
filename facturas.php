@@ -57,48 +57,33 @@ app::llamarLayout('header');
                     <td>Precio con IVA</td>
                     <td>Seleccionar</td>
                 </tr>
-
-                <tr>
-                    <td>Cod Factura</td>
-                    <td>Cod Presupuesto</td>
-                    <td>Precio sin IVA</td>
-                    <td>Precio con IVA</td>
-
-                    <td><button name="servicio-id-numeroid" id="id-3" data-bs-toggle="modal" data-bs-target="#modal-servicio">Seleccionar</button> (boton que seleciona el servicio)
-                    </td>
-                </tr>
             </table>
-
             <!-- actualizar modal con lod datos de la factura y sus serviucios+2 -->
 
-            <div class="modal fade" id="modal-servicio" tabindex="-1" aria-hidden="true" aria-labelledby="label-modal-servicio" data-bs-backdrop="static">
+            <div class="modal fade" id="modal-factura" tabindex="-1" aria-hidden="true" aria-labelledby="label-modal-factura" data-bs-backdrop="static">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable ">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h3 class="modal-title">
+                            <h3 class="modal-title text-black">
                                 Datos factura
                             </h3>
-                            <button class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                            <button class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" id=cerrar-modal></button>
                         </div>
                         <div id="modal-body" class="modal-body row m-3 bg-dark">
-                            <div class="col-12 col-md border ficha-cliente-factura sticky-top bg-dark">
-                                <p class="cliente-cif">nif cliente</p>
-                                <p class="cliente-nombre">Nombre</p>
-                                <p class="cliente-direccion">direccion</p>
-                                <p class="cliente-email">email</p>
-                                <p class="cliente-telefono">telefono</p>
-                                <p class="cliente-contacto">contacto</p>
+                            <div class="col-12 col-md border ficha-cliente-factura- sticky-top bg-dark">
+                                <p class="fw-bold dato-factura">CIF: <span class="fw-ligth"></span></p>
+                                <p class="fw-bold dato-factura">Nombre: <span class="fw-ligth"></span> </p>
+                                <p class="fw-bold dato-factura">Factura: <span class="fw-ligth"></span> </p>
+                                <p class="fw-bold dato-factura">Presupuesto: <span class="fw-ligth"></span> </p>
+                                <p class="fw-bold dato-factura">Direccion: <span class="fw-ligth"></span> </p>
+                                <p class="fw-bold dato-factura">Email: <span class="fw-ligth"></span> </p>
+                                <p class="fw-bold dato-factura">Telefono: <span class="fw-ligth"></span> </p>
+                                <p class="fw-bold dato-factura">Contacto: <span class="fw-ligth"></span> </p>
+                                <p class="fw-bold dato-factura">Fecha Creacion: <span class="fw-ligth"></span> </p>
                             </div>
-                            <!-- arreglar el proble del scroll en top -->
-                            <div class="clientes-servicios-resumen-factura bg-dark  border my-1 d-flex justify-content-between">
-                                <p class="servicio">Datos del Servicio</p>
-
-                                <input type="hidden" name="idservicio" id="idServici">
-                                <!-- parrafo en ibput se generan juntos  simepre -->
-                            </div>
-                            <div class="clientes-servicios-resumen-factura bg-dark  border my-1 d-flex justify-content-between">
-                                <p class="servicio">Precio total</p>
-
+                            <div class="clientes-servicios-resumen-factura bg-dark  border my-1 d-flex justify-content-around">
+                                <p class="fw-bold">Precio total</p>
+                                <p class="dato-factura"> <span class="fw-ligth"></span> €</p>
 
                             </div>
                             <button name="factura-pdf" id="factura-pdf" data-bs-dismiss="modal">Generar PDF

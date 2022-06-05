@@ -90,7 +90,7 @@ class PuertasYcoyote
         }
     }
 
-    function cerrarSesion()
+    static function cerrarSesion()
     {
         $estado = false;
         $_SESSION = array();
