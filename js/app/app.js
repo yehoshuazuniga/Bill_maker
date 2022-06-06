@@ -85,6 +85,8 @@ function crearInputSelect(e) {
             texto = document.createTextNode(e.target.value)
             objetoHTML.appendChild(texto);
             document.getElementById('resumen_servicios').appendChild(objetoHTML);
+            
+            
         }
     }
 }
