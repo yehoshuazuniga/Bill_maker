@@ -31,15 +31,11 @@ app::llamarLayout('header');
                 <label for="presupuesto-codigo-registrar">Codigo presupuesto</label>
                 <input type="text" class="form-control" name="presupuesto-codigo-registrar" id="presupuesto-codigo-registrar" placeholder="ej: MS542" disabled>
                 <!-- esto sera un desplegable con las opciones de los serviccios -->
-                <select>
-                    <option value="proveedor1"> servicios 1</option>
-                    <option value="proveedor1"> servicios 1</option>
-                    <option value="proveedor1"> servicios 1</option>
-                </select>servicios
-                <div class="clientes-servicios-resumen bg-dark">
-                    <p class="servicio">datos del Servicio</p>
-                    <input type="hidden" name="idservicio" id="idServici">
-                    <!-- parrafo en ibput se generan juntos  simepre -->
+                <select id="servicios">
+                  
+                </select>
+                <div class="clientes-servicios-resumen bg-dark" id="resumen_servicios">
+                  
                 </div>
             </div>
             <button name="registrar" id="registrar">Generar

@@ -1,9 +1,9 @@
 <?php
-
+print( __DIR__);
 class Menus
 {
 
-    function menuGerente()
+    static function menuGerente()
     {
 ?>
         <li><a class="link-dark" href="./inicio.php">inicio</a></li>
@@ -13,7 +13,7 @@ class Menus
     <?php
     }
 
-    function menuEmpleado()
+    static function menuEmpleado()
     {
     ?>
         <li><a class="link-dark" href="./inicio.php">inicio</a></li>

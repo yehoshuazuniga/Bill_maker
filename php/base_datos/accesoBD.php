@@ -187,13 +187,15 @@ class Funciones_en_BBDD extends BBDD
     //registro del empleado y gerente 
     function registrarGer_Emp($datosEnt)
     {
+       // print_r($datosEnt);             
         $id = null;
         $usuario = null;
         $respuesta = null;
         $cargos = ['gerente', 'empleados'];
         $nombreApellido = explode(' ', $datosEnt->usuario_contacto);
         $nameBD_o_IdGerente = str_replace(' ', '_', (ltrim($datosEnt->usuario_nick_registro)));
-        $usuariosRegistrados_2 = [];
+      //  $usuariosRegistrados_2 = [];
+        $usuariosRegistrados_2 = 0;
         for ($i = 0; $i < count($cargos); $i++) {
             $sql = "INSERT INTO $cargos[$i] VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
             $sentPre = $this->conexion->prepare($sql);
@@ -211,48 +213,79 @@ class Funciones_en_BBDD extends BBDD
             $sentPre->bindParam(3, $nombreApellido[1], PDO::PARAM_STR);
             $sentPre->bindParam(4, $datosEnt->usuario_cif, PDO::PARAM_STR);
             $sentPre->bindParam(5, $datosEnt->usuario_email, PDO::PARAM_STR);
-            $sentPre->bindParam(6, $datosEnt->telefono, PDO::PARAM_STR);
+            $sentPre->bindParam(6, $datosEnt->usuario_telefono, PDO::PARAM_STR);
             $sentPre->bindParam(7, $datosEnt->usuario_direccion, PDO::PARAM_STR);
             $sentPre->bindParam(8, $nameBD_o_IdGerente, PDO::PARAM_STR);
             $sentPre->bindParam(9, $usuario, PDO::PARAM_STR);
             $sentPre->bindParam(10, $datosEnt->usuario_password_registro, PDO::PARAM_STR);
             $sentPre->execute();
-            if ($sentPre->rowCount() > 0) $usuariosRegistrados_2[$i] = $usuario;
+          //  if ($sentPre->rowCount() > 0) $usuariosRegistrados_2[$i] = $usuario;
+           if ($sentPre->rowCount() > 0) $usuariosRegistrados_2++;
         }
 
-        if (count($usuariosRegistrados_2) === 2 && $this->registrarUsuarios($usuariosRegistrados_2)) {
-            $respuesta = "Tablas de datos generadas, usuario gerente y empleado generados, sus credenciales se enviaran por mail";
-            //echo $respuesta;
+        /* if (  $this->registroTablaAcceso($datosEnt->usuarioGerente) && $this->registroTablaAcceso($datosEnt->usuarioEmpleado)) {
+           
+                $respuesta = "Tablas de datos generadas, usuario gerente y empleado generados, sus credenciales se enviaran por mail";
+                //echo $respuesta;
+            
         } else {
-            /*printf($usuario);
-            print_r($datosEnt); */
+            //printf($usuario);
+          //  print_r($datosEnt); 
             //echo "   paso por aqui";
-            if (count($usuariosRegistrados_2) === 2) {
+            if ($usuariosRegistrados_2 === 2) {
                 $respuesta = "Usuarios, empleado y gerente, insertados en sus respectivas tablas";
                 // echo "paso por el segundo registro";
             }
-        }
+        } */
+      if ($usuariosRegistrados_2 === 2) {
+        $respuesta = "Tablas de datos generadas, usuario gerente y empleado generados, sus credenciales se enviaran por mail";
+      }else{
+          $respuesta='vuelve a introducir los datos';
+      }
+
 
         return $respuesta;
     }
     function registroTablaAcceso($usuario)
     {
+        //echo $usuario;
+       try{
         $grabadoEnBBDD = false;
         $sql = 'INSERT INTO billmaker.acceso VALUES (?)';
         $sentPre = $this->conexion->prepare($sql);
         $sentPre->bindParam(1, $usuario, PDO::PARAM_STR);
         $sentPre->execute();
         if ($sentPre->rowCount() > 0) $grabadoEnBBDD = true;
+       }catch(PDOException $e){
+        $grabadoEnBBDD = true;
+       }
+       // echo $grabadoEnBBDD . "<---------------";
         return $grabadoEnBBDD;
     }
 
     // con un array introduce los usuarios que esten dentro de ele array
-    function registrarUsuarios($usuarioGR_EM)
+/*                                                                    
+                                                                             
+                     _________      ____                                                                                                                      
+                    |         \     |   |                                        
+                    |          \    |   |                                                               
+                    |    | \    \   |   |                                    
+                    |    |  \    \  |   |                                    
+                    |    |   \    \ |   |                                   
+                    |    |    \    \|   |                                   
+                    |    |     \        |                                    
+                    |    |      \_______|                                       
+   */ function registrarUsuarios($usuarioGR_EM)  
     {
         $grabadoEnBBDD = null;
         if (count($usuarioGR_EM) === 2) {
             for ($i = 0; $i < count($usuarioGR_EM); $i++) {
-                $grabadoEnBBDD = $this->registroTablaAcceso($usuarioGR_EM[$i]);
+                $grabadoEnBBDD = false;
+                $sql = 'INSERT INTO billmaker.acceso VALUES (?)';
+                $sentPre = $this->conexion->prepare($sql);
+                $sentPre->bindParam(1, $usuario, PDO::PARAM_STR);
+                $sentPre->execute();
+                if ($sentPre->rowCount() > 0) $grabadoEnBBDD = true;            
             }
         }
         return $grabadoEnBBDD;

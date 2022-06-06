@@ -34,8 +34,13 @@ function cargarEventos() {
             document.getElementById('mofificar').addEventListener('click', desbloquearInputs, true);
 
         } // eventos pequeños
+
+        if (!!document.getElementById('servicios')) {
+            crearSelecServicios();
+            document.getElementById('servicios').addEventListener('click', crearInputSelect, true);
+        }
         if (!!document.getElementById('cerrar-modal')) {
-            document.getElementById('cerrar-modal').addEventListener('click', bloquearInputs, true);
+            document.getElementById('cerrar-modal').addEventListener('blur', bloquearInputs, true);
 
         } // eventos pequeños
         //   document.getElementById('logo').addEventListener('click', compo, true);
@@ -44,6 +49,46 @@ function cargarEventos() {
 
 function prueba() {
     alert('e.target.value');
+}
+
+function crearResumen() {
+
+}
+
+
+function crearSelecServicios() {
+    let select = document.getElementById('servicios');
+    let varPOST = 'servicios';
+    const xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            const objInfo = JSON.parse(this.responseText);
+            options(objInfo, select, 'idServicios')
+
+        }
+    }
+    xhttp.open('POST', './php/appFunciones.php', true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(varPOST + '=' + varPOST);
+
+}
+/// cambiar idservicios por el precio 
+function crearInputSelect(e) {
+    sel = document.getElementById(e.target.id);
+    opt = sel.getElementsByTagName('option')
+    for (let i = 0; i < opt.length; i++) {
+        if (opt[i].selected ) {
+            atributos = {
+                'value': e.target.id, 'id': 'idServicios'
+            };
+            objetoHTML = crearObjHtml('p', atributos);
+            texto = document.createTextNode(e.target.value)
+            objetoHTML.appendChild(texto);
+            document.getElementById('resumen_servicios').appendChild(objetoHTML);
+            
+            
+        }
+    }
 }
 
 //crea un objeto html 
@@ -61,7 +106,8 @@ function crearObjHtml(elemento, arrayAtributoValor) {
 
 function localizarDondeEstoy() {
     str = window.document.location.href
-    var mySubString = str.substring(
+
+    let mySubString = str.substring(
         str.indexOf("r/") + 2,
         str.lastIndexOf(".")
     );
@@ -84,7 +130,7 @@ function compo() {
     const varPOST = 'compo';
     let datosEnvioServ = JSON.stringify(true);
     const xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
+    xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             const objInfo = JSON.parse(this.responseText);
             alert(objInfo);
@@ -314,7 +360,7 @@ function validacionusuario(varPOST, datos) {
     let loc = './inicio.php';
     let datosEnvioServ = JSON.stringify(datos);
     const xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
+    xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             const objInfo = JSON.parse(this.responseText);
             // alert(objInfo);
@@ -393,7 +439,7 @@ function registroUsuario() {
         datosEnvioServ = JSON.stringify(datosDeEnt);
         alert(datosEnvioServ + ' <br> ' + count)
         const xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
+        xhttp.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
                 const objInfo = JSON.parse(this.responseText);
                 alert(objInfo[0]);
@@ -438,7 +484,7 @@ function cerrarsesion() {
     const varPOST = 'cerrarSesion';
     let datosEnvioServ = JSON.stringify(true);
     const xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
+    xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             const objInfo = JSON.parse(this.responseText);
             alert(objInfo[0]);
@@ -481,7 +527,7 @@ function registrarCEFPS() {
     let varServ = 'registrar';
 
     xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
+    xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             const objInfo = JSON.parse(this.responseText);
             // alert(typeof objInfo)
@@ -503,7 +549,16 @@ function registrarCEFPS() {
 
 }
 //llamar a proveedores del servidor
-
+function options(pack, select, id) {
+    for (let i = 0; i < pack.length; i++) {
+        unidad = pack[i];
+        option = document.createElement('option');
+        texto = document.createTextNode(unidad['nombre']);
+        option.setAttribute('value', unidad[id]);
+        option.appendChild(texto);
+        select.appendChild(option);
+    }
+}
 //funcio publicar proveedores
 function mostrarProveedores(datosDelServ) {
     packProveedores = datosDelServ;
@@ -512,14 +567,7 @@ function mostrarProveedores(datosDelServ) {
     select = document.getElementById('select_proveedores');
     if (select.classList.contains('d-none') && checkbox.checked) {
         select.classList.remove('d-none');
-        for (let i = 0; i < packProveedores.length; i++) {
-            proveedor = packProveedores[i];
-            option = document.createElement('option');
-            texto = document.createTextNode(proveedor['nombre']);
-            option.setAttribute('value', proveedor['idProducto']);
-            option.appendChild(texto);
-            select.appendChild(option);
-        }
+        options(packProveedores, select, 'idProducto')
         //ponesmos un escuchador a los option creados
         /*  if (document.getElementsByTagName('option').length > 0) {
              opt = document.getElementsByTagName('option');
@@ -540,7 +588,7 @@ function mostrarProveedores(datosDelServ) {
 function llamarProveedoresServ() {
     let varPOST = 'proveedorProExt';
     const xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
+    xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             const objInfo = JSON.parse(this.responseText);
             mostrarProveedores(objInfo);
@@ -571,6 +619,9 @@ function imputCodProExt() {
     //< label for= "servicio-codigoProductoExterno-registrar" > Codigo del producto externo</label >
     //  <input type="text" maxlength="7" class="servicio-codigoProductoExterno-registrar" id="servicio-codigoProductoExterno-registrar" disabled>
 
+
+}
+function crearSelectServicios(servicios, select) {
 
 }
 
@@ -811,13 +862,15 @@ function seleccionarModal(nombrePagina, datosParaMOdal) {
 //crea las lista en el panel de lista vista
 function crearLIstas() {
     nombrePagina = localizarDondeEstoy(); // aqui va la funcion localizarDondeEstoy
+    //alert(nombrePagina)
     nombreSolicitud = nombrePagina;
 
     xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
+    xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             const objInfo = JSON.parse(this.responseText);
             seleccionarTabla(nombrePagina, objInfo);
+
         }
     }
     xhttp.open('POST', './php/appFunciones.php', true);
@@ -912,7 +965,7 @@ function rellenarModal(e) {
     packEnvioServ = JSON.stringify([pagina, dni]);
 
     xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
+    xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             const objInfo = JSON.parse(this.responseText);
             seleccionarModal(pagina, objInfo[0]);

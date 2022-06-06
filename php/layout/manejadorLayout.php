@@ -1,5 +1,5 @@
 <?php
-include './php/layout/elementosLayout.php';
+include __DIR__.'/elementosLayout.php';
 class ControladorMenus extends Menus
 {
 
@@ -12,10 +12,10 @@ class ControladorMenus extends Menus
         if (isset($_SESSION['roll'])) {
             switch ($_SESSION['roll']) {
                 case 'empleado' && isset($_SESSION['empleado']):
-                    parent::menuEmpleado();
+                    Menus::menuEmpleado();
                     break;
                 case 'gerente'&& isset($_SESSION['gerente']):
-                    parent::menuGerente();
+                    Menus::menuGerente();
                     break;
             }
         }
