@@ -40,7 +40,7 @@ class PuertasYcoyote
             $_SESSION[$bbdd] = $bdName;
             $_SESSION[$roll] = $cargo;
             $_SESSION[$cargo] = $usuario;
-            $_SESSION['codSujeto']= $cod;
+            $_SESSION['codSujeto'] = $cod;
         }
     }
     //hash
@@ -75,15 +75,17 @@ class PuertasYcoyote
 
     public static function seccionDesignada()
     {
+        
         $loc = $_SERVER['PHP_SELF'];
         if (isset($_SESSION['roll'])) {
             if (isset($_SESSION['roll'])) {
-                if ($_SESSION['roll'] === 'empleado' && ((strpos($loc, 'proveedores') > 0) || (strpos($loc, 'servicios') > 0) || (strpos($loc, 'proveedores') > 0))) {
+                if ($_SESSION['roll'] === 'empleado' && ((strpos($loc, 'proveedores') > 0) ||
+                    (strpos($loc, 'servicios') > 0) || (strpos($loc, 'proveedores') > 0) || (strpos($loc, 'index') > 0))) {
                     header('Location: inicio.php');
-                } else{
-                    if ($_SESSION['roll'] === 'gerente' && ((strpos($loc, 'facturas') > 0) || (strpos($loc, 'clientes') > 0) || (strpos($loc, 'presupuestos') > 0))) {
+                } else {
+                    if ($_SESSION['roll'] === 'gerente' && ((strpos($loc, 'facturas') > 0) ||
+                        (strpos($loc, 'clientes') > 0) || (strpos($loc, 'presupuestos') > 0) || (strpos($loc, 'index') > 0))) {
                         header('Location: inicio.php');
-
                     }
                 }
             }

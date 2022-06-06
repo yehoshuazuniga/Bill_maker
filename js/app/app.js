@@ -20,13 +20,12 @@ function cargarEventos() {
         if (!!document.getElementById('registrar-vista')) {
             document.getElementsByTagName('button')['registrar'].addEventListener('click', registrarCEFPS, false);
         }
-        if (!!document.getElementById('servicio-productoExterno-registrar')) {
-            document.getElementById('servicio-productoExterno-registrar').addEventListener('change', llamarProveedoresServ, false);
+        if (!!document.getElementById('productos_externos')) {
+            document.getElementById('productos_externos').addEventListener('change', llamarProveedoresServ, false);
         }
 
-        if (!!document.getElementById('idProveedores')) {
-            document.getElementById('idProveedores').addEventListener('change', idProveedorProdExt, true)
-
+        if (!!document.getElementById('select_proveedores')) {
+            document.getElementById('select_proveedores').addEventListener('change', productoExternoSeleccionado, true)
         }
         if (!!document.getElementById('lista-vista')) {
             crearLIstas();
@@ -43,6 +42,9 @@ function cargarEventos() {
     }
 }
 
+function prueba() {
+    alert('e.target.value');
+}
 
 //crea un objeto html 
 
@@ -230,12 +232,11 @@ function cambiaLoc(localizacion) {
 //para formulario de registro
 //resalta en rojo lo invalido
 function invalido(elemento) {
-    elemento.setAttribute('class', ' form-control ');
+
     elemento.classList.add('is-invalid');
 }
 //resalta en verde lo valido
 function valido(elemento) {
-    elemento.setAttribute('class', ' form-control ');
     elemento.classList.add('is-valid');
 
 }
@@ -293,12 +294,14 @@ function comprobarCamposRegistroUsuario(inputForm) {
     inputForm[4].value === '' ? invalido(inputForm[4]) : valido(inputForm[4]);
     inputForm[5].value === '' ? invalido(inputForm[5]) : valido(inputForm[5]);
 
-    if (inputForm[6].value === '') {
-        invalido(inputForm[6])
+    if (!!inputForm[6]) {
+        if (inputForm[6].value === '') {
+            invalido(inputForm[6])
 
-    } else {
-        valido(inputForm[6])
-        input6 = true;
+        } else {
+            valido(inputForm[6])
+            input6 = true;
+        }
     }
     if (input0 && input1 && input3 && input6) {
         apto = true;
@@ -355,7 +358,7 @@ function busquedaSocio() {
     //return (JSON.stringify(datosEnvioServ))
 }
 
-//funcion para requistrar el usuario en la base de datos
+//funcion para requistrar el usuario en la base de datos cuando se dat de alta la bbdd
 function registroUsuario() {
 
     let inputForm = document.getElementById('formulario_registrar').getElementsByTagName('input');
@@ -425,7 +428,11 @@ function registroUsuario() {
 }
 // fin de funiones de la pagina index
 
+
+//funciones de resto de paginas
 //funciones paginas interiores
+
+
 function cerrarsesion() {
     let loc = './index.php';
     const varPOST = 'cerrarSesion';
@@ -451,9 +458,49 @@ function cerrarsesion() {
 
 function registrarCEFPS() {
     let locDeDatos = document.getElementById('registrar-vista').getElementsByTagName('input')
-    let packEnvioServ = obtenerValores(locDeDatos);
+    let empresa = document.getElementById('miEmpresa');
+    let datosEnt = obtenerValores(locDeDatos);
+    if (localizarDondeEstoy() === 'empleados') {
+        apellido = datosEnt['nombre'].split(' ');
+        datosEnt['nombre'] = apellido[0];
+        if (typeof apellido[1] === 'undefined' || apellido[1] === '') {
+            datosEnt['apellido'] = 'undefined';
+        } else {
+            datosEnt['apellido'] = apellido[1]
+        }
+        datosEnt['idGerente'] = empresa.name;
+        datosEnt['idEmpleado'] = crearId(empresa.value, 'empleado');
+        datosEnt['usuario'] = crearEmail(empresa.value, 'empleado', datosEnt['nombre'], datosEnt['apellido']);
 
-    alert(JSON.stringify(packEnvioServ))
+        console.log(JSON.stringify(datosEnt));
+    }
+    if (localizarDondeEstoy() === 'servicios') {
+        datosEnt['idServicios'] = crearId(empresa.value, 'servicio');
+    }
+    let packEnvioServ = JSON.stringify([localizarDondeEstoy(), JSON.stringify(datosEnt)]);
+    let varServ = 'registrar';
+
+    xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+            const objInfo = JSON.parse(this.responseText);
+            // alert(typeof objInfo)
+            if (typeof objInfo == 'boolean' || objInfo == 'true' || objInfo == 'false') {
+                if (objInfo || objInfo == 'true') {
+                    alert(localizarDondeEstoy() + ' registrado');
+                    cambiaLoc('./' + locDeDatos + '.php')
+                } else {
+                    alert(localizarDondeEstoy() + ' no registrado');
+                }
+            } else {
+                alert(objInfo);
+            }
+        }
+    }
+    xhttp.open('POST', './php/appFunciones.php', true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(varServ + '=' + packEnvioServ);
+
 }
 //llamar a proveedores del servidor
 
@@ -461,21 +508,27 @@ function registrarCEFPS() {
 function mostrarProveedores(datosDelServ) {
     packProveedores = datosDelServ;
     // alert(JSON.stringify(packProveedores))
-    checkbox = document.getElementById('servicio-productoExterno-registrar')
-    select = document.getElementById('idProveedores');
+    checkbox = document.getElementById('productos_externos')
+    select = document.getElementById('select_proveedores');
     if (select.classList.contains('d-none') && checkbox.checked) {
         select.classList.remove('d-none');
         for (let i = 0; i < packProveedores.length; i++) {
             proveedor = packProveedores[i];
             option = document.createElement('option');
             texto = document.createTextNode(proveedor['nombre']);
-            option.setAttribute('value', proveedor['dni']);
+            option.setAttribute('value', proveedor['idProducto']);
             option.appendChild(texto);
             select.appendChild(option);
         }
+        //ponesmos un escuchador a los option creados
+        /*  if (document.getElementsByTagName('option').length > 0) {
+             opt = document.getElementsByTagName('option');
+             alert('las ve')
+             for (let i = 0; i < opt.length; i++) {
+                 opt[i].addEventListener('click', prueba, true);
+             }
+         } */
     } else {
-        document.getElementById('registrar-vista').removeChild(document.getElementById('idProveedores').nextSibling.nextSibling)
-        document.getElementById('registrar-vista').removeChild(document.getElementById('idProveedores').nextSibling.nextSibling)
         while (select.hasChildNodes()) {
             select.removeChild(select.lastChild);
         }
@@ -522,16 +575,18 @@ function imputCodProExt() {
 }
 
 //regsitra el dni del proveedor en un input hidden
-function idProveedorProdExt(e) {
-    select = document.getElementById('idProveedores');
-    dniProveedor = e.target.value;
-    atributos = { 'type': 'hidden', 'value': dniProveedor, 'id': 'dniProveedor' };
-    objetoHTML = crearObjHtml('input', atributos);
-    select.appendChild(objetoHTML);
-    if (select.getElementsByTagName('input').length > 1) {
-        select.removeChild(select.getElementsByTagName('input')[0]);
+function productoExternoSeleccionado(e) {
+    select = document.getElementById('select_proveedores');
+    idProducto = e.target.value;
+    atributos = { 'type': 'hidden', 'value': idProducto, 'id': 'idProducto' };
+    if (document.getElementById('idProducto') === null) {
+        objetoHTML = crearObjHtml('input', atributos);
+        select.appendChild(objetoHTML);
+    } else {
+        document.getElementById('idProducto').value = idProducto;
     }
-    imputCodProExt();
+
+    //imputCodProExt();
 }
 
 function tablaListaClientes(datos) {
@@ -542,8 +597,8 @@ function tablaListaClientes(datos) {
         const element = datos[i];
 
         fila = `<tr>
-                    <td>${element['nombreEmpresa']}</td>
                     <td>${element['dni']}</td>
+                    <td>${element['nombreEmpresa']}</td>
                     <td>${element['telefono'] == null ? '- - - - - -' : element['telefono']}</td>
                     <td>${element['email']}</td>
                     <td>

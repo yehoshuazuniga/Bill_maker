@@ -16,9 +16,9 @@ if (isset($_POST['accesousuario'])) {
     $usuario = $seguridad->filtrado($datosEnt->usuario_nick);
     $pass = $seguridad->filtrado($datosEnt->usuario_password);
     $datosSesiones = $conex->extraerDatos($usuario, $pass);
-    
+
     if ($conex->verificarUsuario($usuario, $pass) && count($datosSesiones) > 1) {
-     // echo'accede 1';
+        // echo'accede 1';
         //print_r($datosSesiones);
         $seguridad->tockenSession($datosSesiones[0], $datosSesiones[1]);
         if (count($_SESSION) === 4) {
@@ -29,7 +29,7 @@ if (isset($_POST['accesousuario'])) {
         }
     } else {
         echo 'no pasa el primer filtro'; */
-    }else { 
+    } else {
         echo json_encode(false);
     }
 }
@@ -75,31 +75,54 @@ if (isset($_POST['proveedorProExt'])) {
     echo json_encode($conex->proveedoresProdExter());
 }
 
-if(isset($_POST['clientes'])){
+if (isset($_POST['clientes'])) {
     echo json_encode($conex->datosLista_vista($_POST['clientes']));
-   
 }
-if(isset($_POST['empleados'])){
+if (isset($_POST['empleados'])) {
     echo json_encode($conex->datosLista_vista($_POST['empleados']));
-   
 }
-if(isset($_POST['facturas'])){
+if (isset($_POST['facturas'])) {
     echo json_encode($conex->datosLista_vista($_POST['facturas']));
-   
 }
-if(isset($_POST['proveedores'])){
+if (isset($_POST['proveedores'])) {
     echo json_encode($conex->datosLista_vista($_POST['proveedores']));
-   
 }
-if(isset($_POST['presupuestos'])){
+if (isset($_POST['presupuestos'])) {
     echo json_encode($conex->datosLista_vista($_POST['presupuestos']));
 }
-if(isset($_POST['servicios'])){
+if (isset($_POST['servicios'])) {
     echo json_encode($conex->datosLista_vista($_POST['servicios']));
 }
 
-if(isset($_POST['soicitarUnRegistro'])){
+if (isset($_POST['soicitarUnRegistro'])) {
     $datos = json_decode($_POST['soicitarUnRegistro']);
+
+    echo json_encode($conex->devolverUnRegistro($datos[0], $datos[1]));
+}
+
+if (isset($_POST['registrar'])) {
+    $packRegistro = json_decode($_POST['registrar']);
+    $packRegistro = [$packRegistro[0], json_decode($packRegistro[1])];
+    $respuesta = null;
+  
     
-    echo json_encode($conex->devolverUnRegistro($datos[0],$datos[1]));
+    //  var_dump($packRegistro);
+    if ($packRegistro[0] === 'empleados') {
+        $respuesta = $conex->seleccionarQueryRegistroPagina($packRegistro[0], $packRegistro[1]);
+        if ($respuesta && gettype($respuesta) !== 'string') {
+            $conex = null;
+            $conex = Funciones_en_BBDD::singleton();
+            $respuesta = json_encode($conex->seleccionarQueryRegistroPagina($packRegistro[0], $packRegistro[1]));
+            $conex->registroTablaAcceso($packRegistro[1]->usuario);
+        } /* else {
+            if (gettype($respuesta) === 'string') {
+                $respuesta = 
+            }
+        } */
+    }else{
+        $respuesta = $conex->seleccionarQueryRegistroPagina($packRegistro[0], $packRegistro[1]);
+    }
+
+    
+    echo json_encode($respuesta);
 }

@@ -17,19 +17,15 @@ app::llamarLayout('header');
     <!-- esta es la pestñana que aparecera cuando se registra un nuevo cliente -->
     <div class="col-12 col-md bg-info">
         <div id="registrar-vista" class="d-flex flex-column d-none gap-2 pb-3">
-            <label for="servicio-nombre-registrar">Nombre del servicio </label>
-            <input type="text" name="servicio-nombre-registrar" id="servicio-nombre-registrar" placeholder="ej: Mi servicio">
-            <label for="servicio-codigo-registrar">Codigo servicio</label>
-            <input type="text" name="servicio-codigo-registrar" id="servicio-codigo-registrar" placeholder="ej: MS542">
-            <label for="servicio-descripcion-registrar">Descripción</label>
-            <input type="text" name="servicio-descripcion-registrar" id="servicio-descripcion-registrar" placeholder=" Descripcion del servicio">
-            <label for="servicio-precioSinIva-registrar">Precio sin IVA</label>
-            <input type="decimal" step="any" name="servicio-precioSinIva-registrar" id="servicio-precioSinIva-registrar" placeholder="15.55">
-            <label for="servicio-precioConIva-registrar">Precio con IVA</label>
-            <input type="number" name="servicio-precioConIva-registrar" id="servicio-precioConIva-registrar" placeholder="17.49">
-            <label for="servicio-productoExterno-registrar">Es un productos externo?</label>
-            <input type="checkbox" name="servicio-productoExterno-registrar" id="servicio-productoExterno-registrar">
-            <select id="idProveedores" class="form-select align-self-end mb-3 d-none">
+            <label for="nombre">Nombre del servicio </label>
+            <input type="text" name="nombre" id="nombre" placeholder="ej: Mi servicio">
+            <label for="descripcion">Descripción</label>
+            <input type="text" name="descripcion" id="descripcion" placeholder=" Descripcion del servicio">
+            <label for="precio">Precio sin IVA</label>
+            <input type="decimal" step="any" name="precio" id="precio" placeholder="15.55">
+            <label for="productos_externos">Es un productos externo?</label>
+            <input type="checkbox" name="idProducto" id="productos_externos">
+            <select id="select_proveedores" class="form-select align-self-end mb-3 d-none">
             </select>
             <button name="registrar" id="registrar">Registrar servicio</button>
         </div>

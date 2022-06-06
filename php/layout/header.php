@@ -4,7 +4,7 @@ require './php/seguridad/elPuertasYelCoyote.php';
 session_start();
 PuertasYcoyote::validadcionSesionIniciada();
 PuertasYcoyote::seccionDesignada();
-print_r($_SESSION); 
+print_r($_SESSION);
 ?>
 
 <!DOCTYPE html>
@@ -23,6 +23,7 @@ print_r($_SESSION);
 </head>
 
 <body class="container-fluid">
+    <input type="hidden" id="miEmpresa" name="<?php echo str_replace('_', ' ', $_SESSION['codSujeto']) ?>" value="<?php echo str_replace('_', ' ', $_SESSION['BBDD']) ?>">
     <header class="row  bg  bg-secondary">
         <div class="logo row 
             justify-content-md-between justify-content-center m-auto">

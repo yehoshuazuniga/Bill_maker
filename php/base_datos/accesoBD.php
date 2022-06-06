@@ -47,6 +47,20 @@ class Funciones_en_BBDD extends BBDD
         $this->$propiedad = $valor;
     }
 
+    //hash
+    public static function passHash($password)
+    {
+        $salt = 'biLlMakEr';
+
+        return hash('sha512', $salt . $password);
+    }
+    //identidy hass
+    public static  function verificarPass($hassBBDD, $passwordEnt)
+    {
+        return ($hassBBDD == self::passHash($passwordEnt));
+    }
+
+    // usca el nombre de la base de datos y la devuelve junto a otros datos
     function extraerDatos($usu, $pass)
     {
         //  echo " $usu -----  $pass ";
@@ -221,29 +235,37 @@ class Funciones_en_BBDD extends BBDD
 
         return $respuesta;
     }
+    function registroTablaAcceso($usuario)
+    {
+        $grabadoEnBBDD = false;
+        $sql = 'INSERT INTO billmaker.acceso VALUES (?)';
+        $sentPre = $this->conexion->prepare($sql);
+        $sentPre->bindParam(1, $usuario, PDO::PARAM_STR);
+        $sentPre->execute();
+        if ($sentPre->rowCount() > 0) $grabadoEnBBDD = true;
+        return $grabadoEnBBDD;
+    }
 
+    // con un array introduce los usuarios que esten dentro de ele array
     function registrarUsuarios($usuarioGR_EM)
     {
         $grabadoEnBBDD = null;
         if (count($usuarioGR_EM) === 2) {
             for ($i = 0; $i < count($usuarioGR_EM); $i++) {
-                $grabadoEnBBDD = false;
-                $sql = 'INSERT INTO billmaker.acceso VALUES (?)';
-                $sentPre = $this->conexion->prepare($sql);
-                $sentPre->bindParam(1, $usuarioGR_EM[$i], PDO::PARAM_STR);
-                $sentPre->execute();
-                if ($sentPre->rowCount() > 0) $grabadoEnBBDD = true;
+                $grabadoEnBBDD = $this->registroTablaAcceso($usuarioGR_EM[$i]);
             }
         }
         return $grabadoEnBBDD;
     }
     // funcion que devuelve los proveedores para el listadp de productos externos en
+
+
     function proveedoresProdExter()
     {
         $packEnvioEnt = null;
         //$sql = 'SELECT nombre, nif FROM preveedor ';
         // vamos a utilizar como ejemplo a gerente de billmaker es la unica bbdd que tiene registros;
-        $sql = 'SELECT nombre, dni FROM billmaker.gerente';
+        $sql = 'SELECT nombre, idProducto FROM productos_externos';
         $sentencia = $this->conexion->query($sql);
         $packEnvioEnt = $sentencia->fetchAll(PDO::FETCH_ASSOC);
         return $packEnvioEnt;
@@ -307,7 +329,6 @@ class Funciones_en_BBDD extends BBDD
                     c.personaContacto, p.fechaCreacion, p.precio 
                     FROM presupuestos p, clientes c';
             $where =  ' WHERE p.dniCliente=c.dni AND p.idPresupuesto=?';
-
         }
 
         if ($tabla === 'facturas') {
@@ -324,6 +345,156 @@ class Funciones_en_BBDD extends BBDD
         $sentPre->execute();
 
         return $sentPre->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
+    function registrarResgistroClientes($pagina, $datos)
+    {
+        $hayInsercion = false;
+
+        $sql = 'INSERT INTO ' . $pagina . '
+                        (dni,nombreEmpresa,direccion,email,telefono,personaContacto)
+                        VALUES (?,?,?,?,?,?)';
+        $sentPre = $this->conexion->prepare($sql);
+
+        $sentPre->bindParam(1, $datos->dni);
+        $sentPre->bindParam(2, $datos->nombreEmpresa);
+        $sentPre->bindParam(3, $datos->direccion);
+        $sentPre->bindParam(4, $datos->email);
+        $sentPre->bindParam(5, $datos->telefono);
+        $sentPre->bindParam(6, $datos->personaContacto);
+
+        $sentPre->execute();
+        if ($sentPre->rowCount() > 0) {
+            $hayInsercion = true;
+        } else {
+            if ($this->existeParametro('dni', 'dni', $datos->dni, $_SESSION['BBDD'], $pagina)) {
+                $hayInsercion = 'El usuario ya existe';
+            }
+        }
+        return  $hayInsercion;
+    }
+
+    function registrarResgistroEmpleados($pagina, $datos)
+    {
+        $hayInsercion = false;
+        /*echo $pagina;
+        print_r($datos);
+      */
+        $sql = 'INSERT INTO ' . $pagina . '
+                        VALUES  (?, ?, ?, ?, ?, ?, ?, ?, ?,?)';
+        $sentPre = $this->conexion->prepare($sql);
+        $pass = $this->passHash($datos->password);
+
+        $sentPre->bindParam(1, $datos->idEmpleado, PDO::PARAM_STR);
+        $sentPre->bindParam(2, $datos->nombre, PDO::PARAM_STR);
+        $sentPre->bindParam(3, $datos->apellido, PDO::PARAM_STR);
+        $sentPre->bindParam(4, $datos->dni, PDO::PARAM_STR);
+        $sentPre->bindParam(5, $datos->email, PDO::PARAM_STR);
+        $sentPre->bindParam(6, $datos->telefono, PDO::PARAM_STR);
+        $sentPre->bindParam(7, $datos->direccion, PDO::PARAM_STR);
+        $sentPre->bindParam(8, $datos->idGerente, PDO::PARAM_STR);
+        $sentPre->bindParam(9, $datos->usuario, PDO::PARAM_STR);
+        $sentPre->bindParam(10, $pass, PDO::PARAM_STR);
+        $sentPre->execute();
+        if ($sentPre->rowCount() > 0) {
+            $hayInsercion = true;
+        } else {
+            if (
+                $this->existeParametro('dni', 'dni', $datos->dni, $_SESSION['BBDD'], $pagina) ||
+                $this->existeParametro('dni', 'dni', $datos->dni, 'billMaker', $pagina)
+            ) {
+                $hayInsercion = 'El usuario ya existe';
+            }
+        }
+
+        return  $hayInsercion;
+    }
+    function registrarResgistroProveedores($pagina, $datos)
+    {
+        $hayInsercion = false;
+        /*echo $pagina;
+        print_r($datos);
+      */
+        $sql = 'INSERT INTO ' . $pagina . '
+                        VALUES(?, ?, ?, ?, ?, ? )';
+        $sentPre = $this->conexion->prepare($sql);
+
+        $sentPre->bindParam(1, $datos->dni, PDO::PARAM_STR);
+        $sentPre->bindParam(2, $datos->nombre, PDO::PARAM_STR);
+        $sentPre->bindParam(3, $datos->direccion, PDO::PARAM_STR);
+        $sentPre->bindParam(4, $datos->email, PDO::PARAM_STR);
+        $sentPre->bindParam(5, $datos->telefono, PDO::PARAM_STR);
+        $sentPre->bindParam(6, $datos->personaContacto, PDO::PARAM_STR);
+
+        $sentPre->execute();
+        if ($sentPre->rowCount() > 0) {
+            $hayInsercion = true;
+        } else {
+            if ($this->existeParametro('dni', 'dni', $datos->dni, $_SESSION['BBDD'], $pagina)) {
+                $hayInsercion = 'El proveedor ya existe';
+            }
+        }
+        return  $hayInsercion;
+    }
+    function registrarResgistroServicios($pagina, $datos)
+    {
+        $hayInsercion = false;
+        /*echo $pagina;
+        print_r($datos);
+      */
+        $sql = 'INSERT INTO ' . $pagina . '
+                        VALUES (?, ?, ?, ?, ?)';
+        IF (!isset($datos->idProducto)){
+            $datos->idProducto= NULL;
+        }
+        $sentPre = $this->conexion->prepare($sql);
+        $precio = (int)$datos->precio;
+print_r($datos);
+        $sentPre->bindParam(1, $datos->idServicios, PDO::PARAM_STR);
+        $sentPre->bindParam(2, $datos->idProducto, PDO::PARAM_STR);
+        $sentPre->bindParam(3, $datos->nombre, PDO::PARAM_STR);
+        $sentPre->bindParam(4, $datos->descripcion, PDO::PARAM_STR);
+        $sentPre->bindParam(5, $precio, PDO::PARAM_INT);
+
+        $sentPre->execute();
+        if ($sentPre->rowCount() > 0) {
+            $hayInsercion = true;
+        } else {
+            if ($this->existeParametro('idServicios', 'idServicios', $datos->idServicios, $_SESSION['BBDD'], $pagina)) {
+                $hayInsercion = 'El servicio ya existe';
+            }
+        }
+        return  $hayInsercion;
+    }
+
+    function seleccionarQueryRegistroPagina($pagina, $datos)
+    {
+        $result = null;
+        switch ($pagina) {
+            case 'clientes':
+                $result = $this->registrarResgistroClientes($pagina, $datos);
+                break;
+
+            case 'empleados':
+                $result = $this->registrarResgistroEmpleados($pagina, $datos);
+
+                break;
+            case 'facturas':
+                //  $result = $this->registrarResgistroClientes($pagina, $datos);
+
+            case 'presupuestos':
+                // $result = $this->registrarResgistroClientes($pagina, $datos);
+
+                break;
+            case 'proveedores':
+                $result = $this->registrarResgistroProveedores($pagina, $datos);
+
+                break;
+            case 'servicios':
+                $result = $this->registrarResgistroServicios($pagina, $datos);
+        }
+        return $result;
     }
 
     // esta funcion solo es de prueba no sirv epara nada mas

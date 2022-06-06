@@ -16,16 +16,18 @@ app::llamarLayout('header');
     <!-- esta es la pestñana que aparecera cuando se registra un nuevo cliente -->
     <main class="col-12 col-md bg-info">
         <div id="registrar-vista" class="d-flex flex-column d-none gap-2 pb-3">
-            <label for="empleado-nombre-registrar">Nombre y Apellido</label>
-            <input type="text" name="empleado-nombre-registrar" id="empleado-nombre-registrar" placeholder="ej: Juan">
-            <label for="empleado-dni-registrar">DNI/NIE</label>
-            <input type="text" name="empleado-dni-registrar" id="empleado-dni-registrar" placeholder="Y12345678X / 25148596D">
-            <label for="empleado-direccion-registrar">Direccion</label>
-            <input type="text" name="empleado-direccion-registrar" id="empleado-direccion-registrar" placeholder="Calle Anton 14">
-            <label for="empleado-email-registrar">Correo electronico</label>
-            <input type="email" name="empleado-email-registrar" id="empleado-email-registrar" placeholder="Mi_usuario@email.org">
-            <label for="empleado-telefono-registrar">Telefono de contacto</label>
-            <input type="tel" name="empleado-telefono-registrar" id="empleado-telefono-registrar" placeholder="6245854132">
+            <label class="text-dark" for="nombre">Nombre y Apellido</label>
+            <input class="form-control" type="text" name="nombre" id="nombre" placeholder="ej: Juan" >
+            <label class="text-dark" for="dni">DNI/NIE</label>
+            <input class="form-control" type="text" name="dni" id="dni" placeholder="Y12345678X / 25148596D" >
+            <label class="text-dark" for="direccion">Direccion</label>
+            <input class="form-control" type="text" name="direccion" id="direccion" placeholder="Calle Anton 14" >
+            <label class="text-dark" for="email">Correo electronico</label>
+            <input class="form-control" type="email" name="email" id="email" placeholder="Mi_usuario@email.org" >
+            <label class="text-dark" for="telefono">Telefono de contacto</label>
+            <input class="form-control" type="tel" name="telefono" id="telefono" placeholder="6245854132" >
+            <label for="empleado-telefono-registrar">Password</label>
+            <input class="form-control" type="password" id="password">
             <button name="registrar" id="registrar">Registrar empleado
             </button>
         </div>
@@ -41,7 +43,7 @@ app::llamarLayout('header');
 
                     <td>Seleccionar</td>
                 </tr>
-                
+
             </table>
             <div class="modal fade" id="modal-empleado" tabindex="-1" aria-hidden="true" aria-labelledby="label-modal-empleado" data-bs-backdrop="static">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -50,19 +52,19 @@ app::llamarLayout('header');
                             <h3 class="modal-title"> disabled
                                 Registro tus datos
                             </h3>
-                            <button class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" id=cerrar-modal></button>
+                            <button class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                         </div>
                         <div id="modal-body" class="modal-body row m-3">
-                            <label class="text-dark" for="empleado-nombre-registro">Nombre</label>
-                            <input type="text" name="empleado-nombre-registro" id="empleado-nombre-registro" placeholder="ej: Juan" disabled>
-                            <label class="text-dark" for="empleado-dni-registro">DNI/NIE</label>
-                            <input type="text" name="empleado-dni-registro" id="empleado-dni-registro" placeholder="Y12345678X / 25148596D" disabled>
-                            <label class="text-dark" for="empleado-direccion-registro">Direccion</label>
-                            <input type="text" name="empleado-direccion-registro" id="empleado-direccion-registro" placeholder="Calle Anton 14" disabled>
-                            <label class="text-dark" for="empleado-email-registro">Correo electronico</label>
-                            <input type="email" name="empleado-email-registro" id="empleado-email-registro" placeholder="Mi_usuario@email.org" disabled>
-                            <label class="text-dark" for="empleado-telefono-registro">Telefono de contacto</label>
-                            <input type="tel" name="empleado-telefono-registro" id="empleado-telefono-registro" placeholder="6245854132" disabled>
+                            <label class="text-dark" for="nombre">Nombre</label>
+                            <input class="form-control"  type="text" name="nombre" id="nombre" placeholder="ej: Juan" disabled>
+                            <label class="text-dark" for="dni">DNI/NIE</label>
+                            <input class="form-control"  type="text" name="dni" id="dni" placeholder="Y12345678X / 25148596D" disabled>
+                            <label class="text-dark" for="direccion">Direccion</label>
+                            <input class="form-control"  type="text" name="direccion" id="direccion" placeholder="Calle Anton 14" disabled>
+                            <label class="text-dark" for="email">Correo electronico</label>
+                            <input class="form-control"  type="email" name="email" id="email" placeholder="Mi_usuario@email.org" disabled>
+                            <label class="text-dark" for="telefono">Telefono de contacto</label>
+                            <input class="form-control"  type="tel" name="telefono" id="telefono" placeholder="6245854132" disabled>
                             <button name="mofificar-empleado" id="mofificar">Modificar
                             </button>
                             <button name="dar-baja-empleado" id="dar-baja-empleado" data-bs-dismiss="modal">Dar baja

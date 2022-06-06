@@ -15,18 +15,18 @@ app::llamarLayout('header');
     <!-- esta es la pestñana que aparecera cuando se registra un nuevo cliente -->
     <main class="col-12 col-md bg-info">
         <div id="registrar-vista" class="d-flex flex-column d-none gap-2 pb-3">
-            <label for="proveedor-nombre-registrar">Nombre proveedor</label>
-            <input type="text" name="proveedor-nombre-registrar" id="proveedor-nombre-registrar" placeholder="ej: Mi proveedor">
-            <label for="proveedor-cif-registrar">CIF</label>
-            <input type="text" name="proveedor-cif-registrar" id="proveedor-cif-registrar" placeholder="G12345678">
-            <label for="proveedor-direccion-registrar">Direccion</label>
-            <input type="text" name="proveedor-direccion-registrar" id="proveedor-direccion-registrar" placeholder="Calle Anton 14">
-            <label for="proveedor-email-registrar">Correo electronico</label>
-            <input type="email" name="proveedor-email-registrar" id="proveedor-email-registrar" placeholder="Mi_usuario@email.org">
-            <label for="proveedor-personaContacto-registrar">Persona de contacto</label>
-            <input type="text" name="proveedor-personaContacto-registrar" id="proveedor-personaContacto-registrar" placeholder="6245854132">
-            <label for="proveedor-telefono-registrar">Telefono de contacto</label>
-            <input type="tel" name="proveedor-telefono-registrar" id="proveedor-telefono-registrar" placeholder="6245854132">
+            <label for="nombre">Nombre proveedor</label>
+            <input class="form-control"  type="text" name="nombre" id="nombre" placeholder="ej: Mi proveedor">
+            <label for="dni">CIF</label>
+            <input class="form-control"  type="text" name="dni" id="dni" placeholder="G12345678">
+            <label for="direccion">Direccion</label>
+            <input class="form-control"  type="text" name="direccion" id="direccion" placeholder="Calle Anton 14">
+            <label for="email">Correo electronico</label>
+            <input class="form-control"  type="email" name="email" id="email" placeholder="Mi_usuario@email.org">
+            <label for="personaContacto">Persona de contacto</label>
+            <input class="form-control"  type="text" name="personaContacto" id="personaContacto" placeholder="Antonio Cuenca">
+            <label for="telefono">Telefono de contacto</label>
+            <input class="form-control"  type="tel" name="telefono" id="telefono" placeholder="6245854132">
             <button name="registrar" id="registrar">Registrar proveedor </button>
         </div>
         <!-- ENCONTRAR LA FORMA DE ENVIAR UN CONTRASEÑA POR MAIL O HACERLO QUE AL INICIAR SECION CAMBIE LA CONTRASEÑA-->
@@ -54,20 +54,20 @@ app::llamarLayout('header');
                             <button class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" id=cerrar-modal></button>
                         </div>
                         <div id="modal-body" class="modal-body row m-3">
-                            <label class="text-dark" for="proveedor-nombre-registro">Nombre comercial</label>
-                            <input type="text" name="proveedor-nombre-registro" id="proveedor-nombre-registro" placeholder="ej: Mi empresa" disabled>
-                            <label class="text-dark" for="proveedor-dni-registro">CIF</label>
-                            <input type="text" name="proveedor-cif-registro" id="proveedor-cif-registro" placeholder="Y12345678X / 25148596D" disabled>
-                            <label class="text-dark" for="proveedor-direccion-registro">Direccion</label>
-                            <input type="text" name="proveedor-direccion-registro" id="proveedor-direccion-registro" placeholder="Calle Anton 14" disabled>
-                            <label class="text-dark" for="proveedor-email-registro">Correo electronico</label>
-                            <input type="email" name="proveedor-email-registro" id="proveedor-email-registro" placeholder="Mi_usuario@email.org" disabled>
-                            <label class="text-dark" for="proveedor-telefono-registro">Telefono de contacto</label>
-                            <input type="tel" name="proveedor-telefono-registro" id="proveedor-telefono-registro" placeholder="6245854132" disabled>
-                            <label class="text-dark" for="proveedor-pcontacto-registro">Persona de contacto</label>
-                            <input type="text" name="proveedor-pcontacto-registro" id="proveedor-pcontacto-registro" placeholder="Juan Manuel" disabled>
+                            <label class="text-dark" for="nombre">Nombre comercial</label>
+                            <input class="form-control " type="text" name="nombre" id="nombre" placeholder="ej: Mi empresa" disabled>
+                            <label class="text-dark" for="dni">CIF</label>
+                            <input class="form-control " type="text" name="dni" id="dni" placeholder="Y12345678X / 25148596D" disabled>
+                            <label class="text-dark" for="direccion">Direccion</label>
+                            <input class="form-control " type="text" name="direccion" id="direccion" placeholder="Calle Anton 14" disabled>
+                            <label class="text-dark" for="email">Correo electronico</label>
+                            <input class="form-control " type="email" name="email" id="email" placeholder="Mi_usuario@email.org" disabled>
+                            <label class="text-dark" for="telefono">Telefono de contacto</label>
+                            <input class="form-control " type="tel" name="telefono" id="telefono" placeholder="6245854132" disabled>
+                            <label class="text-dark" for="personaContacto">Persona de contacto</label>
+                            <input class="form-control " type="text" name="personaContacto" id="personaContacto" placeholder="Juan Manuel" disabled>
 
-                            <button name="mofificar-proveedor" id="mofificar" >Modificar
+                            <button name="mofificar-proveedor" id="mofificar">Modificar
                             </button>
                             <button name="dar-baja-proveedor" id="dar-baja-proveedor" data-bs-dismiss="modal">Dar baja </button>
                         </div>

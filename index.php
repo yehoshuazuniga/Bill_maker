@@ -1,5 +1,7 @@
 <?php
     include './php/seguridad/elPuertasYelCoyote.php';
+    session_start();
+    PuertasYcoyote::seccionDesignada();
 ?>
 <!DOCTYPE html>
 <html lang="en">
