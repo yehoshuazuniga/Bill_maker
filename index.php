@@ -46,19 +46,19 @@
                                 </div>
                                 <div class="modal-body row m-3 bg-dark d-flex gap-2" id="formulario_registrar">
                                     <label for="usuario_nick_registro">Nombre de la empresa</label>
-                                    <input type="text" name="usuario_nick_registro" id="usuario_nick_registro" placeholder="Nombre fiscal">
+                                    <input class="form-control" type="text" name="usuario_nick_registro" id="usuario_nick_registro" placeholder="Nombre fiscal">
                                     <label for="usuario_cif">CIF</label>
-                                    <input type="text" name="usuario_cif" id="usuario_cif" placeholder="G12345678 / 25148596D">
+                                    <input class="form-control" type="text" name="usuario_cif" id="usuario_cif" placeholder="G12345678 / 25148596D">
                                     <label for="usuario_direccion">Direccion</label>
-                                    <input type="text" name="usuario_direccion" id="usuario_direccion" placeholder="Calle Anton 14">
+                                    <input class="form-control" type="text" name="usuario_direccion" id="usuario_direccion" placeholder="Calle Anton 14">
                                     <label for="usuario_email">Correo electronico</label>
-                                    <input type="email" name="usuario_email" id="usuario_email" placeholder="Mi_usuario@email.org">
+                                    <input class="form-control" type="email" name="usuario_email" id="usuario_email" placeholder="Mi_usuario@email.org">
                                     <label for="usuario_telefono">Telefono de contacto</label>
-                                    <input type="tel" name="usuario_telefono" id="usuario_telefono" placeholder="6245854132">
+                                    <input class="form-control" type="tel" name="usuario_telefono" id="usuario_telefono" placeholder="6245854132">
                                     <label for="usuario_contacto">Persona de contactos</label>
-                                    <input type="text" name="usuario_contacto" id="usuario_contacto" placeholder="Miguel Angel">
+                                    <input class="form-control" type="text" name="usuario_contacto" id="usuario_contacto" placeholder="Miguel Angel">
                                     <label for="usuario_password_registro">Password</label>
-                                    <input type="password" name="usuario_password_registro" id="usuario_password_registro" autocomplete="on">
+                                    <input class="form-control" type="password" name="usuario_password_registro" id="usuario_password_registro" autocomplete="on">
                                     <button name="registrar" id="registrar">registrar </button>
                                     <button name="cerrar" id="cerrar" data-bs-dismiss="modal">cerrar </button>
 

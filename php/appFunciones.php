@@ -48,7 +48,8 @@ if (isset($_POST['nuevoUsuario'])) {
         $conex->crearBDyTablas($seguridad->filtrado($datosEnt->usuario_nick_registro));
         //eto registra los usuario en la bbdd de billmaker
         $creaTablasCliente = $conex->registrarGer_Emp($datosEnt);
-        if (gettype($creaTablasCliente) == 'string') {
+          
+        if (gettype($creaTablasCliente) == 'string' && $conex->registroTablaAcceso($datosEnt->usuarioGerente) && $conex->registroTablaAcceso($datosEnt->usuarioEmpleado)) {
             $bdnname = str_replace(' ', '_', $seguridad->filtrado($datosEnt->usuario_nick_registro));
             $conex = null;
             $conex = new Funciones_en_BBDD($bdnname);
