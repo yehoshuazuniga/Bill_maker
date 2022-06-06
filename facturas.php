@@ -31,15 +31,11 @@ app::llamarLayout('header');
             <div class="col-12 gap-2 d-flex flex-column clientes-servicios">
                 <label for="factura-codigo-registrar">Codigo factura</label>
                 <input type="text" class="form-control" name="factura-codigo-registrar" id="factura-codigo-registrar" placeholder="ej: MS542" disabled>
-                <select>
-                    <option value="Servicio 1"> Servicio 1</option>
-                    <option value="Servicio 1"> Servicio 1</option>
-                    <option value="Servicio 1"> Servicio 1</option>
+                <select id="servicios">
+                   
                 </select>
-                <div class="clientes-servicios-resumen bg-dark">
-                    <p class="servicio">datos del Servicio</p>
-                    <input type="hidden" name="idservicio" id="idServici">
-                    <!-- parrafo en ibput se generan juntos  simepre -->
+                <div class="clientes-servicios-resumen bg-dark" id="resumen_servicios">
+
                 </div>
             </div>
             <button name="registrar" id="registrar">Generar Factura</button>
