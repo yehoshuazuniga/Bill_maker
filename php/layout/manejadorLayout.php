@@ -29,9 +29,9 @@ class ControladorMenus extends Menus
     {
 
     ?>
-        <li class="nav-link text-dark"><?php echo ucfirst($_SESSION['roll']) . ': ' . $_SESSION[$_SESSION['roll']] ?></li>
-        <li class="nav-link text-dark "><a class="link-dark text-decoration-none" href="./configuracionUsuario.php" >Configuracion Usuario</a></li>
-        <li class="nav-link text-dark cerrarSesion" id="cerrarSesion">Cerrar sesion</li>
+        <li class="nav-link btn btn-dark bg-gradient2 fw-normal text-white"><?php echo ucfirst($_SESSION['roll']) . ': ' . $_SESSION[$_SESSION['roll']] ?></li>
+        <li class="nav-link btn btn-dark bg-gradient2 fw-normal text-white "><a class="link text-white text-decoration-none" href="./configuracionUsuario.php" >Configuracion Usuario</a></li>
+        <li class="nav-link btn btn-dark bg-gradient2 fw-normal text-white cerrarSesion" id="cerrarSesion">Cerrar sesion</li>
     <?php
     }
 }

@@ -15,7 +15,7 @@ print_r($_SESSION);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="Author" content="Yehoshua Zuñiga">
-    <link rel="stylesheet" href="./css/bootstrap_css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/bootstrap_css/bootstrap.css">
     <link rel="stylesheet" href="./css/mi_estilo/misestilos.css">
 
     <title>titulo de pagina</title>
@@ -29,10 +29,11 @@ print_r($_SESSION);
             justify-content-md-between justify-content-center m-auto">
 
 
-            <img src="./src/img/Logo_TV_2015.png" alt="logo" class="img-fluid col-12 col-md-2 logo-img bg-info" id="logo">
-            <nav class="col-12  col-md-6 align-self-center bg-danger">
+            <img src="./src/img/Logo_TV_2015.png" alt="logo" class="img-fluid col-12 col-md-2 logo-img " id="logo">
+            <nav class="col-12  col-md-6 align-self-center ">
                 <ul class="nav d-flex justify-content-md-end 
                              justify-content-center  flex-column
+                             mt-3
                               flex-sm-row text-center">
 
                     <?php
@@ -45,7 +46,8 @@ print_r($_SESSION);
             <div class="col-l2">
                 <ul class="nav d-flex justify-content-sm-around
                              justify-content-center flex-column flex-sm-row
-                             text-center ">
+                             text-center 
+                             mt-1">
                     <?php
                     ControladorMenus::menuCorrespontienteCargos();
                     ?>
