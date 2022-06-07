@@ -1,3 +1,4 @@
+
 <?php require './php/appElementos.php';
 app::llamarLayout('header');
 ?>
@@ -97,4 +98,5 @@ app::llamarLayout('header');
 </body>
 <?php
 app::llamarLayout('footer');
+
 ?>

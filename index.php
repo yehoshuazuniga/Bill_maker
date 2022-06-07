@@ -1,3 +1,4 @@
+
 <?php
     include './php/seguridad/elPuertasYelCoyote.php';
     session_start();

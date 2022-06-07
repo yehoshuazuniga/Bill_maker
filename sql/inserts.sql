@@ -129,11 +129,7 @@ INSERT INTO presupuestos (dniCliente, idEmpleado,precio) VALUES ( 'g00000019','C
 +
          220020
  
- mysql> INSERT INTO presupuestos ( dniCliente, idEmpleado,precio) VALUES ( 'g00000003','CUSC005', 255);
-ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails 
-(`chocolates_union`.`presupuestos`
-, CONSTRAINT `idEmpleado` FOREIGN KEY (`idEmpleado`) 
-REFERENCES `empleados` (`idEmpleado`) ON DELETE NO ACTION ON UPDATE NO ACTION)
+
  ___________________________________________________
 |													|
 |				FACTURAS							|
@@ -179,13 +175,13 @@ VALUES ( 'g00000019','CUED236', 150);
 
 
 INSERT INTO facturas (dni, idEmpleado, idPresupuesto, precioTotalSinIva) VALUES 
-('g00000012','CUED357', 220008, 150);
+('g00000012','CUED357', 227012, 150);
 INSERT INTO facturas (dni, idEmpleado, idPresupuesto, precioTotalSinIva) VALUES 
-('g00000019','CUED753', 220009, 15);
+('g00000019','CUED753', 227011, 15);
 INSERT INTO facturas (dni, idEmpleado, idPresupuesto, precioTotalSinIva) VALUES 
-('g00000003','CUED236', 220000, 255);
+('g00000003','CUED236', 227009, 255);
 INSERT INTO facturas (dni, idEmpleado, idPresupuesto, precioTotalSinIva) VALUES 
-('g00000011','CUED483', 220003, 150);
+('g00000011','CUED483', 227018, 150);
 
 
 
@@ -237,19 +233,19 @@ INSERT INTO FONDOS (idProducto, gastos) VALUES ( 'PE021' , 15);
 |				EMPLEADOS							|
 |___________________________________________________|
 
-INSERT INTO empleados VALUES ('CUED236','Alejandro', 'Gomez', '25363636a', 'alego@gmailcom', '635289451', 'c/turia 92', 'CUGT180', 'alejandro.gomez_ep@chocolates-union.com', 'password');
-INSERT INTO empleados VALUES ('CUED753','pedro', 'Gomez', '10000000b', 'pedrogo@gmailcom', '634489451', 'c/ofano 92', 'CUGT180', 'pedro.gomez_ep@chocolates-union.com', 'password');
-INSERT INTO empleados VALUES ('CUED357','juan', 'Gomez', '20000000b', 'jaungo@gmailcom', '635289451', 'c/turia 92', 'CUGT180', 'juan.gomez_ep@chocolates-union.com', 'password');
-INSERT INTO empleados VALUES ('CUED951','julio', 'Gomez', '30000000b', 'juego@gmailcom', '635289451', 'c/turia 92', 'CUGT180', 'julio.gomez_ep@chocolates-union.com', 'password');
-INSERT INTO empleados VALUES ('CUED582','camila', 'Gomez', '40000000b', 'camilao@gmailcom', '635289451', 'c/turia 92', 'CUGT180', 'camila.gomez_ep@chocolates-union.com', 'password');
-INSERT INTO empleados VALUES ('CUED483','ana', 'Gomez', '50000000b', 'anago@gmailcom', '635289451', 'c/turia 92', 'CUGT180', 'ana.gomez_ep@chocolates-union.com', 'password');
+INSERT INTO empleados VALUES ('CUED236','Alejandro', 'Gomez', '25363636a', 'alego@gmailcom', '635289451', 'c/turia 92', 'KVGT114', 'alejandro.gomez_ep@chocolates-union.com', 'password');
+INSERT INTO empleados VALUES ('CUED753','pedro', 'Gomez', '10000000b', 'pedrogo@gmailcom', '634489451', 'c/ofano 92', 'KVGT114', 'pedro.gomez_ep@chocolates-union.com', 'password');
+INSERT INTO empleados VALUES ('CUED357','juan', 'Gomez', '20000000b', 'jaungo@gmailcom', '635289451', 'c/turia 92', 'KVGT114', 'juan.gomez_ep@chocolates-union.com', 'password');
+INSERT INTO empleados VALUES ('CUED951','julio', 'Gomez', '30000000b', 'juego@gmailcom', '635289451', 'c/turia 92', 'KVGT114', 'julio.gomez_ep@chocolates-union.com', 'password');
+INSERT INTO empleados VALUES ('CUED582','camila', 'Gomez', '40000000b', 'camilao@gmailcom', '635289451', 'c/turia 92', 'KVGT114', 'camila.gomez_ep@chocolates-union.com', 'password');
+INSERT INTO empleados VALUES ('CUED483','ana', 'Gomez', '50000000b', 'anago@gmailcom', '635289451', 'c/turia 92', 'KVGT114', 'ana.gomez_ep@chocolates-union.com', 'password');
 
-INSERT INTO billmaker.empleados VALUES ('CUED236','Alejandro', 'Gomez', '25363636a', 'alego@gmailcom', '635289451', 'c/turia 92', 'CUGT180', 'alejandro.gomez_ep@chocolates-union.com', 'password');
-INSERT INTO billmaker.empleados VALUES ('CUED753','pedro', 'Gomez', '10000000b', 'pedrogo@gmailcom', '634489451', 'c/ofano 92', 'CUGT180', 'pedro.gomez_ep@chocolates-union.com', 'password');
-INSERT INTO billmaker.empleados VALUES ('CUED357','juan', 'Gomez', '20000000b', 'jaungo@gmailcom', '635289451', 'c/turia 92', 'CUGT180', 'juan.gomez_ep@chocolates-union.com', 'password');
-INSERT INTO billmaker.empleados VALUES ('CUED951','julio', 'Gomez', '30000000b', 'juego@gmailcom', '635289451', 'c/turia 92', 'CUGT180', 'julio.gomez_ep@chocolates-union.com', 'password');
-INSERT INTO billmaker.empleados VALUES ('CUED582','camila', 'Gomez', '40000000b', 'camilao@gmailcom', '635289451', 'c/turia 92', 'CUGT180', 'camila.gomez_ep@chocolates-union.com', 'password');
-INSERT INTO billmaker.empleados VALUES ('CUED483','ana', 'Gomez', '50000000b', 'anago@gmailcom', '635289451', 'c/turia 92', 'CUGT180', 'ana.gomez_ep@chocolates-union.com', 'password');
+INSERT INTO billmaker.empleados VALUES ('CUED236','Alejandro', 'Gomez', '25363636a', 'alego@gmailcom', '635289451', 'c/turia 92', 'KVGT114', 'alejandro.gomez_ep@chocolates-union.com', 'password');
+INSERT INTO billmaker.empleados VALUES ('CUED753','pedro', 'Gomez', '10000000b', 'pedrogo@gmailcom', '634489451', 'c/ofano 92', 'KVGT114', 'pedro.gomez_ep@chocolates-union.com', 'password');
+INSERT INTO billmaker.empleados VALUES ('CUED357','juan', 'Gomez', '20000000b', 'jaungo@gmailcom', '635289451', 'c/turia 92', 'KVGT114', 'juan.gomez_ep@chocolates-union.com', 'password');
+INSERT INTO billmaker.empleados VALUES ('CUED951','julio', 'Gomez', '30000000b', 'juego@gmailcom', '635289451', 'c/turia 92', 'KVGT114', 'julio.gomez_ep@chocolates-union.com', 'password');
+INSERT INTO billmaker.empleados VALUES ('CUED582','camila', 'Gomez', '40000000b', 'camilao@gmailcom', '635289451', 'c/turia 92', 'KVGT114', 'camila.gomez_ep@chocolates-union.com', 'password');
+INSERT INTO billmaker.empleados VALUES ('CUED483','ana', 'Gomez', '50000000b', 'anago@gmailcom', '635289451', 'c/turia 92', 'KVGT114', 'ana.gomez_ep@chocolates-union.com', 'password');
 
 
 
