@@ -60,7 +60,7 @@ function crearSelecServicios() {
     let select = document.getElementById('servicios');
     let varPOST = 'servicios';
     const xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
+    xhttp.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
             const objInfo = JSON.parse(this.responseText);
             options(objInfo, select, 'idServicios')
@@ -77,16 +77,17 @@ function crearInputSelect(e) {
     sel = document.getElementById(e.target.id);
     opt = sel.getElementsByTagName('option')
     for (let i = 0; i < opt.length; i++) {
-        if (opt[i].selected ) {
+        if (opt[i].selected) {
             atributos = {
-                'value': e.target.id, 'id': 'idServicios'
+                'value': e.target.id,
+                'id': 'idServicios'
             };
             objetoHTML = crearObjHtml('p', atributos);
             texto = document.createTextNode(e.target.value)
             objetoHTML.appendChild(texto);
             document.getElementById('resumen_servicios').appendChild(objetoHTML);
-            
-            
+
+
         }
     }
 }
@@ -130,7 +131,7 @@ function compo() {
     const varPOST = 'compo';
     let datosEnvioServ = JSON.stringify(true);
     const xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
+    xhttp.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
             const objInfo = JSON.parse(this.responseText);
             alert(objInfo);
@@ -360,7 +361,7 @@ function validacionusuario(varPOST, datos) {
     let loc = './inicio.php';
     let datosEnvioServ = JSON.stringify(datos);
     const xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
+    xhttp.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
             const objInfo = JSON.parse(this.responseText);
             // alert(objInfo);
@@ -439,7 +440,7 @@ function registroUsuario() {
         datosEnvioServ = JSON.stringify(datosDeEnt);
         alert(datosEnvioServ + ' <br> ' + count)
         const xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
+        xhttp.onreadystatechange = function() {
             if (this.readyState === 4 && this.status === 200) {
                 const objInfo = JSON.parse(this.responseText);
                 alert(objInfo[0]);
@@ -484,7 +485,7 @@ function cerrarsesion() {
     const varPOST = 'cerrarSesion';
     let datosEnvioServ = JSON.stringify(true);
     const xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
+    xhttp.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
             const objInfo = JSON.parse(this.responseText);
             alert(objInfo[0]);
@@ -527,7 +528,7 @@ function registrarCEFPS() {
     let varServ = 'registrar';
 
     xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
+    xhttp.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
             const objInfo = JSON.parse(this.responseText);
             // alert(typeof objInfo)
@@ -568,14 +569,14 @@ function mostrarProveedores(datosDelServ) {
     if (select.classList.contains('d-none') && checkbox.checked) {
         select.classList.remove('d-none');
         options(packProveedores, select, 'idProducto')
-        //ponesmos un escuchador a los option creados
-        /*  if (document.getElementsByTagName('option').length > 0) {
-             opt = document.getElementsByTagName('option');
-             alert('las ve')
-             for (let i = 0; i < opt.length; i++) {
-                 opt[i].addEventListener('click', prueba, true);
-             }
-         } */
+            //ponesmos un escuchador a los option creados
+            /*  if (document.getElementsByTagName('option').length > 0) {
+                 opt = document.getElementsByTagName('option');
+                 alert('las ve')
+                 for (let i = 0; i < opt.length; i++) {
+                     opt[i].addEventListener('click', prueba, true);
+                 }
+             } */
     } else {
         while (select.hasChildNodes()) {
             select.removeChild(select.lastChild);
@@ -588,7 +589,7 @@ function mostrarProveedores(datosDelServ) {
 function llamarProveedoresServ() {
     let varPOST = 'proveedorProExt';
     const xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
+    xhttp.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
             const objInfo = JSON.parse(this.responseText);
             mostrarProveedores(objInfo);
@@ -621,6 +622,7 @@ function imputCodProExt() {
 
 
 }
+
 function crearSelectServicios(servicios, select) {
 
 }
@@ -866,7 +868,7 @@ function crearLIstas() {
     nombreSolicitud = nombrePagina;
 
     xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
+    xhttp.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
             const objInfo = JSON.parse(this.responseText);
             seleccionarTabla(nombrePagina, objInfo);
@@ -965,7 +967,7 @@ function rellenarModal(e) {
     packEnvioServ = JSON.stringify([pagina, dni]);
 
     xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
+    xhttp.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
             const objInfo = JSON.parse(this.responseText);
             seleccionarModal(pagina, objInfo[0]);
