@@ -36,15 +36,75 @@ function cargarEventos() {
         } // eventos pequeños
 
         if (!!document.getElementById('servicios')) {
+            document.getElementById('servicios').value = undefined;
             crearSelecServicios();
             document.getElementById('servicios').addEventListener('click', crearInputSelect, true);
         }
+        if (!!document.getElementById('doc-dni-registrar')) {
+            document.getElementById('doc-dni-registrar').addEventListener('blur', generarDoc, false);
+        }
+
         if (!!document.getElementById('cerrar-modal')) {
             document.getElementById('cerrar-modal').addEventListener('blur', bloquearInputs, true);
 
-        } // eventos pequeños
+        } 
+        
+        if(!!document.getElementById('resumen_servicios')){
+            document.getElementById('resumen_servicios').addEventListener('change', autoScrol)
+            
+        }
+        
+        
+        // eventos pequeños
         //   document.getElementById('logo').addEventListener('click', compo, true);
     }
+}
+
+function autoScrol(){
+    if(document.getElementsByClassName('offsetHeight')[0]>500){
+        document.getElementsByClassName('offsetHeight')[0].classList.add('bg-primary')
+    }
+}
+
+function rellenarFichaCliente(datos) {
+    contParrafos = document.getElementById('ficha-cliente');
+    parrafo = contParrafos.getElementsByTagName('p');
+    cont = 0;
+    // alert(JSON.stringify(datos))
+    for (const key in datos) {
+        if (Object.hasOwnProperty.call(datos, key)) {
+            const dato = datos[key];
+            parrafo[cont].innerHTML += dato;
+            cont++;
+        }
+    }
+    divContenedor = document.getElementById('registrar-vista')
+
+    divContenedor.getElementsByTagName('select')[0].disabled = false;
+    divContenedor.getElementsByTagName('button')[0].disabled = false;
+    divContenedor.getElementsByTagName('input')[0].disabled = false;
+}
+function generarDoc() {
+    dni = document.getElementById('doc-dni-registrar')
+
+    if (validarDniCif(dni.value)) {
+        //  alert('pasa por aqui')
+        xhttp = new XMLHttpRequest();
+        varServ = 'existe_cliente';
+        packEnvioServ = dni.value;
+        //alert( packEnvioServ );
+        xhttp.onreadystatechange = function () {
+            if (this.status === 200 && this.readyState === 4) {
+                const objInfo = JSON.parse(this.responseText);
+                rellenarFichaCliente(objInfo);
+            }
+        }
+        xhttp.open('POST', './php/appFunciones.php', true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send(varServ + '=' + packEnvioServ);
+
+    }
+
 }
 
 function prueba() {
@@ -60,7 +120,7 @@ function crearSelecServicios() {
     let select = document.getElementById('servicios');
     let varPOST = 'servicios';
     const xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
+    xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             const objInfo = JSON.parse(this.responseText);
             options(objInfo, select, 'idServicios')
@@ -76,20 +136,62 @@ function crearSelecServicios() {
 function crearInputSelect(e) {
     sel = document.getElementById(e.target.id);
     opt = sel.getElementsByTagName('option')
-    for (let i = 0; i < opt.length; i++) {
-        if (opt[i].selected) {
-            atributos = {
-                'value': e.target.id,
-                'id': 'idServicios'
-            };
-            objetoHTML = crearObjHtml('p', atributos);
-            texto = document.createTextNode(e.target.value)
-            objetoHTML.appendChild(texto);
-            document.getElementById('resumen_servicios').appendChild(objetoHTML);
+    if (sel.value !== undefined) {
+        for (let i = 0; i < opt.length; i++) {
+            if (opt[i].selected) {
 
+                dni = e.target.value;
+                pagina = 'servicios';
+                varServ = 'soicitarUnRegistro';
+                packEnvioServ = JSON.stringify([pagina, dni]);
+                // alert(dni);
+                xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState === 4 && this.status === 200) {
+                        const objInfo = JSON.parse(this.responseText);
 
+                        let campo = objInfo[0];
+
+                        //           alert(JSON.stringify(campo))
+                        /*  atributos = {
+                             'id': campo['idServicios']
+                         };
+                         objetoHTML = crearObjHtml('p', atributos);
+                         texto = document.createTextNode(campo['nombre'])
+                         objetoHTML.appendChild(texto);
+                         document.getElementById('resumen_servicios').appendChild(objetoHTML);
+                 */
+                        document.getElementById('resumen_servicios').innerHTML += `<p name='${campo['idServicios']}' class="d-flex px-2 justify-content-between" ><span>${campo['nombre']}</span> <span>${campo['precio']} €</span></p>`
+                        hr = document.getElementsByTagName('hr')[0];
+                        p_precioTotal = document.getElementById('total')
+                        spanSuma = document.getElementById('precio')
+
+                        if (hr.classList.contains('d-none') && p_precioTotal.classList.contains('d-none')) {
+                            hr.classList.remove('d-none');
+                            p_precioTotal.classList.remove('d-none')
+                            spanSuma.innerHTML = (parseInt(spanSuma.innerHTML) + parseInt(campo['precio']))
+                        }else{
+                            spanSuma.innerHTML = (parseInt(spanSuma.innerHTML) + parseInt(campo['precio']))
+
+                        }
+                    }
+                }
+                xhttp.open('POST', './php/appFunciones.php', true);
+                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhttp.send(varServ + '=' + packEnvioServ);
+            }
+        }
+        parrafos = document.getElementById('resumen_servicios').getElementsByTagName('p')
+
+        for (let i = 0; i < parrafos.length; i++) {
+            if (parrafos[i].innerHTML == '') {
+                alert('hay un falso')
+                document.getElementById('resumen_servicios').removeChild(parrafos[i])
+            }
         }
     }
+    document.getElementById('servicios').value = undefined;
+
 }
 
 //crea un objeto html 
@@ -131,7 +233,7 @@ function compo() {
     const varPOST = 'compo';
     let datosEnvioServ = JSON.stringify(true);
     const xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
+    xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             const objInfo = JSON.parse(this.responseText);
             alert(objInfo);
@@ -291,8 +393,7 @@ function valido(elemento) {
 function validarDniCif(dni) {
     var expre = new RegExp("^[0-9]{7,8}[a-hA-H]{1}$|^[a-zA-Z]{1}[0-9]{7,8}$")
     respuesta = null;
-    expre.test(dni) ? respuesta = true :
-        respuesta = false;
+    expre.test(dni) ? respuesta = true : respuesta = false;
     return respuesta;
 }
 //comprueba email
@@ -361,7 +462,7 @@ function validacionusuario(varPOST, datos) {
     let loc = './inicio.php';
     let datosEnvioServ = JSON.stringify(datos);
     const xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
+    xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             const objInfo = JSON.parse(this.responseText);
             // alert(objInfo);
@@ -440,7 +541,7 @@ function registroUsuario() {
         datosEnvioServ = JSON.stringify(datosDeEnt);
         alert(datosEnvioServ + ' <br> ' + count)
         const xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
+        xhttp.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
                 const objInfo = JSON.parse(this.responseText);
                 alert(objInfo[0]);
@@ -485,7 +586,7 @@ function cerrarsesion() {
     const varPOST = 'cerrarSesion';
     let datosEnvioServ = JSON.stringify(true);
     const xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
+    xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             const objInfo = JSON.parse(this.responseText);
             alert(objInfo[0]);
@@ -528,7 +629,7 @@ function registrarCEFPS() {
     let varServ = 'registrar';
 
     xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
+    xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             const objInfo = JSON.parse(this.responseText);
             // alert(typeof objInfo)
@@ -569,14 +670,14 @@ function mostrarProveedores(datosDelServ) {
     if (select.classList.contains('d-none') && checkbox.checked) {
         select.classList.remove('d-none');
         options(packProveedores, select, 'idProducto')
-            //ponesmos un escuchador a los option creados
-            /*  if (document.getElementsByTagName('option').length > 0) {
-                 opt = document.getElementsByTagName('option');
-                 alert('las ve')
-                 for (let i = 0; i < opt.length; i++) {
-                     opt[i].addEventListener('click', prueba, true);
-                 }
-             } */
+        //ponesmos un escuchador a los option creados
+        /*  if (document.getElementsByTagName('option').length > 0) {
+             opt = document.getElementsByTagName('option');
+             alert('las ve')
+             for (let i = 0; i < opt.length; i++) {
+                 opt[i].addEventListener('click', prueba, true);
+             }
+         } */
     } else {
         while (select.hasChildNodes()) {
             select.removeChild(select.lastChild);
@@ -589,7 +690,7 @@ function mostrarProveedores(datosDelServ) {
 function llamarProveedoresServ() {
     let varPOST = 'proveedorProExt';
     const xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
+    xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             const objInfo = JSON.parse(this.responseText);
             mostrarProveedores(objInfo);
@@ -620,10 +721,6 @@ function imputCodProExt() {
     //< label for= "servicio-codigoProductoExterno-registrar" > Codigo del producto externo</label >
     //  <input type="text" maxlength="7" class="servicio-codigoProductoExterno-registrar" id="servicio-codigoProductoExterno-registrar" disabled>
 
-
-}
-
-function crearSelectServicios(servicios, select) {
 
 }
 
@@ -868,7 +965,7 @@ function crearLIstas() {
     nombreSolicitud = nombrePagina;
 
     xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
+    xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             const objInfo = JSON.parse(this.responseText);
             seleccionarTabla(nombrePagina, objInfo);
@@ -967,7 +1064,7 @@ function rellenarModal(e) {
     packEnvioServ = JSON.stringify([pagina, dni]);
 
     xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
+    xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             const objInfo = JSON.parse(this.responseText);
             seleccionarModal(pagina, objInfo[0]);

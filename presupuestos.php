@@ -13,33 +13,32 @@ app::llamarLayout('header');
         </ul>
     </aside>
     <!-- esta es la pestñana que aparecera cuando se registra un nuevo cliente -->
-    <main class=" col-md bg-info ">
+    <main class="col-md bg-info">
         <div id="registrar-vista" class="d-flex flex-column flex-md-row gap-2 pb-3 align-items-center d-none row">
-            <div class="col-12 col-md-2">
-                <label for="presupuesto-nombre-registrar">CIF / NIF de cliente</label>
-                <input type="text" class="form-control" name="presupuesto-nombre-registrar" id="presupuesto-nombre-registrar" placeholder="ej: G123653214">
+             <div class="col-12 col-md-2">
+                <label for="doc-dni-registrar">CIF / NIF de cliente</label>
+                <input type="text" class="form-control" name="doc-dni-registrar" id="doc-dni-registrar" placeholder="ej: G123653214">
             </div>
-            <div class="col-12 col-md border ficha-cliente">
-                <p class="cliente-cif">nif cliente</p>
-                <p class="cliente-nombre">Nombre</p>
-                <p class="cliente-direccion">direccion</p>
-                <p class="cliente-email">email</p>
-                <p class="cliente-telefono">telefono</p>
-                <p class="cliente-contacto">contacto</p>
+            <div class="col-12 col-md border ficha-cliente" id = "ficha-cliente">
+                <p class="cliente-cif">NIF cliente: </p>
+                <p class="cliente-nombre">Nombre: </p>
+                <p class="cliente-direccion">Direccion: </p>
+                <p class="cliente-email">E-mail: </p>
+                <p class="cliente-telefono">Telefono: </p>
+                <p class="cliente-contacto">Contacto: </p>
             </div>
             <div class="col-12 gap-2 d-flex flex-column clientes-servicios">
-                <label for="presupuesto-codigo-registrar">Codigo presupuesto</label>
-                <input type="text" class="form-control" name="presupuesto-codigo-registrar" id="presupuesto-codigo-registrar" placeholder="ej: MS542" disabled>
                 <!-- esto sera un desplegable con las opciones de los serviccios -->
-                <select id="servicios">
-                  
+                <select id="servicios" class=" form-select" disabled>
+                <option value=""></option>
                 </select>
-                <div class="clientes-servicios-resumen bg-dark" id="resumen_servicios">
-                  
+                <div class="clientes-servicios-resumen bg-dark modal-dialog-scrollable" id="resumen_servicios">
+
+                    <hr class="d-none order-1"/>
+                    <p id="total" class="d-none text-center fs-3 fw-bold ">Total sin IVA <span id="precio">0</span> € </p>
                 </div>
             </div>
-            <button name="registrar" id="registrar">Generar
-                Presupuesto</button>
+            <button name="registrar" id="registrar" disabled>Generar Presupuesto</button>
         </div>
         <!-- ENCONTRAR LA FORMA DE ENVIAR UN CONTRASEÑA POR MAIL O HACERLO QUE AL INICIAR SECION CAMBIE LA CONTRASEÑA-->
         <!-- esto se sera una lista interactiva que se rellenara automaticamente cuando con js  con unos registro que obtendra de php-DDBB -->

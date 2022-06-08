@@ -262,34 +262,6 @@ class Funciones_en_BBDD extends BBDD
        // echo $grabadoEnBBDD . "<---------------";
         return $grabadoEnBBDD;
     }
-
-    // con un array introduce los usuarios que esten dentro de ele array
-/*                                                                    
-                                                                             
-                     _________      ____                                                                                                                      
-                    |         \     |   |                                        
-                    |          \    |   |                                                               
-                    |    | \    \   |   |                                    
-                    |    |  \    \  |   |                                    
-                    |    |   \    \ |   |                                   
-                    |    |    \    \|   |                                   
-                    |    |     \        |                                    
-                    |    |      \_______|                                       
-   */ function registrarUsuarios($usuarioGR_EM)  
-    {
-        $grabadoEnBBDD = null;
-        if (count($usuarioGR_EM) === 2) {
-            for ($i = 0; $i < count($usuarioGR_EM); $i++) {
-                $grabadoEnBBDD = false;
-                $sql = 'INSERT INTO billmaker.acceso VALUES (?)';
-                $sentPre = $this->conexion->prepare($sql);
-                $sentPre->bindParam(1, $usuario, PDO::PARAM_STR);
-                $sentPre->execute();
-                if ($sentPre->rowCount() > 0) $grabadoEnBBDD = true;            
-            }
-        }
-        return $grabadoEnBBDD;
-    }
     // funcion que devuelve los proveedores para el listadp de productos externos en
 
 
@@ -305,7 +277,7 @@ class Funciones_en_BBDD extends BBDD
     }
 
     //funcion filtra solicitante de vista_list
-    function identificaLista_vita($solicitante, $dni = '')
+    function identificaLista_vita($solicitante)
     {
 
         $sql = '';
@@ -349,7 +321,7 @@ class Funciones_en_BBDD extends BBDD
 
     function devolverUnRegistro($tabla, $dni)
     {
-        $sql = $this->identificaLista_vita($tabla, $dni);
+        $sql = $this->identificaLista_vita($tabla);
 
         $where =  ' WHERE dni=?';
         if ($tabla === 'servicios') {
@@ -483,7 +455,7 @@ class Funciones_en_BBDD extends BBDD
         }
         $sentPre = $this->conexion->prepare($sql);
         $precio = (int)$datos->precio;
-print_r($datos);
+        print_r($datos);
         $sentPre->bindParam(1, $datos->idServicios, PDO::PARAM_STR);
         $sentPre->bindParam(2, $datos->idProducto, PDO::PARAM_STR);
         $sentPre->bindParam(3, $datos->nombre, PDO::PARAM_STR);

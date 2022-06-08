@@ -127,3 +127,10 @@ if (isset($_POST['registrar'])) {
     
     echo json_encode($respuesta);
 }
+
+if (isset($_POST['existe_cliente'])){
+ //   echo $_POST['existe_cliente'];
+    $datos = $conex->devolverUnRegistro('clientes', ($_POST['existe_cliente']));
+  //  print_r($datos);
+    echo json_encode($datos[0]);
+}

@@ -115,3 +115,9 @@ footer {
         margin: 0 auto 0 auto;
     }
 }
+
+@media (max-height: 700px){
+    .clientes-servicios-resumen{
+        scroll-behavior: auto;
+    }
+}
