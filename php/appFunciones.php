@@ -107,7 +107,7 @@ if (isset($_POST['registrar'])) {
     $respuesta = null;
   
     
-    //  var_dump($packRegistro);
+     var_dump($packRegistro);
     if ($packRegistro[0] === 'empleados') {
         $respuesta = $conex->seleccionarQueryRegistroPagina($packRegistro[0], $packRegistro[1]);
         if ($respuesta && gettype($respuesta) !== 'string') {

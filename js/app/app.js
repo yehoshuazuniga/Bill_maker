@@ -47,23 +47,47 @@ function cargarEventos() {
         if (!!document.getElementById('cerrar-modal')) {
             document.getElementById('cerrar-modal').addEventListener('blur', bloquearInputs, true);
 
-        } 
-        
-        if(!!document.getElementById('resumen_servicios')){
-            document.getElementById('resumen_servicios').addEventListener('change', autoScrol)
-            
         }
-        
-        
+
+        if (!!document.getElementById('resumen_servicios')) {
+            document.getElementById('resumen_servicios').addEventListener('change', autoScrol)
+
+        }
+
+        /*     if (!!document.getElementById('registrar')) {
+            document.getElementById('registrar').addEventListener('click', generarFacturaYPresu, true);
+        }
+ */
+
         // eventos pequeños
         //   document.getElementById('logo').addEventListener('click', compo, true);
     }
 }
 
-function autoScrol(){
-    if(document.getElementsByClassName('offsetHeight')[0]>500){
+function autoScrol() {
+    if (document.getElementsByClassName('offsetHeight')[0] > 500) {
         document.getElementsByClassName('offsetHeight')[0].classList.add('bg-primary')
     }
+}
+
+
+
+function generarFacturaYPresu() {
+    let miEmpresa = document.getElementById('miEmpresa');
+    let trabajador = miEmpresa.name;
+    let dniCliente = document.getElementById('doc-dni-registrar').value;
+    let contenedorServicios = document.getElementById('resumen_servicios').getElementsByTagName('p')
+    let precio = document.getElementById('precio').innerHTML;
+    let servicios = [];
+    for (let i = 0; i < contenedorServicios.length; i++) {
+        const servicio = contenedorServicios[i];
+        servicios.push(servicio.title);
+    }
+
+    // alert(JSON.stringify(servicios))
+
+
+    return [dniCliente, trabajador, precio, JSON.stringify(servicios)];
 }
 
 function rellenarFichaCliente(datos) {
@@ -82,8 +106,9 @@ function rellenarFichaCliente(datos) {
 
     divContenedor.getElementsByTagName('select')[0].disabled = false;
     divContenedor.getElementsByTagName('button')[0].disabled = false;
-    divContenedor.getElementsByTagName('input')[0].disabled = false;
+    divContenedor.getElementsByTagName('input')[0].disabled = true;
 }
+
 function generarDoc() {
     dni = document.getElementById('doc-dni-registrar')
 
@@ -93,7 +118,7 @@ function generarDoc() {
         varServ = 'existe_cliente';
         packEnvioServ = dni.value;
         //alert( packEnvioServ );
-        xhttp.onreadystatechange = function () {
+        xhttp.onreadystatechange = function() {
             if (this.status === 200 && this.readyState === 4) {
                 const objInfo = JSON.parse(this.responseText);
                 rellenarFichaCliente(objInfo);
@@ -120,7 +145,7 @@ function crearSelecServicios() {
     let select = document.getElementById('servicios');
     let varPOST = 'servicios';
     const xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
+    xhttp.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
             const objInfo = JSON.parse(this.responseText);
             options(objInfo, select, 'idServicios')
@@ -146,7 +171,7 @@ function crearInputSelect(e) {
                 packEnvioServ = JSON.stringify([pagina, dni]);
                 // alert(dni);
                 xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function () {
+                xhttp.onreadystatechange = function() {
                     if (this.readyState === 4 && this.status === 200) {
                         const objInfo = JSON.parse(this.responseText);
 
@@ -161,7 +186,7 @@ function crearInputSelect(e) {
                          objetoHTML.appendChild(texto);
                          document.getElementById('resumen_servicios').appendChild(objetoHTML);
                  */
-                        document.getElementById('resumen_servicios').innerHTML += `<p name='${campo['idServicios']}' class="d-flex px-2 justify-content-between" ><span>${campo['nombre']}</span> <span>${campo['precio']} €</span></p>`
+                        document.getElementById('resumen_servicios').innerHTML += `<p title='${campo['idServicios']}' class="d-flex px-2 justify-content-between" ><span>${campo['nombre']}</span> <span>${campo['precio']} €</span></p>`
                         hr = document.getElementsByTagName('hr')[0];
                         p_precioTotal = document.getElementById('total')
                         spanSuma = document.getElementById('precio')
@@ -170,7 +195,7 @@ function crearInputSelect(e) {
                             hr.classList.remove('d-none');
                             p_precioTotal.classList.remove('d-none')
                             spanSuma.innerHTML = (parseInt(spanSuma.innerHTML) + parseInt(campo['precio']))
-                        }else{
+                        } else {
                             spanSuma.innerHTML = (parseInt(spanSuma.innerHTML) + parseInt(campo['precio']))
 
                         }
@@ -233,7 +258,7 @@ function compo() {
     const varPOST = 'compo';
     let datosEnvioServ = JSON.stringify(true);
     const xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
+    xhttp.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
             const objInfo = JSON.parse(this.responseText);
             alert(objInfo);
@@ -362,13 +387,7 @@ function obtenerValores(grupo) {
 
     return idValue
 }
-// crea estructurar dom, no funciona
-function crearMensajesDom(mensaje) {
 
-    //esto hay que mejorarlo
-    document.getElementsByTagName('button')[1].appendChild(document.createElement('p').appendChild(document.createTextNode('ljdnjsn')))
-    "ljdnjsn"
-}
 // para estructuras que se quiera solo un momento   
 function setTimeOut(funcName, retraso) {
     const timer = setTimeOut(funcName + "()", parseInt(retraso))
@@ -462,7 +481,7 @@ function validacionusuario(varPOST, datos) {
     let loc = './inicio.php';
     let datosEnvioServ = JSON.stringify(datos);
     const xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
+    xhttp.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
             const objInfo = JSON.parse(this.responseText);
             // alert(objInfo);
@@ -541,7 +560,7 @@ function registroUsuario() {
         datosEnvioServ = JSON.stringify(datosDeEnt);
         alert(datosEnvioServ + ' <br> ' + count)
         const xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
+        xhttp.onreadystatechange = function() {
             if (this.readyState === 4 && this.status === 200) {
                 const objInfo = JSON.parse(this.responseText);
                 alert(objInfo[0]);
@@ -586,7 +605,7 @@ function cerrarsesion() {
     const varPOST = 'cerrarSesion';
     let datosEnvioServ = JSON.stringify(true);
     const xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
+    xhttp.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
             const objInfo = JSON.parse(this.responseText);
             alert(objInfo[0]);
@@ -622,14 +641,22 @@ function registrarCEFPS() {
 
         console.log(JSON.stringify(datosEnt));
     }
+
     if (localizarDondeEstoy() === 'servicios') {
         datosEnt['idServicios'] = crearId(empresa.value, 'servicio');
     }
+
+    if (localizarDondeEstoy() === 'facturas' || localizarDondeEstoy() === 'presupuestos') {
+        datosEnt = generarFacturaYPresu();
+        //alert(packEnvioServ);
+    }
+
     let packEnvioServ = JSON.stringify([localizarDondeEstoy(), JSON.stringify(datosEnt)]);
+
     let varServ = 'registrar';
 
     xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
+    xhttp.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
             const objInfo = JSON.parse(this.responseText);
             // alert(typeof objInfo)
@@ -670,14 +697,14 @@ function mostrarProveedores(datosDelServ) {
     if (select.classList.contains('d-none') && checkbox.checked) {
         select.classList.remove('d-none');
         options(packProveedores, select, 'idProducto')
-        //ponesmos un escuchador a los option creados
-        /*  if (document.getElementsByTagName('option').length > 0) {
-             opt = document.getElementsByTagName('option');
-             alert('las ve')
-             for (let i = 0; i < opt.length; i++) {
-                 opt[i].addEventListener('click', prueba, true);
-             }
-         } */
+            //ponesmos un escuchador a los option creados
+            /*  if (document.getElementsByTagName('option').length > 0) {
+                 opt = document.getElementsByTagName('option');
+                 alert('las ve')
+                 for (let i = 0; i < opt.length; i++) {
+                     opt[i].addEventListener('click', prueba, true);
+                 }
+             } */
     } else {
         while (select.hasChildNodes()) {
             select.removeChild(select.lastChild);
@@ -690,7 +717,7 @@ function mostrarProveedores(datosDelServ) {
 function llamarProveedoresServ() {
     let varPOST = 'proveedorProExt';
     const xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
+    xhttp.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
             const objInfo = JSON.parse(this.responseText);
             mostrarProveedores(objInfo);
@@ -965,7 +992,7 @@ function crearLIstas() {
     nombreSolicitud = nombrePagina;
 
     xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
+    xhttp.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
             const objInfo = JSON.parse(this.responseText);
             seleccionarTabla(nombrePagina, objInfo);
@@ -1064,7 +1091,7 @@ function rellenarModal(e) {
     packEnvioServ = JSON.stringify([pagina, dni]);
 
     xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
+    xhttp.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
             const objInfo = JSON.parse(this.responseText);
             seleccionarModal(pagina, objInfo[0]);

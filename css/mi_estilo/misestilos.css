@@ -88,7 +88,6 @@ footer {
 
 .ficha-cliente>p:nth-child(4) {
     grid-area: p4;
-    color: black;
 }
 
 .ficha-cliente>p:nth-child(5) {
@@ -116,8 +115,8 @@ footer {
     }
 }
 
-@media (max-height: 700px){
-    .clientes-servicios-resumen{
+@media (max-height: 700px) {
+    .clientes-servicios-resumen {
         scroll-behavior: auto;
     }
 }

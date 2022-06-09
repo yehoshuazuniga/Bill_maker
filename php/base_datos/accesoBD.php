@@ -415,6 +415,64 @@ class Funciones_en_BBDD extends BBDD
 
         return  $hayInsercion;
     }
+
+    //busca el id de una factura o presupuesto
+
+    function devuelveIdFacturaPresupuesto($dateTime, $trabajador, $tabla){
+        $id='';
+        $sql = "SELECT idPresupuesto FROM ". $tabla . " WHERE fechaCreacion = ? AND idEmpleado = ?";
+        $sentPre = $this->conexion->prepare($sql);
+        $sentPre->bindParam(1,$dateTime,PDO::PARAM_STR);
+        $sentPre->bindParam(2,$trabajador,PDO::PARAM_STR);
+
+        $sentPre->execute();
+        if($sentPre->rowCount()>0){
+            $auxi= $sentPre->fetchAll(PDO::FETCH_ASSOC);
+            $id=$auxi[0];
+        }
+
+     var_dump($id);
+        return $id;
+
+    }
+
+    function insertarFondo($idFacturaYProducto, $precio, $facOPresu, $operacion){
+        $sql = "INSERT INTO fondos (".$facOPresu.", ".$operacion.") VALUES(?,?)";
+        $sentPre = $this->conexion->prepare($sql);
+
+    }
+
+    function registrarResgistroPresupuestos($pagina, $datos){
+        $tiempo = new DateTime('NOW');
+        $hayInsercion= false;
+        $id = '';
+        $sql = 'INSERT INTO '. $pagina. '(dniCliente, idEmpleado,precio,fechaCreacion) 
+                VALUES(?,?,?,?)';
+        $sentPre = $this->conexion->prepare($sql);
+       $ahora= $tiempo->format('Y-m-d H:i:s');
+       //$ahora= $tiempo->format('Y-m-d H:i:s');
+        $sentPre->bindParam(1,$datos[0],PDO::PARAM_STR);
+        $sentPre->bindParam(2,$datos[1],PDO::PARAM_STR);
+        $sentPre->bindParam(3,$datos[2],PDO::PARAM_INT);
+        $sentPre->bindParam(4, $ahora,PDO::PARAM_STR);
+
+        $sentPre->execute();
+        if($sentPre->rowCount()>0){
+            $id = $this->devuelveIdFacturaPresupuesto($ahora,$datos[1],$pagina);
+            if(gettype($id)==='string'){
+                    $hayInsercion=true;
+                    var_dump($id);
+            
+            }
+        }
+
+        if ($hayInsercion){
+        //genera pdf
+        }
+        
+        return $hayInsercion;
+    }
+
     function registrarResgistroProveedores($pagina, $datos)
     {
         $hayInsercion = false;
@@ -486,10 +544,10 @@ class Funciones_en_BBDD extends BBDD
 
                 break;
             case 'facturas':
-                //  $result = $this->registrarResgistroClientes($pagina, $datos);
+                  //$result = $this->registrarResgistroFacturas($pagina, $datos);
 
             case 'presupuestos':
-                // $result = $this->registrarResgistroClientes($pagina, $datos);
+                 $result = $this->registrarResgistroPresupuestos($pagina, $datos);
 
                 break;
             case 'proveedores':
