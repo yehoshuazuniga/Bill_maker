@@ -1,7 +1,9 @@
 <?php
+require_once __DIR__.'/fpdf/fpdf.php';
 include __DIR__ . '/base_datos/accesoBD.php';
 include __DIR__ . '/seguridad/elPuertasYelCoyote.php';
 $conex = Funciones_en_BBDD::singleton();
+$pdf = new FPDF();
 session_start();
 if (isset($_SESSION['BBDD']) && count($_SESSION) === 4) {
     $bd = $_SESSION['BBDD'];
@@ -107,7 +109,7 @@ if (isset($_POST['registrar'])) {
     $respuesta = null;
   
     
-     var_dump($packRegistro);
+     //var_dump($packRegistro);
     if ($packRegistro[0] === 'empleados') {
         $respuesta = $conex->seleccionarQueryRegistroPagina($packRegistro[0], $packRegistro[1]);
         if ($respuesta && gettype($respuesta) !== 'string') {
@@ -122,9 +124,14 @@ if (isset($_POST['registrar'])) {
         } */
     }else{
         $respuesta = $conex->seleccionarQueryRegistroPagina($packRegistro[0], $packRegistro[1]);
-    }
+        //print_r($packRegistro[1][3]);
+        if(gettype($respuesta) ==='array' && $respuesta[0]== true){
+          //  array_unshift($packRegistro,$respuesta[1], json_decode($packRegistro[1][3]));
+           array_push($respuesta, json_decode($packRegistro[1][3]));
 
-    
+        }
+    } 
+    print_r($respuesta);
     echo json_encode($respuesta);
 }
 

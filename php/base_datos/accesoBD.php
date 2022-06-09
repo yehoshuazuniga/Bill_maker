@@ -306,6 +306,8 @@ class Funciones_en_BBDD extends BBDD
             case 'servicios':
                 $sql = 'SELECT * ' . $sql2 . ' FROM ' . $solicitante;
                 break;
+            case'gerente':
+                $sql = 'SELECT telefono, email, direccion FROM '. $solicitante;
         }
         return $sql;
     }
@@ -319,11 +321,11 @@ class Funciones_en_BBDD extends BBDD
         return $packEnvioEnt;
     }
 
-    function devolverUnRegistro($tabla, $dni)
+    function devolverUnRegistro($tabla, $dni, $tipo ='dni')
     {
         $sql = $this->identificaLista_vita($tabla);
 
-        $where =  ' WHERE dni=?';
+        $where =  ' WHERE '.$tipo. '=?';
         if ($tabla === 'servicios') {
             $where =  ' WHERE idServicios=?';
         }
@@ -431,8 +433,8 @@ class Funciones_en_BBDD extends BBDD
             $id=$auxi[0];
         }
 
-     var_dump($id);
-        return $id;
+     //var_dump($id);
+        return $id['idPresupuesto'];
 
     }
 
@@ -443,14 +445,16 @@ class Funciones_en_BBDD extends BBDD
     }
 
     function registrarResgistroPresupuestos($pagina, $datos){
+        $servicios = json_decode($datos[3]);
+        $datosServico =[];
         $tiempo = new DateTime('NOW');
         $hayInsercion= false;
-        $id = '';
+        $idPresuFact = '';
         $sql = 'INSERT INTO '. $pagina. '(dniCliente, idEmpleado,precio,fechaCreacion) 
                 VALUES(?,?,?,?)';
         $sentPre = $this->conexion->prepare($sql);
        $ahora= $tiempo->format('Y-m-d H:i:s');
-       //$ahora= $tiempo->format('Y-m-d H:i:s');
+       //echo     $ahora= $tiempo->format('Y-m-d H:i:s');
         $sentPre->bindParam(1,$datos[0],PDO::PARAM_STR);
         $sentPre->bindParam(2,$datos[1],PDO::PARAM_STR);
         $sentPre->bindParam(3,$datos[2],PDO::PARAM_INT);
@@ -458,19 +462,30 @@ class Funciones_en_BBDD extends BBDD
 
         $sentPre->execute();
         if($sentPre->rowCount()>0){
-            $id = $this->devuelveIdFacturaPresupuesto($ahora,$datos[1],$pagina);
-            if(gettype($id)==='string'){
+            $idPresuFact = $this->devuelveIdFacturaPresupuesto($ahora,$datos[1],$pagina);
+          //  $nombreTrabajador = $this->devolverUnRegistro('empleados', $datos[1], 'idEmpleado');
+            //$nombreTrabajador = $nombreTrabajador[0]['nombre'].' '.$nombreTrabajador[0]['apellido'] ;
+            $nombreTrabajador = $_SESSION['empleado'];
+            $datosEmpresa = $this->devolverUnRegistro('gerente',$_SESSION['BBDD'], 'basedatos');
+            foreach ($servicios as $key => $value) {
+               array_push($datosServico, $this->devolverUnRegistro('servicios',$value));
+            }
+            //echo count($datosServico);
+          //  var_dump($datosServico);
+            // var_dump($datosEmpresa);
+          // print_r($nombreTrabajador);
+            if( gettype($idPresuFact)==='integer' && gettype($nombreTrabajador)==='integer'&&
+                gettype($datosEmpresa)==='array' && gettype($datosServico) ==='array' &&
+                count($datosEmpresa) >0 && count($datosServico)>0
+            ){
                     $hayInsercion=true;
-                    var_dump($id);
+                    //var_dump($idPresuFact);
+                    //echo "cambio";
             
             }
         }
-
-        if ($hayInsercion){
-        //genera pdf
-        }
         
-        return $hayInsercion;
+        return [$hayInsercion,$idPresuFact,  $nombreTrabajador,  $datosEmpresa[0], $datosServico ];
     }
 
     function registrarResgistroProveedores($pagina, $datos)
