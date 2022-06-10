@@ -307,7 +307,8 @@ class Funciones_en_BBDD extends BBDD
                 $sql = 'SELECT * ' . $sql2 . ' FROM ' . $solicitante;
                 break;
             case'gerente':
-                $sql = 'SELECT telefono, email, direccion FROM '. $solicitante;
+                $sql = 'SELECT dni, direccion, telefono, email ,nombre , apellido, basedatos  FROM '. $solicitante;
+                break;
         }
         return $sql;
     }
@@ -422,7 +423,7 @@ class Funciones_en_BBDD extends BBDD
 
     function devuelveIdFacturaPresupuesto($dateTime, $trabajador, $tabla){
         $id='';
-        $sql = "SELECT idPresupuesto FROM ". $tabla . " WHERE fechaCreacion = ? AND idEmpleado = ?";
+        $sql = "SELECT idPresupuesto, fechaCreacion  FROM ". $tabla . " WHERE fechaCreacion = ? AND idEmpleado = ?";
         $sentPre = $this->conexion->prepare($sql);
         $sentPre->bindParam(1,$dateTime,PDO::PARAM_STR);
         $sentPre->bindParam(2,$trabajador,PDO::PARAM_STR);
@@ -434,7 +435,7 @@ class Funciones_en_BBDD extends BBDD
         }
 
      //var_dump($id);
-        return $id['idPresupuesto'];
+        return $id;
 
     }
 
@@ -467,6 +468,7 @@ class Funciones_en_BBDD extends BBDD
             //$nombreTrabajador = $nombreTrabajador[0]['nombre'].' '.$nombreTrabajador[0]['apellido'] ;
             $nombreTrabajador = $_SESSION['empleado'];
             $datosEmpresa = $this->devolverUnRegistro('gerente',$_SESSION['BBDD'], 'basedatos');
+            $datosCliente = $this-> devolverUnRegistro('clientes',$datos[0]);
             foreach ($servicios as $key => $value) {
                array_push($datosServico, $this->devolverUnRegistro('servicios',$value));
             }
@@ -474,9 +476,9 @@ class Funciones_en_BBDD extends BBDD
           //  var_dump($datosServico);
             // var_dump($datosEmpresa);
           // print_r($nombreTrabajador);
-            if( gettype($idPresuFact)==='integer' && gettype($nombreTrabajador)==='integer'&&
-                gettype($datosEmpresa)==='array' && gettype($datosServico) ==='array' &&
-                count($datosEmpresa) >0 && count($datosServico)>0
+            if( gettype($idPresuFact['idPresupuesto'])==='integer' && gettype($nombreTrabajador)==='string'&&
+                gettype($datosEmpresa)==='array' && gettype($datosServico) ==='array' && gettype($datosCliente) =='array' &&
+                count($datosCliente)>0 && count($datosEmpresa) >0 && count($datosServico)>0
             ){
                     $hayInsercion=true;
                     //var_dump($idPresuFact);
@@ -485,7 +487,7 @@ class Funciones_en_BBDD extends BBDD
             }
         }
         
-        return [$hayInsercion,$idPresuFact,  $nombreTrabajador,  $datosEmpresa[0], $datosServico ];
+        return [$hayInsercion, $nombreTrabajador, $idPresuFact,  $datosEmpresa[0], $datosCliente, $datosServico ];
     }
 
     function registrarResgistroProveedores($pagina, $datos)

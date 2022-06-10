@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__.'/fpdf/fpdf.php';
+require_once __DIR__.'/fpdf/plantillaFactura.php';
 include __DIR__ . '/base_datos/accesoBD.php';
 include __DIR__ . '/seguridad/elPuertasYelCoyote.php';
 $conex = Funciones_en_BBDD::singleton();
@@ -131,7 +131,24 @@ if (isset($_POST['registrar'])) {
 
         }
     } 
-    var_dump($respuesta);
+    if($respuesta[0]){
+      //  var_dump($respuesta);
+        $cabeceraServ = ['Nombre', 'Descripcion', 'Precio'];
+        $nombrePDF= substr($_SESSION['codSujeto'],0,2).''.array_shift($respuesta[2]);
+  //                    ( $empresa, $cliente, $operacion, $operador)
+        $pdf = new PDF( $respuesta[3], $respuesta[4][0], $respuesta[2], $respuesta[1]);
+        $direc ='../clientes/'.$_SESSION['BBDD'].'/'.$nombrePDF.'.pdf';
+        $pdf->AliasNbPages();
+        $pdf->AddPage('P', 'A4');
+        $pdf->SetFont('Times', '', 12);
+        $pdf->BasicTable($cabeceraServ,$respuesta[5]);
+
+      
+        $pdf->Output('F', $direc);
+        $pdf->Output('D'); 
+      //  $pdf->Output();
+    }
+  //  var_dump($respuesta);
     echo json_encode($respuesta);
 }
 
