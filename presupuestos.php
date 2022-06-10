@@ -53,7 +53,6 @@ app::llamarLayout('header');
                     <td>Seleccionar</td>
                 </tr>
             </table>
-
             <!-- actualizar modal con lod datos de la factura y sus serviucios+2 -->
 
             <div class="modal fade " id="modal-presupuesto" tabindex="-1" aria-hidden="true" aria-labelledby="label-modal-servicio" data-bs-backdrop="static">

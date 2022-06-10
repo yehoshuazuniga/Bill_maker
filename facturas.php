@@ -1,4 +1,3 @@
-
 <?php require './php/appElementos.php';
 app::llamarLayout('header');
 ?>
@@ -16,11 +15,11 @@ app::llamarLayout('header');
     <!-- esta es la pestñana que aparecera cuando se registra un nuevo cliente -->
     <main class="col-md bg-info">
         <div id="registrar-vista" class="d-flex flex-column flex-md-row gap-2 pb-3 align-items-center d-none row">
-             <div class="col-12 col-md-2">
+            <div class="col-12 col-md-2">
                 <label for="doc-dni-registrar">CIF / NIF de cliente</label>
                 <input type="text" class="form-control" name="doc-dni-registrar" id="doc-dni-registrar" placeholder="ej: G123653214">
             </div>
-            <div class="col-12 col-md border ficha-cliente" id = "ficha-cliente">
+            <div class="col-12 col-md border ficha-cliente" id="ficha-cliente">
                 <p class="cliente-cif">NIF cliente: </p>
                 <p class="cliente-nombre">Nombre: </p>
                 <p class="cliente-direccion">Direccion: </p>
@@ -30,10 +29,15 @@ app::llamarLayout('header');
             </div>
             <div class="col-12 gap-2 d-flex flex-column clientes-servicios">
                 <!-- esto sera un desplegable con las opciones de los serviccios -->
-                <select id="servicios" class=" form-select"  disabled>
-                <option value=""></option>
+                <select id="servicios" class=" form-select" disabled>
+                    <option value=""></option>
                 </select>
-                <div class="clientes-servicios-resumen bg-dark" id="resumen_servicios">
+                <div class="bg-dark ">
+                    <p id="total" class="d-none text-center fs-3 fw-bold ">Total sin IVA <span id="precio">0</span> € </p>
+                    <hr class="d-none order-1" />
+                    <div class="clientes-servicios-resumen " id="resumen_servicios">
+
+                    </div>
                 </div>
             </div>
             <button name="registrar" id="registrar" disabled>Generar Factura</button>

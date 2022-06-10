@@ -131,7 +131,7 @@ if (isset($_POST['registrar'])) {
 
         }
     } 
-    print_r($respuesta);
+    var_dump($respuesta);
     echo json_encode($respuesta);
 }
 
