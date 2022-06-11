@@ -48,10 +48,10 @@ app::llamarLayout('header');
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h3 class="modal-title">
+                            <h3 class="modal-title text-black">
                                 Registro tus datos
                             </h3>
-                            <button class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" id=cerrar-modal></button>s
+                            <button class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" id=cerrar-modal></button>
                         </div>
                         <div id="modal-body" class="modal-body row m-3">
                             <label class="text-dark" for="dni">CIF</label>
@@ -66,10 +66,8 @@ app::llamarLayout('header');
                             <input type="tel" name="direccion" id="telefono" placeholder="6245854132" disabled>
                             <label class="text-dark" for="personaContacto">Persona de contacto</label>
                             <input type="text" name="personaContacto" id="personaContacto" placeholder="ej: Juan Antonio" disabled>
-                            <button name="mofificar-cliente" id="mofificar">Modificar
-                            </button>
-                            <button name="dar-baja-cliente" id="dar-baja-cliente" data-bs-dismiss="modal">Dar baja
-                            </button>
+                            <button name="mofificar-cliente" id="mofificar">Modificar</button>
+                            <button name="dar-baja" id="dar-baja"">Dar baja</button>
                         </div>
                     </div>
                 </div>

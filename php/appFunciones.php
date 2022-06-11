@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__.'/fpdf/plantillaFactura.php';
+require_once __DIR__ . '/fpdf/plantillaFactura.php';
 include __DIR__ . '/base_datos/accesoBD.php';
 include __DIR__ . '/seguridad/elPuertasYelCoyote.php';
 $conex = Funciones_en_BBDD::singleton();
@@ -45,20 +45,29 @@ if (isset($_POST['nuevoUsuario'])) {
     if ($conex->existeParametro('dni', 'dni', $seguridad->filtrado($datosEnt->usuario_cif))) {
         echo json_encode(['La empresa ya ha sido dada de alta', true]);
     } else {
-        // si en cif no exixte se recopila la informacion y se registarn en 
-        //la tabla gerente y empelado de billmaker y la bbdd recien
-        $conex->crearBDyTablas($seguridad->filtrado($datosEnt->usuario_nick_registro));
-        //eto registra los usuario en la bbdd de billmaker
-        $creaTablasCliente = $conex->registrarGer_Emp($datosEnt);
-          
-        if (gettype($creaTablasCliente) == 'string' && $conex->registroTablaAcceso($datosEnt->usuarioGerente) && $conex->registroTablaAcceso($datosEnt->usuarioEmpleado)) {
-            $bdnname = str_replace(' ', '_', $seguridad->filtrado($datosEnt->usuario_nick_registro));
-            $conex = null;
-            $conex = new Funciones_en_BBDD($bdnname);
-            echo json_encode([($conex->registrarGer_Emp($datosEnt)), false]);
+        if ($conex->existeParametro('email', 'email', $seguridad->filtrado($datosEnt->usuario_email))) {
+            echo json_encode(['Este mail ya ha sido usado', true]);
+        } else {
+            if($conex->existeParametro('basedatos','basedatos', str_replace(' ', '_', ltrim($datosEnt->usuario_nick_registro)))){
+                echo json_encode(['Este nombre de emperesa ya ha sido usado',true]);
+            }else{
+                // si en cif no exixte se recopila la informacion y se registarn en 
+                //la tabla gerente y empelado de billmaker y la bbdd recien
+                $conex->crearBDyTablas($seguridad->filtrado($datosEnt->usuario_nick_registro));
+                //eto registra los usuario en la bbdd de billmaker
+                $creaTablasCliente = $conex->registrarGer_Emp($datosEnt);
+
+                if (gettype($creaTablasCliente) == 'string' && $conex->registroTablaAcceso($datosEnt->usuarioGerente) && $conex->registroTablaAcceso($datosEnt->usuarioEmpleado)) {
+                    $bdnname = str_replace(' ', '_', $seguridad->filtrado($datosEnt->usuario_nick_registro));
+                    $conex = null;
+                    $conex = new Funciones_en_BBDD($bdnname);
+                    echo json_encode([($conex->registrarGer_Emp($datosEnt)), false]);
+                }
+            }
         }
     }
 }
+
 
 if (isset($_POST['cerrarSesion'])) {
     $resultSession = '';
@@ -105,14 +114,16 @@ if (isset($_POST['soicitarUnRegistro'])) {
 
 if (isset($_POST['registrar'])) {
     $packRegistro = json_decode($_POST['registrar']);
+    
     $packRegistro = [$packRegistro[0], json_decode($packRegistro[1])];
     $respuesta = null;
-  
-    
-     //var_dump($packRegistro);
+
+
+    //var_dump($packRegistro);
     if ($packRegistro[0] === 'empleados') {
         $respuesta = $conex->seleccionarQueryRegistroPagina($packRegistro[0], $packRegistro[1]);
         if ($respuesta && gettype($respuesta) !== 'string') {
+            // esto lo guar en el bbdd principal
             $conex = null;
             $conex = Funciones_en_BBDD::singleton();
             $respuesta = json_encode($conex->seleccionarQueryRegistroPagina($packRegistro[0], $packRegistro[1]));
@@ -122,39 +133,39 @@ if (isset($_POST['registrar'])) {
                 $respuesta = 
             }
         } */
-    }else{
+    } else {
         $respuesta = $conex->seleccionarQueryRegistroPagina($packRegistro[0], $packRegistro[1]);
-        //print_r($packRegistro[1][3]);
-        if(gettype($respuesta) ==='array' && $respuesta[0]== true){
-          //  array_unshift($packRegistro,$respuesta[1], json_decode($packRegistro[1][3]));
-           array_push($respuesta, json_decode($packRegistro[1][3]));
-
+        //  print_r($packRegistro[1][3]);
+        if (gettype($respuesta) === 'array' && $respuesta[0] == true) {
+            //echo 'hola';
+            //  array_unshift($packRegistro,$respuesta[1], json_decode($packRegistro[1][3]));
+            array_push($respuesta, json_decode($packRegistro[1][3]));
         }
-    } 
-    if($respuesta[0]){
-      //  var_dump($respuesta);
+    }
+    if ($respuesta[0] && ($packRegistro[0] === 'presupuestos' || $packRegistro[0] === 'facturas')) {
+        // print_r($respuesta);
         $cabeceraServ = ['Nombre', 'Descripcion', 'Precio'];
-        $nombrePDF= substr($_SESSION['codSujeto'],0,2).''.array_shift($respuesta[2]);
-  //                    ( $empresa, $cliente, $operacion, $operador)
-        $pdf = new PDF( $respuesta[3], $respuesta[4][0], $respuesta[2], $respuesta[1]);
-        $direc ='../clientes/'.$_SESSION['BBDD'].'/'.$nombrePDF.'.pdf';
+        $aux = $respuesta[2];
+        $nombrePDF = substr($_SESSION['codSujeto'], 0, 2) . '' . array_shift($aux);
+        //construct($empresa, $cliente, $operacion, $operador)
+        //print_r($respuesta[1]);
+        // print_r($respuesta[2]['idFacturas']);
+        // print_r($respuesta[3]);
+        $pdf = new PDF($respuesta[3], $respuesta[4][0], $respuesta[2], $respuesta[1]);
+        $direc = "../clientes/" . $_SESSION['BBDD'] . "/" . $nombrePDF . ".pdf";
         $pdf->AliasNbPages();
         $pdf->AddPage('P', 'A4');
         $pdf->SetFont('Times', '', 12);
-        $pdf->BasicTable($cabeceraServ,$respuesta[5]);
-
-      
+        $pdf->BasicTable($cabeceraServ, $respuesta[5]);
         $pdf->Output('F', $direc);
-        $pdf->Output('D'); 
-      //  $pdf->Output();
+        $respuesta = [$respuesta[0], $_SESSION['BBDD'], $nombrePDF];
     }
-  //  var_dump($respuesta);
+
     echo json_encode($respuesta);
 }
-
-if (isset($_POST['existe_cliente'])){
- //   echo $_POST['existe_cliente'];
+if (isset($_POST['existe_cliente'])) {
+    //   echo $_POST['existe_cliente'];
     $datos = $conex->devolverUnRegistro('clientes', ($_POST['existe_cliente']));
-  //  print_r($datos);
+    //  print_r($datos);
     echo json_encode($datos[0]);
 }

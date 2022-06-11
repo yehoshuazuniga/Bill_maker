@@ -186,11 +186,11 @@ class BBDD
         $sql =
         "CREATE TABLE IF NOT EXISTS facturas (
                 idFacturas INT AUTO_INCREMENT,
-                dni VARCHAR(10) NOT NULL,
+                dniCliente VARCHAR(10) NOT NULL,
                 idEmpleado VARCHAR(7) NOT NULL,
                 idPresupuesto INT NULL,
-                precioTotalSinIva INT NOT NULL,
-                fechaCreacion DATE DEFAULT NOW(),
+                precio INT NOT NULL,
+                fechaCreacion DATETIME DEFAULT NOW(),
                 PRIMARY KEY (idFacturas),
                 UNIQUE INDEX idFacturas_UNIQUE (idFacturas ASC),
                 INDEX idPresupuesto_idx (idPresupuesto ASC),

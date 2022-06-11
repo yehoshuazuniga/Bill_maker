@@ -17,15 +17,15 @@ app::llamarLayout('header');
     <main class="col-12 col-md bg-info">
         <div id="registrar-vista" class="d-flex flex-column d-none gap-2 pb-3">
             <label class="text-dark" for="nombre">Nombre y Apellido</label>
-            <input class="form-control" type="text" name="nombre" id="nombre" placeholder="ej: Juan" >
+            <input class="form-control" type="text" name="nombre" id="nombre" placeholder="ej: Juan">
             <label class="text-dark" for="dni">DNI/NIE</label>
-            <input class="form-control" type="text" name="dni" id="dni" placeholder="Y12345678X / 25148596D" >
+            <input class="form-control" type="text" name="dni" id="dni" placeholder="Y12345678X / 25148596D">
             <label class="text-dark" for="direccion">Direccion</label>
-            <input class="form-control" type="text" name="direccion" id="direccion" placeholder="Calle Anton 14" >
+            <input class="form-control" type="text" name="direccion" id="direccion" placeholder="Calle Anton 14">
             <label class="text-dark" for="email">Correo electronico</label>
-            <input class="form-control" type="email" name="email" id="email" placeholder="Mi_usuario@email.org" >
+            <input class="form-control" type="email" name="email" id="email" placeholder="Mi_usuario@email.org">
             <label class="text-dark" for="telefono">Telefono de contacto</label>
-            <input class="form-control" type="tel" name="telefono" id="telefono" placeholder="6245854132" >
+            <input class="form-control" type="tel" name="telefono" id="telefono" placeholder="6245854132">
             <label for="empleado-telefono-registrar">Password</label>
             <input class="form-control" type="password" id="password">
             <button name="registrar" id="registrar">Registrar empleado
@@ -49,26 +49,25 @@ app::llamarLayout('header');
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h3 class="modal-title"> disabled
+                            <h3 class="modal-title"> 
                                 Registro tus datos
                             </h3>
                             <button class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                         </div>
                         <div id="modal-body" class="modal-body row m-3">
                             <label class="text-dark" for="nombre">Nombre</label>
-                            <input class="form-control"  type="text" name="nombre" id="nombre" placeholder="ej: Juan" disabled>
+                            <input class="form-control" type="text" name="nombre" id="nombre" placeholder="ej: Juan" disabled>
                             <label class="text-dark" for="dni">DNI/NIE</label>
-                            <input class="form-control"  type="text" name="dni" id="dni" placeholder="Y12345678X / 25148596D" disabled>
+                            <input class="form-control" type="text" name="dni" id="dni" placeholder="Y12345678X / 25148596D" disabled>
                             <label class="text-dark" for="direccion">Direccion</label>
-                            <input class="form-control"  type="text" name="direccion" id="direccion" placeholder="Calle Anton 14" disabled>
+                            <input class="form-control" type="text" name="direccion" id="direccion" placeholder="Calle Anton 14" disabled>
                             <label class="text-dark" for="email">Correo electronico</label>
-                            <input class="form-control"  type="email" name="email" id="email" placeholder="Mi_usuario@email.org" disabled>
+                            <input class="form-control" type="email" name="email" id="email" placeholder="Mi_usuario@email.org" disabled>
                             <label class="text-dark" for="telefono">Telefono de contacto</label>
-                            <input class="form-control"  type="tel" name="telefono" id="telefono" placeholder="6245854132" disabled>
+                            <input class="form-control" type="tel" name="telefono" id="telefono" placeholder="6245854132" disabled>
                             <button name="mofificar-empleado" id="mofificar">Modificar
                             </button>
-                            <button name="dar-baja-empleado" id="dar-baja-empleado" data-bs-dismiss="modal">Dar baja
-                            </button>
+                            <button name="dar-baja" id="dar-baja"">Dar baja</button>
                         </div>
                     </div>
                 </div>

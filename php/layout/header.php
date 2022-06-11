@@ -5,6 +5,8 @@ session_start();
 PuertasYcoyote::validadcionSesionIniciada();
 PuertasYcoyote::seccionDesignada();
 print_r($_SESSION);
+
+
 ?>
 
 <!DOCTYPE html>

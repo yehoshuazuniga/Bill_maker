@@ -1036,10 +1036,10 @@ $pdf = new PDF( $empresa, $cliente, $operacion, $operador);
 $pdf->AliasNbPages();
 $pdf->AddPage('P', 'A4');
 $pdf->SetFont('Times', '', 12);
-//$pdf->BasicTable($cabeceraServ,$datos);
+$pdf->BasicTable($cabeceraServ,$datos);
+$pdf->Output('F', '../clientes/prueedwqdbah6.pdf');
+if(isset($_GET['dale'])){
+    $pdf->Output('D','../docman.pdf');
 
-/* for ($i = 1; $i < count($serv); $i++)
-    $pdf->Cell(0, 10, utf8_decode($serv[$i]) . $i, 1, 1);
- */ $pdf->Output('F', '../clientes/cosas/prueba3.pdf');
-    $pdf->Output('D', 'prueba3.pdf'); 
-$pdf->Output();
+}
+?>

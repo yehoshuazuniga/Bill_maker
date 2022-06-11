@@ -81,11 +81,11 @@ app::llamarLayout('header');
                                 <p class="dato-presu"> <span class="fw-ligth"></span> €</p>
 
                             </div>
-                            <button name="presupuesto-pdf" id="presupuesto-pdf" data-bs-dismiss="modal">Generar PDF
+                            <button name="presupuesto-pdf" id="generar-pdf">Generar PDF
                             </button>
-                            <button name="presupuesto-aprobar" id="presupuesto-aprobar" data-bs-dismiss="modal">Aprobar presupuesto
+                            <button name="presupuesto-aprobar" id="presupuesto-aprobar">Aprobar presupuesto
                             </button>
-                            <button name="presupuesto-cancelar" id="presupuesto-cancelar" data-bs-dismiss="modal">Cancelar presupuesto
+                            <button name="presupuesto-cancelar" id="presupuesto-cancelar">Cancelar presupuesto
                             </button>
                         </div>
                     </div>

@@ -82,9 +82,9 @@ app::llamarLayout('header');
                                 <p class="dato-factura"> <span class="fw-ligth"></span> €</p>
 
                             </div>
-                            <button name="factura-pdf" id="factura-pdf" data-bs-dismiss="modal">Generar PDF
+                            <button name="factura-pdf" id="generar-pdf" >Generar PDF
                             </button>
-                            <button name="factura-rectificativa" id="factura-rectificativa" data-bs-dismiss="modal">Factura rectificatica
+                            <button name="factura-rectificativa" id="factura-rectificativa" >Factura rectificatica
                             </button>
                         </div>
                     </div>

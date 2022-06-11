@@ -13,20 +13,20 @@ app::llamarLayout('header');
         </ul>
     </aside>
     <!-- esta es la pestñana que aparecera cuando se registra un nuevo cliente -->
-    <main class="col-12 col-md bg-info">
+    <div class="col-12 col-md bg-info">
         <div id="registrar-vista" class="d-flex flex-column d-none gap-2 pb-3">
             <label for="nombre">Nombre proveedor</label>
-            <input class="form-control"  type="text" name="nombre" id="nombre" placeholder="ej: Mi proveedor">
+            <input class="form-control" type="text" name="nombre" id="nombre" placeholder="ej: Mi proveedor">
             <label for="dni">CIF</label>
-            <input class="form-control"  type="text" name="dni" id="dni" placeholder="G12345678">
+            <input class="form-control" type="text" name="dni" id="dni" placeholder="G12345678">
             <label for="direccion">Direccion</label>
-            <input class="form-control"  type="text" name="direccion" id="direccion" placeholder="Calle Anton 14">
+            <input class="form-control" type="text" name="direccion" id="direccion" placeholder="Calle Anton 14">
             <label for="email">Correo electronico</label>
-            <input class="form-control"  type="email" name="email" id="email" placeholder="Mi_usuario@email.org">
+            <input class="form-control" type="email" name="email" id="email" placeholder="Mi_usuario@email.org">
             <label for="personaContacto">Persona de contacto</label>
-            <input class="form-control"  type="text" name="personaContacto" id="personaContacto" placeholder="Antonio Cuenca">
+            <input class="form-control" type="text" name="personaContacto" id="personaContacto" placeholder="Antonio Cuenca">
             <label for="telefono">Telefono de contacto</label>
-            <input class="form-control"  type="tel" name="telefono" id="telefono" placeholder="6245854132">
+            <input class="form-control" type="tel" name="telefono" id="telefono" placeholder="6245854132">
             <button name="registrar" id="registrar">Registrar proveedor </button>
         </div>
         <!-- ENCONTRAR LA FORMA DE ENVIAR UN CONTRASEÑA POR MAIL O HACERLO QUE AL INICIAR SECION CAMBIE LA CONTRASEÑA-->
@@ -69,14 +69,14 @@ app::llamarLayout('header');
 
                             <button name="mofificar-proveedor" id="mofificar">Modificar
                             </button>
-                            <button name="dar-baja-proveedor" id="dar-baja-proveedor" data-bs-dismiss="modal">Dar baja </button>
+                            <button name="dar-baja" id="dar-baja"">Dar baja</button>
                         </div>
                     </div>
                 </div>
 
             </div>
         </div>
-    </main>
+    </div>
 </section>
 <?php
 app::llamarLayout('footer');

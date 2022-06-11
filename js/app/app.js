@@ -54,6 +54,11 @@ function cargarEventos() {
 
         }
 
+        if (!!document.getElementById('generar-pdf')) {
+            document.getElementById('generar-pdf').addEventListener('click', generarPDFSeleccionado, true);
+
+        }
+
         /*     if (!!document.getElementById('registrar')) {
             document.getElementById('registrar').addEventListener('click', generarFacturaYPresu, true);
         }
@@ -64,13 +69,35 @@ function cargarEventos() {
     }
 }
 
+function generarPDFSeleccionado() {
+    nPdf = document.getElementById('modal-body').getElementsByTagName('span')[2].innerHTML;
+    carpeta = document.getElementById('miEmpresa').value;
+    nPdf = nombreLargo(carpeta) + '' + nPdf;
+    carpeta = carpeta.replace(' ', '_')
+    download(carpeta, nPdf);
+
+}
+
+
 function autoScrol() {
     if (document.getElementsByClassName('offsetHeight')[0] > 500) {
         document.getElementsByClassName('offsetHeight')[0].classList.add('bg-primary')
     }
 }
 
+function download(carpeta, fichero) {
+    var element = document.createElement('a');
 
+    element.setAttribute('href', './clientes/' + carpeta + '/' + fichero + '.pdf');
+    element.setAttribute('download', '');
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
+}
 
 function generarFacturaYPresu() {
     let miEmpresa = document.getElementById('miEmpresa');
@@ -461,15 +488,14 @@ function comprobarCamposRegistroUsuario(inputForm) {
     inputForm[4].value === '' ? invalido(inputForm[4]) : valido(inputForm[4]);
     inputForm[5].value === '' ? invalido(inputForm[5]) : valido(inputForm[5]);
 
-    if (!!inputForm[6]) {
-        if (inputForm[6].value === '') {
-            invalido(inputForm[6])
+    if (inputForm[6].value === '') {
+        invalido(inputForm[6])
 
-        } else {
-            valido(inputForm[6])
-            input6 = true;
-        }
+    } else {
+        valido(inputForm[6])
+        input6 = true;
     }
+
     if (input0 && input1 && input3 && input6) {
         apto = true;
     }
@@ -661,14 +687,28 @@ function registrarCEFPS() {
             const objInfo = JSON.parse(this.responseText);
             // alert(typeof objInfo)
             if (typeof objInfo == 'boolean' || objInfo == 'true' || objInfo == 'false') {
+
                 if (objInfo || objInfo == 'true') {
-                    alert(localizarDondeEstoy() + ' registrado');
-                    cambiaLoc('./' + locDeDatos + '.php')
+                    alert(localizarDondeEstoy() + ' registradoS');
+                    cambiaLoc('./' + localizarDondeEstoy() + '.php')
+                        //   setTimeOut("cambiaLoc('./' + localizarDondeEstoy() + '.php')", 1000)
+
                 } else {
                     alert(localizarDondeEstoy() + ' no registrado');
                 }
             } else {
-                alert(objInfo);
+                // alert(typeof objInfo)
+                if (typeof objInfo === 'object') {
+                    if (objInfo[0]) {
+                        //         alert(objInfo)
+                        //       alert((objInfo[1]))
+                        download(objInfo[1], objInfo[2]);
+                        // setTimeout("alerto('jajajajjaja')", 2000);
+
+                        alert('Todo correcto, se ha creado la factura y se ha generado  la factura')
+                    }
+                }
+
             }
         }
     }
@@ -676,6 +716,10 @@ function registrarCEFPS() {
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send(varServ + '=' + packEnvioServ);
 
+}
+
+function alerto(a) {
+    alert(a)
 }
 //llamar a proveedores del servidor
 function options(pack, select, id) {
@@ -836,8 +880,8 @@ function tablaListaFacturas(datos) {
         fila = `<tr>
                     <td>${element['idFacturas']}</td>
                     <td>${element['idPresupuesto'] == null ? '' : element['idPresupuesto']}</td>
-                    <td>${element['precioTotalSinIva']} €</td>
-                    <td>${parseInt(element['precioTotalSinIva']) * 1.21} €</td>
+                    <td>${element['precio']} €</td>
+                    <td>${parseInt(element['precio']) * 1.21} €</td>
 
                     <td>
                        <button name="botones-lista"  id="${element['idFacturas']}" data-bs-toggle="modal" data-bs-target="#modal-factura">Seleccionar</button>

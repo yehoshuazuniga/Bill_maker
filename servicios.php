@@ -69,10 +69,8 @@ app::llamarLayout('header');
                             <label class="text-dark" for="servicio-codigoProductoExterno-registrar">Codigo del
                                 producto externo</label>
                             <input type="text" maxlength="7" class="servicio-codigoProductoExterno-registrar" id="servicio-codigoProductoExterno-registrar" disabled>
-                            <button name="mofificar-servicio" id="mofificar">Modificar
-                            </button>
-                            <button name="dar-baja-servicio" id="dar-baja-servicio" data-bs-dismiss="modal">Dar baja
-                            </button>
+                            <button name="mofificar-cliente" id="mofificar">Modificar</button>
+                            <button name="dar-baja" id="dar-baja"">Dar baja</button>
                         </div>
                     </div>
                 </div>
