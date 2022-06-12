@@ -43,16 +43,6 @@ class PuertasYcoyote
             $_SESSION['codSujeto'] = $cod;
         }
     }
-    //hash
-    public static function passHash($password)
-    {
-        return hash('sha512', self::SALT . $password);
-    }
-    //identidy hass
-    public static  function verificarPass($hassBBDD, $passwordEnt)
-    {
-        return ($hassBBDD == self::passHash($passwordEnt));
-    }
 
     public static function filtrado($texto)
     {
@@ -75,7 +65,7 @@ class PuertasYcoyote
 
     public static function seccionDesignada()
     {
-        
+
         $loc = $_SERVER['PHP_SELF'];
         if (isset($_SESSION['roll'])) {
             if (isset($_SESSION['roll'])) {
@@ -102,5 +92,14 @@ class PuertasYcoyote
             $estado = true;
         }
         return $estado;
+    }
+    function crearCarpetas($nombre)
+    {
+        $url = '../clientes/' . $nombre;
+        mkdir($url);
+        mkdir($url . '/facturas');
+        mkdir($url . '/presupuestos');
+        //echo $url;
+        return is_dir($url);
     }
 }

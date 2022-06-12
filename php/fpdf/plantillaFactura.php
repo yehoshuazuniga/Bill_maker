@@ -8,12 +8,14 @@ class PDF extends FPDF
     protected $datosCliente;
     protected $datosOperacion;
     protected $operador;
-    function __construct($empresa, $cliente, $operacion, $operador)
+    protected $documento;
+    function __construct($empresa, $cliente, $operacion, $operador, $tipoDoc)
     {
         $this->datosEmpresa = $empresa;
         $this->datosCliente = $cliente;
         $this->datosOperacion = $operacion;
         $this->operador = $operador;
+        $this->documento = $tipoDoc;
         parent::__construct();
     }
 
@@ -101,45 +103,37 @@ class PDF extends FPDF
         $this->Cell(95, 8, utf8_decode(' Persona de contacto : ' . $this->datosEmpresa['nombre'] . ' ' . $this->datosEmpresa['apellido']));
         $this->Ln(8);
         $this->Cell(95, 8, utf8_decode(' Atendido por: ' . $this->operador));
-        $this->Cell(95, 8, utf8_decode(' Nº de operación: ' . array_shift($this->datosOperacion)));
+        $this->Cell(95, 8, utf8_decode(' Nº de ' . $this->documento . ': ' . array_shift($this->datosOperacion)));
         $this->Ln(8);
-        $this->Cell(95, 8, utf8_decode(' Fecha de operación: ' . array_shift($this->datosOperacion)));
-        // Título
-        /*    $this->Cell(25,10,'DNI
-                         titulo',1,0,'C'); */
-        // Salto de línea
+        $this->Cell(95, 8, utf8_decode(' Fecha de creacion: ' . array_shift($this->datosOperacion)));
         $this->Ln(15);
     }
 
     function BasicTable($header, $datos)
     {
-        $this->Cell(62.5, 7, $header[0], 1);
-        $this->Cell(107, 7, $header[1], 1);
+        $this->SetFont('Arial', 'B', 14);
+        $this->Cell(84.75, 7, $header[0], 1);
+        $this->Cell(84.75, 7, $header[1], 1);
         $this->Cell(20.5, 7, $header[2], 1);
         $this->Ln();
         // $medidas = [47.5, 122,20.5];
-        $medidas = ['nombre' => 62.5, 'descripcion' => 107, 7, 'precio' => 20.5];
         $cont = 0;
-        $cont2 = 0;
+        $this->SetFont('Arial', '', 7);
         for ($i = 0; $i < count($datos); $i++) {
             $dat = $datos[$i][0];
-            /* foreach ($dat as $key => $value) {
-                $this->Cell($medidas[$key], 7, utf8_decode($value));
-                if($key = 'precio'){
-                    $cont += intval($value);
-                } 
-                $cont2 +=7;}*/
-            $this->Cell(62.5, 7, $dat['nombre'], 1);
-            $this->Cell(107, 7, $dat['descripcion'], 1);
+            $this->Cell(84.75, 7, $dat['nombre'], 1);
+            $this->Cell(84.75, 7, $dat['descripcion'], 1);
             $this->Cell(20.5, 7, $dat['precio'], 1);
             $cont += intval($dat['precio']);
             $this->Ln();
         }
-        $this->Cell(157, 14, '', 0);
+        $this->SetFont('Arial', '', 10);
+        $this->Cell(157, 14, 'Sumatorio Total', 0,0, 'R');
         $this->Cell(20.5, 14, $cont, 0, 0, 'R');
         $this->Ln();
-        $this->Cell(162.5, 14, '');
-        $this->Cell(20.5, 14, utf8_decode('Total con IVA incluido ' . ($cont * 1.21) . "$"), 0, 0, 'R');
+        $this->Cell(162.5, 14, 'Total con IVA incluido', 0,0, 'R');
+        $this->SetFont('Arial', 'B',18);
+        $this->Cell(20.5, 14, utf8_decode( ($cont * 1.21) . "$"), 0, 0);
         //  echo $cont;
     }
 
@@ -151,7 +145,7 @@ class PDF extends FPDF
         // Arial italic 8
         $this->SetFont('Arial', 'I', 8);
         // Número de página
-        $this->Cell(0, 10, 'Page ' . $this->PageNo() . '/{nb}', 1, 0, 'C');
+        $this->Cell(0, 10, 'Page ' . $this->PageNo() . '/{nb}', 0, 0, 'C');
     }
 }
 ?>

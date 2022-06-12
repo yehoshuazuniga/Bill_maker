@@ -64,6 +64,12 @@ class Funciones_en_BBDD extends BBDD
     function extraerDatos($usu, $pass)
     {
         //  echo " $usu -----  $pass ";
+
+
+        //tener cuidado aqui hay que agregar el hasseo
+
+      $pass = $this->passHash($pass);
+        //echo 'extraerDatos******' . $pass . '*******';
         $datos = [];
 
         $sent1 = '  SELECT  g.basedatos FROM gerente g , empleados e
@@ -106,8 +112,12 @@ class Funciones_en_BBDD extends BBDD
         return $datos;
     }
 
+   
     function verificarUsuario($usu, $pass)
     {
+
+        $pass = $this->passHash($pass);
+       // echo 'verificarUsuario******'. $pass.'*******';
         $respuesta = false;
         $sql        = "SELECT *
                         FROM acceso
@@ -186,9 +196,9 @@ class Funciones_en_BBDD extends BBDD
     function insertTrabajador($pagina, $datos, $tipoID = 'idEmpleado', $campo8 = 'idGerente')
     {
         $hayInsercion = false;
-        /*echo $pagina;
-        print_r($datos);
-      */
+        /* echo $pagina;
+        print_r($datos); */
+     
         $sql = 'INSERT INTO ' . $pagina . '
             (' . $tipoID . ', nombre, apellido, dni, email, telefono, direccion, ' . $campo8 . ', usuario, password)
                         VALUES  (?, ?, ?, ?, ?, ?, ?, ?, ?,?)';
@@ -210,69 +220,67 @@ class Funciones_en_BBDD extends BBDD
             //echo 'actua';
             $hayInsercion = true;
         }
+      //  echo $hayInsercion;
         return $hayInsercion;
     }
 
     //registro del empleado y gerente 
     function registrarGer_Emp($datosEnt)
     {
-        // print_r($datosEnt);             
+     // print_r($datosEnt);             
         $id = null;
         $usuario = null;
         $respuesta = null;
         $cargos = ['gerente', 'empleados'];
-        $nombreApellido = explode(' ', $datosEnt->usuario_contacto);
-        $nameBD_o_IdGerente = str_replace(' ', '_', (ltrim($datosEnt->usuario_nick_registro)));
-        //  $usuariosRegistrados_2 = [];
-        $usuariosRegistrados_2 = 0;
-        for ($i = 0; $i < count($cargos); $i++) {
-            $sql = "INSERT INTO $cargos[$i] VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
-            $sentPre = $this->conexion->prepare($sql);
-            if ($i === 0) {
-                $id = $datosEnt->idGerente;
-                $usuario = $datosEnt->usuarioGerente;
-            } else {
-                $id = $datosEnt->idEmpleado;
-                $nameBD_o_IdGerente = null;
-                $nameBD_o_IdGerente = $datosEnt->idGerente;
-                $usuario = $datosEnt->usuarioEmpleado;
-            }
-            $sentPre->bindParam(1, $id, PDO::PARAM_STR);
-            $sentPre->bindParam(2, $nombreApellido[0], PDO::PARAM_STR);
-            $sentPre->bindParam(3, $nombreApellido[1], PDO::PARAM_STR);
-            $sentPre->bindParam(4, $datosEnt->usuario_cif, PDO::PARAM_STR);
-            $sentPre->bindParam(5, $datosEnt->usuario_email, PDO::PARAM_STR);
-            $sentPre->bindParam(6, $datosEnt->usuario_telefono, PDO::PARAM_STR);
-            $sentPre->bindParam(7, $datosEnt->usuario_direccion, PDO::PARAM_STR);
-            $sentPre->bindParam(8, $nameBD_o_IdGerente, PDO::PARAM_STR);
-            $sentPre->bindParam(9, $usuario, PDO::PARAM_STR);
-            $sentPre->bindParam(10, $datosEnt->usuario_password_registro, PDO::PARAM_STR);
-            $sentPre->execute();
-            //  if ($sentPre->rowCount() > 0) $usuariosRegistrados_2[$i] = $usuario;
-            if ($sentPre->rowCount() > 0) $usuariosRegistrados_2++;
-        }
+        $nombreApellido = explode(' ', $datosEnt->contacto);
+        $nombre = ucfirst($nombreApellido[0]);
+        $apellido = isset($nombreApellido[1])? ucfirst($nombreApellido[1]):'' ;
+        $nombreEmpresa = str_replace(' ', '_', (ltrim($datosEnt->nombreEmpresa)));
+        $datosGerente =[
+        'idEmpleado'=> $datosEnt->idGerente,
+        'nombre'=> $nombre,
+        'apellido'=> $apellido,
+        'dni'=>$datosEnt->dni,
+        'email'=>$datosEnt->email,
+        'telefono'=>$datosEnt->telefono,
+        'direccion'=>$datosEnt->direccion,
+        'idGerente'=> $nombreEmpresa,
+        'usuario'=>$datosEnt->usuarioGerente,
+        'password' => $datosEnt->password]
+        ;
+        $datosEmpleado = [
+        'idEmpleado'=>$datosEnt->idEmpleado,
+        'nombre'=> $nombre,
+        'apellido'=> $apellido,
+        'dni'=>$datosEnt->dni,
+        'email'=>$datosEnt->email,
+        'telefono'=>$datosEnt->telefono,
+        'direccion'=>$datosEnt->direccion,
+        'idGerente'=> $datosEnt->idGerente,
+        'usuario'=>$datosEnt->usuarioEmpleado,
+        'password' => $datosEnt->password
+        ];
 
-        /* if (  $this->registroTablaAcceso($datosEnt->usuarioGerente) && $this->registroTablaAcceso($datosEnt->usuarioEmpleado)) {
-           
-                $respuesta = "Tablas de datos generadas, usuario gerente y empleado generados, sus credenciales se enviaran por mail";
-                //echo $respuesta;
-            
-        } else {
-            //printf($usuario);
-          //  print_r($datosEnt); 
-            //echo "   paso por aqui";
-            if ($usuariosRegistrados_2 === 2) {
-                $respuesta = "Usuarios, empleado y gerente, insertados en sus respectivas tablas";
-                // echo "paso por el segundo registro";
-            }
-        } */
-        if ($usuariosRegistrados_2 === 2) {
+       // echo'-------------------'. $datosEnt->idGerente.'-----------------';
+       // echo'-------------------'. $datosEnt->idEmpleado.'-----------------';
+        //var_dump($datosEmpleado);
+        $datosGerente = (object)$datosGerente;
+        $datosEmpleado = (object)$datosEmpleado;
+        //echo $datosGerente->idEmpleado;
+        //  (' . $tipoID . ', nombre, apellido, dni, email, telefono, direccion, ' . $campo8 . ', usuario, password)
+        // var_dump($datosEmpleado);
+        // var_dump($datosGerente);
+        $gerenteRegistrado = $this->insertTrabajador($cargos[0], $datosGerente, 'idGerente', 'basedatos' );
+        $empleadoRegistrado = $this->insertTrabajador($cargos[1], $datosEmpleado,);
+      //   var_dump($gerenteRegistrado);
+      //   var_dump($empleadoRegistrado);
+        if ($gerenteRegistrado && $empleadoRegistrado) {
             $respuesta = "Tablas de datos generadas, usuario gerente y empleado generados, sus credenciales se enviaran por mail";
         } else {
             $respuesta = 'vuelve a introducir los datos';
         }
 
-
+     //    echo $respuesta;
         return $respuesta;
     }
     function registroTablaAcceso($usuario)
@@ -284,11 +292,14 @@ class Funciones_en_BBDD extends BBDD
             $sentPre = $this->conexion->prepare($sql);
             $sentPre->bindParam(1, $usuario, PDO::PARAM_STR);
             $sentPre->execute();
-            if ($sentPre->rowCount() > 0) $grabadoEnBBDD = true;
+            if ($sentPre->rowCount() > 0) {
+                $grabadoEnBBDD = true;
+               // echo ' se registro en acceso ';
+            }
         } catch (PDOException $e) {
             $grabadoEnBBDD = true;
         }
-        // echo $grabadoEnBBDD . "<---------------";
+       //  echo $grabadoEnBBDD . "<---------------";
         return $grabadoEnBBDD;
     }
     // funcion que devuelve los proveedores para el listadp de productos externos en
@@ -446,7 +457,8 @@ class Funciones_en_BBDD extends BBDD
         }
         $id[$reg]  =(int)$id[$reg];
 
-       // var_dump($id);
+        //var_dump($id);
+
         return $id;
     }
 
@@ -483,7 +495,7 @@ class Funciones_en_BBDD extends BBDD
         if ($sentPre->rowCount() > 0) {
             $idPresuFact = $this->devuelveIdyFacFacturaPresupuesto($ahora, $datos[1], $pagina);
             $aux1=$idPresuFact;
-            $aux1 = array_pop($idPresuFact);
+            $aux1 = array_pop($aux1);
             if($pagina === ' facturas' ) $this->insertarFondo('idFactura', 'ingresos', $aux1, $datos[2]);
             $nombreTrabajador = $_SESSION['empleado'];
             $datosEmpresa = $this->devolverUnRegistro('gerente', $_SESSION['BBDD'], 'basedatos');

@@ -5,14 +5,12 @@ include __DIR__ . '/seguridad/elPuertasYelCoyote.php';
 $conex = Funciones_en_BBDD::singleton();
 $pdf = new FPDF();
 session_start();
+$seguridad = new PuertasYcoyote();
 if (isset($_SESSION['BBDD']) && count($_SESSION) === 4) {
     $bd = $_SESSION['BBDD'];
     $conex = new Funciones_en_BBDD($bd);
     //$conex->consultaPrueba();
 }
-
-$seguridad = new PuertasYcoyote();
-
 if (isset($_POST['accesousuario'])) {
     $datosEnt = (json_decode($_POST['accesousuario']));
     $usuario = $seguridad->filtrado($datosEnt->usuario_nick);
@@ -42,25 +40,30 @@ if (isset($_POST['nuevoUsuario'])) {
     //priemro se busca en la base de datos de billmaker y ya exte ese cif, 
     //si existe se notifica al cliente y no se registra nada 
     //las operacones devuel an cliente y un boolean
-    if ($conex->existeParametro('dni', 'dni', $seguridad->filtrado($datosEnt->usuario_cif))) {
+    foreach ($datosEnt as $key => $value) {
+        $datosEnt->$key = $seguridad->filtrado($value );
+    }
+    if ($conex->existeParametro('dni', 'dni',$datosEnt->dni)) {
         echo json_encode(['La empresa ya ha sido dada de alta', true]);
     } else {
-        if ($conex->existeParametro('email', 'email', $seguridad->filtrado($datosEnt->usuario_email))) {
+        if ($conex->existeParametro('email', 'email', $datosEnt->email)) {
             echo json_encode(['Este mail ya ha sido usado', true]);
         } else {
-            if($conex->existeParametro('basedatos','basedatos', str_replace(' ', '_', ltrim($datosEnt->usuario_nick_registro)))){
+            if($conex->existeParametro('basedatos','basedatos', str_replace(' ', '_', ltrim($datosEnt->nombreEmpresa)))){
                 echo json_encode(['Este nombre de emperesa ya ha sido usado',true]);
             }else{
                 // si en cif no exixte se recopila la informacion y se registarn en 
                 //la tabla gerente y empelado de billmaker y la bbdd recien
-                $conex->crearBDyTablas($seguridad->filtrado($datosEnt->usuario_nick_registro));
+                $conex->crearBDyTablas($datosEnt->nombreEmpresa);
                 //eto registra los usuario en la bbdd de billmaker
                 $creaTablasCliente = $conex->registrarGer_Emp($datosEnt);
 
                 if (gettype($creaTablasCliente) == 'string' && $conex->registroTablaAcceso($datosEnt->usuarioGerente) && $conex->registroTablaAcceso($datosEnt->usuarioEmpleado)) {
-                    $bdnname = str_replace(' ', '_', $seguridad->filtrado($datosEnt->usuario_nick_registro));
+                    $bdnname = str_replace(' ', '_', $datosEnt->nombreEmpresa);
                     $conex = null;
+                  //  echo $bdnname;
                     $conex = new Funciones_en_BBDD($bdnname);
+                    $seguridad->crearCarpetas($bdnname);
                     echo json_encode([($conex->registrarGer_Emp($datosEnt)), false]);
                 }
             }
@@ -145,20 +148,23 @@ if (isset($_POST['registrar'])) {
     if ($respuesta[0] && ($packRegistro[0] === 'presupuestos' || $packRegistro[0] === 'facturas')) {
         // print_r($respuesta);
         $cabeceraServ = ['Nombre', 'Descripcion', 'Precio'];
+        // print_r($respuesta[2]);
         $aux = $respuesta[2];
         $nombrePDF = substr($_SESSION['codSujeto'], 0, 2) . '' . array_shift($aux);
         //construct($empresa, $cliente, $operacion, $operador)
         //print_r($respuesta[1]);
         // print_r($respuesta[2]['idFacturas']);
-        // print_r($respuesta[3]);
-        $pdf = new PDF($respuesta[3], $respuesta[4][0], $respuesta[2], $respuesta[1]);
-        $direc = "../clientes/" . $_SESSION['BBDD'] . "/" . $nombrePDF . ".pdf";
+       
+        $doc = ucfirst(substr($packRegistro[0], 0, strlen($packRegistro[0]) -1));
+        $pdf = new PDF($respuesta[3], $respuesta[4][0], $respuesta[2], $respuesta[1],$doc);
+        $direc = "../clientes/" . $_SESSION['BBDD'] . "/" . $packRegistro[0]."/". $nombrePDF . ".pdf";
         $pdf->AliasNbPages();
         $pdf->AddPage('P', 'A4');
         $pdf->SetFont('Times', '', 12);
         $pdf->BasicTable($cabeceraServ, $respuesta[5]);
         $pdf->Output('F', $direc);
-        $respuesta = [$respuesta[0], $_SESSION['BBDD'], $nombrePDF];
+        $carpetasContenedoresPdf= $_SESSION['BBDD'] . '/' . $packRegistro[0];
+        $respuesta = [$respuesta[0], $carpetasContenedoresPdf, $nombrePDF];
     }
 
     echo json_encode($respuesta);
@@ -168,4 +174,11 @@ if (isset($_POST['existe_cliente'])) {
     $datos = $conex->devolverUnRegistro('clientes', ($_POST['existe_cliente']));
     //  print_r($datos);
     echo json_encode($datos[0]);
+}
+
+
+
+if (isset($_POST['cerrar'])) {
+    echo json_encode('hola desde el serv');
+
 }

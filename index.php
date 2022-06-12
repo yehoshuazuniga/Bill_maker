@@ -46,20 +46,20 @@
                                     <button class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" id=cerrar-modal></button>
                                 </div>
                                 <div class="modal-body row m-3 bg-dark d-flex gap-2" id="formulario_registrar">
-                                    <label for="usuario_nick_registro">Nombre de la empresa</label>
-                                    <input class="form-control" type="text" name="usuario_nick_registro" id="usuario_nick_registro" placeholder="Nombre fiscal">
-                                    <label for="usuario_cif">CIF</label>
-                                    <input class="form-control" type="text" name="usuario_cif" id="usuario_cif" placeholder="G12345678 / 25148596D">
-                                    <label for="usuario_direccion">Direccion</label>
-                                    <input class="form-control" type="text" name="usuario_direccion" id="usuario_direccion" placeholder="Calle Anton 14">
-                                    <label for="usuario_email">Correo electronico</label>
-                                    <input class="form-control" type="email" name="usuario_email" id="usuario_email" placeholder="Mi_usuario@email.org">
-                                    <label for="usuario_telefono">Telefono de contacto</label>
-                                    <input class="form-control" type="tel" name="usuario_telefono" id="usuario_telefono" placeholder="6245854132">
-                                    <label for="usuario_contacto">Persona de contactos</label>
-                                    <input class="form-control" type="text" name="usuario_contacto" id="usuario_contacto" placeholder="Miguel Angel">
-                                    <label for="usuario_password_registro">Password</label>
-                                    <input class="form-control" type="password" name="usuario_password_registro" id="usuario_password_registro" autocomplete="on">
+                                    <label for="nombreEmpresa">Nombre de la empresa</label>
+                                    <input class="form-control" type="text" name="nombreEmpresa" id="nombreEmpresa" placeholder="Nombre fiscal">
+                                    <label for="dni">CIF</label>
+                                    <input class="form-control" type="text" name="dni" id="dni" placeholder="G12345678 / 25148596D">
+                                    <label for="direccion">Direccion</label>
+                                    <input class="form-control" type="text" name="direccion" id="direccion" placeholder="Calle Anton 14">
+                                    <label for="email">Correo electronico</label>
+                                    <input class="form-control" type="email" name="email" id="email" placeholder="Mi_usuario@email.org">
+                                    <label for="telefono">Telefono de contacto</label>
+                                    <input class="form-control" type="tel" name="telefono" id="telefono" placeholder="6245854132">
+                                    <label for="contacto">Persona de contactos</label>
+                                    <input class="form-control" type="text" name="contacto" id="contacto" placeholder="Miguel Angel">
+                                    <label for="password">Password</label>
+                                    <input class="form-control" type="password" name="password" id="password" autocomplete="on">
                                     <button name="registrar" id="registrar">registrar </button>
                                     <button name="cerrar" id="cerrar" data-bs-dismiss="modal">cerrar </button>
 

@@ -112,8 +112,6 @@ function generarFacturaYPresu() {
     }
 
     // alert(JSON.stringify(servicios))
-
-
     return [dniCliente, trabajador, precio, JSON.stringify(servicios)];
 }
 
@@ -162,11 +160,6 @@ function generarDoc() {
 function prueba() {
     alert('e.target.value');
 }
-
-function crearResumen() {
-
-}
-
 
 function crearSelecServicios() {
     let select = document.getElementById('servicios');
@@ -574,17 +567,17 @@ function registroUsuario() {
         //creaando id gerente 
 
         //esto hay que eliminarlo
-        count = 0;
+        /* count = 0;
         for (const key in datosDeEnt) {
             if (Object.hasOwnProperty.call(datosDeEnt, key)) {
                 const element = datosDeEnt[key];
                 count++;
             }
-        }
+        } */
         //hasta aqui
 
         datosEnvioServ = JSON.stringify(datosDeEnt);
-        alert(datosEnvioServ + ' <br> ' + count)
+        alert(datosEnvioServ + ' <br> ')
         const xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             if (this.readyState === 4 && this.status === 200) {
