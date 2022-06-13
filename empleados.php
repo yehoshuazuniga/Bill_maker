@@ -40,7 +40,7 @@ app::llamarLayout('header');
                     <td>Nombre y apellido</td>
                     <td>Telefono</td>
                     <td>Email</td>
-
+                    <td>Estado</td>
                     <td>Seleccionar</td>
                 </tr>
 
@@ -49,10 +49,10 @@ app::llamarLayout('header');
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h3 class="modal-title"> 
+                            <h3 class="modal-title text-black">
                                 Registro tus datos
                             </h3>
-                            <button class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                            <button class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" id="cerrar-modal"></button>
                         </div>
                         <div id="modal-body" class="modal-body row m-3">
                             <label class="text-dark" for="nombre">Nombre</label>
@@ -65,6 +65,14 @@ app::llamarLayout('header');
                             <input class="form-control" type="email" name="email" id="email" placeholder="Mi_usuario@email.org" disabled>
                             <label class="text-dark" for="telefono">Telefono de contacto</label>
                             <input class="form-control" type="tel" name="telefono" id="telefono" placeholder="6245854132" disabled>
+                            <div class="form-check">
+                                <label for="activo" class="form-check-label text-dark">Estado activo</label>
+                                <input type="radio" class="form-check-input" name="estado" id="activo" disabled>
+                            </div>
+                            <div class="form-check">
+                                <label for="inactivo" class="form-check-label text-dark">Estado inactivo</label>
+                                <input type="radio" class="form-check-input" name="estado" id="inactivo" disabled>
+                            </div>
                             <button name="mofificar-empleado" id="mofificar">Modificar
                             </button>
                             <button name="dar-baja" id="dar-baja"">Dar baja</button>

@@ -59,6 +59,11 @@ function cargarEventos() {
 
         }
 
+        if (!!document.getElementById('mofificar-aceptar')) {
+            document.getElementById('mofificar-aceptar').addEventListener('click', aceptarModificaciones, true);
+
+        }
+
         /*     if (!!document.getElementById('registrar')) {
             document.getElementById('registrar').addEventListener('click', generarFacturaYPresu, true);
         }
@@ -69,13 +74,47 @@ function cargarEventos() {
     }
 }
 
+function obtenerValoresModificar(grupo) {
+    res = {};
+    for (let i = 0; i < grupo.length; i++) {
+        const und = grupo[i];
+        if (und.type != 'radio') {
+            res[und.name] = und.value;
+        } else {
+            if (und.checked) {
+                res[und.name] = und.value;
+            }
+        }
+    }
+    return res;
+}
+
+function aceptarModificaciones() {
+    inputs = document.getElementById('modal-body').getElementsByTagName('input')
+    varServ = 'modificar';
+    valores = [localizarDondeEstoy(), obtenerValoresModificar(inputs)];
+    packEnvioServ = JSON.stringify(valores);
+    alert(packEnvioServ + '    ' + varServ)
+    xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.status === 200 && this.readyState === 4) {
+            const objInfo = JSON.parse(this.responseText);
+            alert(objInfo);
+        }
+    }
+    xhttp.open('POST', './php/appFunciones.php', true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(varServ + '=' + packEnvioServ);
+
+
+}
+
 function generarPDFSeleccionado() {
     nPdf = document.getElementById('modal-body').getElementsByTagName('span')[2].innerHTML;
     carpeta = document.getElementById('miEmpresa').value;
     nPdf = nombreLargo(carpeta) + '' + nPdf;
-    carpeta = carpeta.replace(' ', '_')
+    carpeta = carpeta.replace(' ', '_') + '/' + localizarDondeEstoy();
     download(carpeta, nPdf);
-
 }
 
 
@@ -87,8 +126,8 @@ function autoScrol() {
 
 function download(carpeta, fichero) {
     var element = document.createElement('a');
-
-    element.setAttribute('href', './clientes/' + carpeta + '/' + fichero + '.pdf');
+    url = './clientes/' + carpeta + '/' + fichero + '.pdf'
+    element.setAttribute('href', url);
     element.setAttribute('download', '');
 
     element.style.display = 'none';
@@ -399,12 +438,20 @@ function crearId(empresaNombre, cargo) {
     //si existe hay que hacerlo de nuevos
 }
 //recopila valores de donde se apunte, se pasa la direccion dom lo los que hay q extraer datos para el servidor
-function obtenerValores(grupo) {
+function obtenerValores(grupo, tipo = 'id') {
     let idValue = {};
-    for (const indi of grupo) {
-        idValue[indi.id] = indi.value
+
+    if (tipo = 'id') {
+        for (const indi of grupo) {
+            idValue[indi.id] = indi.value
+        }
     }
 
+    if (tipo = 'name') {
+        for (const indi of grupo) {
+            idValue[indi.name] = indi.value
+        }
+    }
     return idValue
 }
 
@@ -668,6 +715,7 @@ function registrarCEFPS() {
     if (localizarDondeEstoy() === 'facturas' || localizarDondeEstoy() === 'presupuestos') {
         datosEnt = generarFacturaYPresu();
         //alert(packEnvioServ);
+
     }
 
     let packEnvioServ = JSON.stringify([localizarDondeEstoy(), JSON.stringify(datosEnt)]);
@@ -698,7 +746,13 @@ function registrarCEFPS() {
                         download(objInfo[1], objInfo[2]);
                         // setTimeout("alerto('jajajajjaja')", 2000);
 
-                        alert('Todo correcto, se ha creado la factura y se ha generado  la factura')
+                        alert('Todo correcto, se ha creado la factura y se ha generado  la factura');
+                        cambiaLoc('./' + localizarDondeEstoy() + '.php');
+
+                    } else {
+                        if (!objInfo[0] && typeof objInfo[1] == 'string') {
+                            alert(objInfo[1]);
+                        }
                     }
                 }
 
@@ -815,6 +869,7 @@ function tablaListaClientes(datos) {
                     <td>${element['nombreEmpresa']}</td>
                     <td>${element['telefono'] == null ? '- - - - - -' : element['telefono']}</td>
                     <td>${element['email']}</td>
+                    <td>${element['estado']}</td>
                     <td>
                         <button name="botones-lista" id="${element['dni']}" data-bs-toggle="modal" data-bs-target="#modal-cliente">Seleccionar</button>
 
@@ -847,6 +902,7 @@ function tablaListaEmpleados(datos) {
                     <td> ${nombre} ${apellido}</td>
                     <td>${element['telefono'] == null ? '- - - - - -' : element['telefono']}</td>
                     <td>${element['email']}</td>
+                    <td>${element['estado']}</td>
                     <td>
                         <button name="botones-lista" id="${element['dni']}" data-bs-toggle="modal" data-bs-target="#modal-empleado">Seleccionar</button>
 
@@ -875,6 +931,7 @@ function tablaListaFacturas(datos) {
                     <td>${element['idPresupuesto'] == null ? '' : element['idPresupuesto']}</td>
                     <td>${element['precio']} €</td>
                     <td>${parseInt(element['precio']) * 1.21} €</td>
+                    <td>${element['estado']} </td>
 
                     <td>
                        <button name="botones-lista"  id="${element['idFacturas']}" data-bs-toggle="modal" data-bs-target="#modal-factura">Seleccionar</button>
@@ -894,16 +951,17 @@ function tablaListaFacturas(datos) {
 }
 
 function tablaListaPresupuestos(datos) {
-
+    // alert(JSON.stringify(datos))
     tablaProveedoresId = document.getElementById('tabla-datos-pagina').getElementsByTagName('tbody')[0];
     let fila = '';
+
     for (let i = 0; i < datos.length; i++) {
         const element = datos[i];
-
         fila = `<tr>
                     <td>${element['idPresupuesto']}</td>
                     <td>${element['precio']} €</td>
                     <td>${parseInt((element['precio'] * 1.21))} €</td>
+                    <td>${element['estado']} </td>
                     <td>
                         <button name="botones-lista" id="${element['idPresupuesto']}" data-bs-toggle="modal" data-bs-target="#modal-presupuesto">Seleccionar</button>
                     </td>
@@ -932,6 +990,7 @@ function tablaListaProveedores(datos) {
                 <td>${element['nombre']}</td>
                 <td>${element['telefono']}</td>
                 <td>${element['email']}</td>
+                <td>${element['estado']}</td>
                 <td>
                      <button name="botones-lista" id="${element['dni']}" data-bs-toggle="modal" data-bs-target="#modal-proveedor">Seleccionar</button>
                 </td>
@@ -961,6 +1020,7 @@ function tablaListaServicios(datos) {
                     <td>${element['descripcion']}</td>
                     <td>${(element['idProducto'] == null ? 'No' : 'Si')}</td>
                     <td>${element['precio']} €</td>
+                    <td>${element['estado']} </td>
                     <td><button name="botones-lista" id="${element['idServicios']}" data-bs-toggle="modal" data-bs-target="#modal-servicio">Seleccionar</button> 
                     </td>
                 </tr>`;
@@ -1044,37 +1104,58 @@ function crearLIstas() {
 function camposModalClientes(datos) {
     modal = document.getElementById('modal-body');
     input = modal.getElementsByTagName('input');
+    radio = document.getElementsByName('estado');
     input[0].value = datos['nombreEmpresa'];
     input[1].value = datos['dni'];
     input[2].value = datos['direccion'];
     input[3].value = datos['email'];
     input[4].value = datos['telefono'];
+    if (radio[0].id == datos['estado']) {
+        document.getElementsByName('estado')[0].checked = true;
+    }
+    if (radio[1].id == datos['estado']) {
+        document.getElementsByName('estado')[1].checked = true;
+    }
 }
 
 function camposModalEmpleados(datos) {
     nombre = (datos['nombre'].substring(0, 1)).toLocaleLowerCase() + '' + datos['nombre'].substring(1, datos['nombre'].length);
     apellido = ((datos['apellido']).substring(0, 1)).toLocaleLowerCase() + '' + (datos['apellido']).substring(1, datos['apellido'].length);
-
+    radio = document.getElementsByName('estado');
     modal = document.getElementById('modal-body');
     input = modal.getElementsByTagName('input');
-
     input[0].value = nombre + ' ' + apellido;
     input[1].value = datos['dni'];
     input[2].value = datos['direccion'];
     input[3].value = datos['email'];
     input[4].value = datos['telefono'] == null ? '- - - - - -' : datos['telefono'];
+    if (radio[0].id == datos['estado']) {
+        document.getElementsByName('estado')[0].checked = true;
+    }
+    if (radio[1].id == datos['estado']) {
+        document.getElementsByName('estado')[1].checked = true;
+    }
 }
 
 function camposModalFacturas(datos) {
     modal = document.getElementById('modal-body');
     span = modal.getElementsByTagName('span');
     c = 0;
+    console.table(Array.from(datos));
     //alert(JSON.stringify(datos))
     for (const k in datos) {
         if (Object.hasOwnProperty.call(datos, k)) {
             const dato = datos[k];
-            span[c].innerHTML = dato;
-            c++;
+            if (k != 'estado') {
+                span[c].innerHTML = dato;
+                c++;
+            } else {
+
+                btnFR = document.getElementById('factura-rectificativa');
+                btnFR.value = datos[k];
+                if (dato == 'rectificado')
+                    btnFR.disabled = true;
+            }
         }
     }
     //   span[span.length].innerHTML = (parseInt(datos['precioTotalSinIva']) * 1.21);
@@ -1088,6 +1169,7 @@ function camposModalPresupuestos(datos) {
     for (const k in datos) {
         if (Object.hasOwnProperty.call(datos, k)) {
             const dato = datos[k];
+            console.log(k);
             span[c].innerHTML = dato;
             c++;
         }
@@ -1098,17 +1180,25 @@ function camposModalPresupuestos(datos) {
 function camposModalProveedores(datos) {
     modal = document.getElementById('modal-body');
     input = modal.getElementsByTagName('input');
+    radio = document.getElementsByName('estado');
     input[0].value = datos['dni'];
     input[1].value = datos['nombre'];
     input[2].value = datos['direccion'];
     input[3].value = datos['email'];
     input[4].value = datos['telefono'];
     input[5].value = datos['personaContacto'];
+    if (radio[0].id == datos['estado']) {
+        document.getElementsByName('estado')[0].checked = true;
+    }
+    if (radio[1].id == datos['estado']) {
+        document.getElementsByName('estado')[1].checked = true;
+    }
 }
 
 function camposModalServicios(datos) {
     modal = document.getElementById('modal-body');
     input = modal.getElementsByTagName('input');
+    radio = document.getElementsByName('estado');
     input[0].value = datos['nombre'];
     input[1].value = datos['idServicios'];
     input[2].value = datos['descripcion'];
@@ -1116,12 +1206,19 @@ function camposModalServicios(datos) {
     input[4].value = (parseInt(datos['precio']) * 1.21);
     input[5].checked = datos['idProducto'] == 'null' ? false : true;
     input[6].value = datos['idProducto'];
+    if (radio[0].id == datos['estado']) {
+        document.getElementsByName('estado')[0].checked = true;
+    }
+    if (radio[1].id == datos['estado']) {
+        document.getElementsByName('estado')[1].checked = true;
+    }
+
 }
 
 
 
 function rellenarModal(e) {
-    //alert(e.target.id)
+    // alert(e.target.id)
     dni = e.target.id;
     pagina = localizarDondeEstoy();
     varServ = 'soicitarUnRegistro';
@@ -1133,7 +1230,7 @@ function rellenarModal(e) {
             const objInfo = JSON.parse(this.responseText);
             seleccionarModal(pagina, objInfo[0]);
             // camposModalProveedores(objInfo[0]);
-            //    alert(JSON.stringify(objInfo));
+            //   alert(JSON.stringify(objInfo));
         }
     }
     xhttp.open('POST', './php/appFunciones.php', true);
@@ -1147,6 +1244,9 @@ function desbloquearInputs() {
     for (let i = 0; i < input.length; i++) {
         input[i].disabled = false;
     }
+    if (document.getElementById('mofificar-aceptar') !== null) {
+        document.getElementById('mofificar-aceptar').disabled = false;
+    }
 }
 
 function bloquearInputs() {
@@ -1154,5 +1254,8 @@ function bloquearInputs() {
     input = modal.getElementsByTagName('input');
     for (let i = 0; i < input.length; i++) {
         input[i].disabled = true;
+    }
+    if (document.getElementById('mofificar-aceptar') !== null) {
+        document.getElementById('mofificar-aceptar').disabled = true;
     }
 }

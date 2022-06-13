@@ -24,7 +24,7 @@ app::llamarLayout('header');
             <label for="direccion">Direccion</label>
             <input class="form-control" type="text" name="direccion" id="direccion" placeholder="Calle Anton 14">
             <label for="email">Correo electronico</label>
-            <input class="form-control" type="email" name="email" id="email" placeholder="Mi_usuario@email.org">
+            <input class="form-control" type="email" name="email" id="email" placeholder="Mi_usuario@email.org" dis>
             <label for="telefono">Telefono de contacto</label>
             <input class="form-control" type="tel" name="telefono" id="telefono" placeholder="6245854132">
             <label for="personaContacto">Persona de contacto</label>
@@ -40,6 +40,7 @@ app::llamarLayout('header');
                     <td>Nombre de empresa</td>
                     <td>Telefono</td>
                     <td>Email</td>
+                    <td>Estado</td>
                     <td>Seleccionar</td>
                 </tr>
 
@@ -49,24 +50,33 @@ app::llamarLayout('header');
                     <div class="modal-content">
                         <div class="modal-header">
                             <h3 class="modal-title text-black">
-                                Registro tus datos
+                                Datos de cliente
                             </h3>
                             <button class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" id=cerrar-modal></button>
                         </div>
                         <div id="modal-body" class="modal-body row m-3">
-                            <label class="text-dark" for="dni">CIF</label>
-                            <input type="text" name="dni" id="dni" placeholder="G12345678" disabled>
                             <label class="text-dark" for="nombreEmpresa">Nombre </label>
                             <input type="text" name="nombreEmpresa" id="nombreEmpresa" placeholder="ej: Mi empresa" disabled>
+                            <label class="text-dark" for="dni">CIF</label>
+                            <input type="text" name="dni" id="dni" placeholder="G12345678" disabled>
                             <label class="text-dark" for="direccion">Diredireccioncion</label>
                             <input type="text" name="direccion" id="direccion" placeholder="Calle Anton 14" disabled>
-                            <label class="text-dark" for="direccion">Correo electronico</label>
-                            <input type="email" name="direccion" id="email" placeholder="Mi_usuario@email.org"> disabled
-                            <label class="text-dark" for="direccion">Telefono de contacto</label>
-                            <input type="tel" name="direccion" id="telefono" placeholder="6245854132" disabled>
+                            <label class="text-dark" for="email">Correo electronico</label>
+                            <input type="email" name="email" id="email" placeholder="Mi_usuario@email.org" disabled>
+                            <label class="text-dark" for="telefono">Telefono de contacto</label>
+                            <input type="tel" name="telefono" id="telefono" placeholder="6245854132" disabled>
                             <label class="text-dark" for="personaContacto">Persona de contacto</label>
                             <input type="text" name="personaContacto" id="personaContacto" placeholder="ej: Juan Antonio" disabled>
+                            <div class="form-check">
+                                <label for="activo" class="form-check-label text-dark">Estado activo</label>
+                                <input type="radio" class="form-check-input" name="estado" id="activo" value="activo" disabled>
+                            </div>
+                            <div class="form-check">
+                                <label for="inactivo" class="form-check-label text-dark">Estado inactivo</label>
+                                <input type="radio" class="form-check-input" name="estado" id="inactivo" value="inactivo" disabled>
+                            </div>
                             <button name="mofificar-cliente" id="mofificar">Modificar</button>
+                            <button name="mofificar-cliente" id="mofificar-aceptar" disabled>Aceptar modificaciones</button>
                             <button name="dar-baja" id="dar-baja"">Dar baja</button>
                         </div>
                     </div>

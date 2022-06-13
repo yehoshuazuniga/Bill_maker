@@ -38,7 +38,7 @@ app::llamarLayout('header');
                     <td>Nombre proveedor</td>
                     <td>Telefono</td>
                     <td>Email</td>
-
+                    <td>Estado</td>
                     <td>Seleccionar</td>
                 </tr>
 
@@ -66,8 +66,14 @@ app::llamarLayout('header');
                             <input class="form-control " type="tel" name="telefono" id="telefono" placeholder="6245854132" disabled>
                             <label class="text-dark" for="personaContacto">Persona de contacto</label>
                             <input class="form-control " type="text" name="personaContacto" id="personaContacto" placeholder="Juan Manuel" disabled>
-
-                            <button name="mofificar-proveedor" id="mofificar">Modificar
+                            <div class="form-check">
+                                <label for="activo" class="form-check-label text-dark">Estado activo</label>
+                                <input type="radio" class="form-check-input" name="estado" id="activo" disabled>
+                            </div>
+                            <div class="form-check">
+                                <label for="inactivo" class="form-check-label text-dark">Estado inactivo</label>
+                                <input type="radio" class="form-check-input" name="estado" id="inactivo" disabled>
+                            </div> <button name="mofificar-proveedor" id="mofificar">Modificar
                             </button>
                             <button name="dar-baja" id="dar-baja"">Dar baja</button>
                         </div>

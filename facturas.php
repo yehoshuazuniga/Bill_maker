@@ -51,6 +51,7 @@ app::llamarLayout('header');
                     <td>Cod Presupuesto</td>
                     <td>Precio sin IVA</td>
                     <td>Precio con IVA</td>
+                    <td>Estado</td>
                     <td>Seleccionar</td>
                 </tr>
             </table>
@@ -78,13 +79,13 @@ app::llamarLayout('header');
                                 <p class="fw-bold dato-factura">Fecha Creacion: <span class="fw-ligth"></span> </p>
                             </div>
                             <div class="clientes-servicios-resumen-factura bg-dark  border my-1 d-flex justify-content-around">
-                                <p class="fw-bold">Precio total</p>
+                            <p class="fw-bold">Precio total</p>
                                 <p class="dato-factura"> <span class="fw-ligth"></span> €</p>
 
                             </div>
-                            <button name="factura-pdf" id="generar-pdf" >Generar PDF
+                            <button name="factura-pdf" id="generar-pdf" value="">Generar PDF
                             </button>
-                            <button name="factura-rectificativa" id="factura-rectificativa" >Factura rectificatica
+                            <button name="factura-rectificativa" id="factura-rectificativa" >Factura rectificativa
                             </button>
                         </div>
                     </div>

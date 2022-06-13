@@ -50,6 +50,7 @@ app::llamarLayout('header');
                     <td>Cod Presupuesto</td>
                     <td>Precio sin IVA</td>
                     <td>Precio con IVA</td>
+                    <td>Estado</td>
                     <td>Seleccionar</td>
                 </tr>
             </table>
@@ -75,7 +76,6 @@ app::llamarLayout('header');
                                 <p class="fw-bold dato-presu">Contacto: <span class="fw-ligth"></span> </p>
                                 <p class="fw-bold dato-presu">Fecha Creacion: <span class="fw-ligth"></span> </p>
                             </div>
-                            <!-- arreglar el proble del scroll en top -->
                             <div class="clientes-servicios-resumen-presu bg-dark  border my-1 d-flex justify-content-around">
                                 <p class="fw-bold">Precio total</p>
                                 <p class="dato-presu"> <span class="fw-ligth"></span> €</p>

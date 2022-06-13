@@ -39,6 +39,7 @@ app::llamarLayout('header');
                     <td>Descripcion</td>
                     <td>es externo?</td>
                     <td>Precio sin IVA</td>
+                    <td>Estado</td>
                     <td>Seleccionar</td>
                 </tr>
 
@@ -69,6 +70,15 @@ app::llamarLayout('header');
                             <label class="text-dark" for="servicio-codigoProductoExterno-registrar">Codigo del
                                 producto externo</label>
                             <input type="text" maxlength="7" class="servicio-codigoProductoExterno-registrar" id="servicio-codigoProductoExterno-registrar" disabled>
+
+                            <div class="form-check">
+                                <label for="activo" class="form-check-label text-dark">Servicio activo</label>
+                                <input type="radio" class="form-check-input" name="estado" id="activo" disabled>
+                            </div>
+                            <div class="form-check">
+                                <label for="inactivo" class="form-check-label text-dark">Servicio inactivo</label>
+                                <input type="radio" class="form-check-input" name="estado" id="inactivo" disabled>
+                            </div>
                             <button name="mofificar-cliente" id="mofificar">Modificar</button>
                             <button name="dar-baja" id="dar-baja"">Dar baja</button>
                         </div>

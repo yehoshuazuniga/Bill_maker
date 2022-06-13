@@ -68,7 +68,7 @@ class Funciones_en_BBDD extends BBDD
 
         //tener cuidado aqui hay que agregar el hasseo
 
-      $pass = $this->passHash($pass);
+        $pass = $this->passHash($pass);
         //echo 'extraerDatos******' . $pass . '*******';
         $datos = [];
 
@@ -112,12 +112,12 @@ class Funciones_en_BBDD extends BBDD
         return $datos;
     }
 
-   
+
     function verificarUsuario($usu, $pass)
     {
 
         $pass = $this->passHash($pass);
-       // echo 'verificarUsuario******'. $pass.'*******';
+        // echo 'verificarUsuario******'. $pass.'*******';
         $respuesta = false;
         $sql        = "SELECT *
                         FROM acceso
@@ -198,7 +198,7 @@ class Funciones_en_BBDD extends BBDD
         $hayInsercion = false;
         /* echo $pagina;
         print_r($datos); */
-     
+
         $sql = 'INSERT INTO ' . $pagina . '
             (' . $tipoID . ', nombre, apellido, dni, email, telefono, direccion, ' . $campo8 . ', usuario, password)
                         VALUES  (?, ?, ?, ?, ?, ?, ?, ?, ?,?)';
@@ -220,49 +220,49 @@ class Funciones_en_BBDD extends BBDD
             //echo 'actua';
             $hayInsercion = true;
         }
-      //  echo $hayInsercion;
+        //  echo $hayInsercion;
         return $hayInsercion;
     }
 
     //registro del empleado y gerente 
     function registrarGer_Emp($datosEnt)
     {
-     // print_r($datosEnt);             
+        // print_r($datosEnt);             
         $id = null;
         $usuario = null;
         $respuesta = null;
         $cargos = ['gerente', 'empleados'];
         $nombreApellido = explode(' ', $datosEnt->contacto);
         $nombre = ucfirst($nombreApellido[0]);
-        $apellido = isset($nombreApellido[1])? ucfirst($nombreApellido[1]):'' ;
+        $apellido = isset($nombreApellido[1]) ? ucfirst($nombreApellido[1]) : '';
         $nombreEmpresa = str_replace(' ', '_', (ltrim($datosEnt->nombreEmpresa)));
-        $datosGerente =[
-        'idEmpleado'=> $datosEnt->idGerente,
-        'nombre'=> $nombre,
-        'apellido'=> $apellido,
-        'dni'=>$datosEnt->dni,
-        'email'=>$datosEnt->email,
-        'telefono'=>$datosEnt->telefono,
-        'direccion'=>$datosEnt->direccion,
-        'idGerente'=> $nombreEmpresa,
-        'usuario'=>$datosEnt->usuarioGerente,
-        'password' => $datosEnt->password]
-        ;
+        $datosGerente = [
+            'idEmpleado' => $datosEnt->idGerente,
+            'nombre' => $nombre,
+            'apellido' => $apellido,
+            'dni' => $datosEnt->dni,
+            'email' => $datosEnt->email,
+            'telefono' => $datosEnt->telefono,
+            'direccion' => $datosEnt->direccion,
+            'idGerente' => $nombreEmpresa,
+            'usuario' => $datosEnt->usuarioGerente,
+            'password' => $datosEnt->password
+        ];
         $datosEmpleado = [
-        'idEmpleado'=>$datosEnt->idEmpleado,
-        'nombre'=> $nombre,
-        'apellido'=> $apellido,
-        'dni'=>$datosEnt->dni,
-        'email'=>$datosEnt->email,
-        'telefono'=>$datosEnt->telefono,
-        'direccion'=>$datosEnt->direccion,
-        'idGerente'=> $datosEnt->idGerente,
-        'usuario'=>$datosEnt->usuarioEmpleado,
-        'password' => $datosEnt->password
+            'idEmpleado' => $datosEnt->idEmpleado,
+            'nombre' => $nombre,
+            'apellido' => $apellido,
+            'dni' => $datosEnt->dni,
+            'email' => $datosEnt->email,
+            'telefono' => $datosEnt->telefono,
+            'direccion' => $datosEnt->direccion,
+            'idGerente' => $datosEnt->idGerente,
+            'usuario' => $datosEnt->usuarioEmpleado,
+            'password' => $datosEnt->password
         ];
 
-       // echo'-------------------'. $datosEnt->idGerente.'-----------------';
-       // echo'-------------------'. $datosEnt->idEmpleado.'-----------------';
+        // echo'-------------------'. $datosEnt->idGerente.'-----------------';
+        // echo'-------------------'. $datosEnt->idEmpleado.'-----------------';
         //var_dump($datosEmpleado);
         $datosGerente = (object)$datosGerente;
         $datosEmpleado = (object)$datosEmpleado;
@@ -270,17 +270,17 @@ class Funciones_en_BBDD extends BBDD
         //  (' . $tipoID . ', nombre, apellido, dni, email, telefono, direccion, ' . $campo8 . ', usuario, password)
         // var_dump($datosEmpleado);
         // var_dump($datosGerente);
-        $gerenteRegistrado = $this->insertTrabajador($cargos[0], $datosGerente, 'idGerente', 'basedatos' );
+        $gerenteRegistrado = $this->insertTrabajador($cargos[0], $datosGerente, 'idGerente', 'basedatos');
         $empleadoRegistrado = $this->insertTrabajador($cargos[1], $datosEmpleado,);
-      //   var_dump($gerenteRegistrado);
-      //   var_dump($empleadoRegistrado);
+        //   var_dump($gerenteRegistrado);
+        //   var_dump($empleadoRegistrado);
         if ($gerenteRegistrado && $empleadoRegistrado) {
             $respuesta = "Tablas de datos generadas, usuario gerente y empleado generados, sus credenciales se enviaran por mail";
         } else {
             $respuesta = 'vuelve a introducir los datos';
         }
 
-     //    echo $respuesta;
+        //    echo $respuesta;
         return $respuesta;
     }
     function registroTablaAcceso($usuario)
@@ -294,12 +294,12 @@ class Funciones_en_BBDD extends BBDD
             $sentPre->execute();
             if ($sentPre->rowCount() > 0) {
                 $grabadoEnBBDD = true;
-               // echo ' se registro en acceso ';
+                // echo ' se registro en acceso ';
             }
         } catch (PDOException $e) {
             $grabadoEnBBDD = true;
         }
-       //  echo $grabadoEnBBDD . "<---------------";
+        //  echo $grabadoEnBBDD . "<---------------";
         return $grabadoEnBBDD;
     }
     // funcion que devuelve los proveedores para el listadp de productos externos en
@@ -330,7 +330,7 @@ class Funciones_en_BBDD extends BBDD
 
             case 'empleados':
 
-                $sql = 'SELECT idEmpleado, nombre, apellido, telefono, email, dni, direccion FROM ' . $solicitante;
+                $sql = 'SELECT idEmpleado, nombre, apellido, telefono, email, dni, direccion, estado FROM ' . $solicitante;
                 break;
             case 'facturas':
 
@@ -374,15 +374,16 @@ class Funciones_en_BBDD extends BBDD
             $sql = '';
             $sql =  'SELECT c.dni, c.nombreEmpresa, p.idPresupuesto, 
                     c.direccion, c.email, c.telefono, 
-                    c.personaContacto, p.fechaCreacion, p.precio 
+                    c.personaContacto, p.fechaCreacion, p.precio,
                     FROM presupuestos p, clientes c';
             $where =  ' WHERE p.dniCliente=c.dni AND p.idPresupuesto=?';
         }
 
         if ($tabla === 'facturas') {
             $sql = '';
-            $sql =  'SELECT c.dni, c.nombreEmpresa, f.idFacturas, f.idPresupuesto, c.direccion, c.email, c.telefono, 
-                        c.personaContacto, f.fechaCreacion, f.precio FROM
+            $sql =  '   SELECT c.dni, c.nombreEmpresa, f.idFacturas,
+                        f.idPresupuesto, c.direccion, c.email, c.telefono, 
+                        c.personaContacto, f.fechaCreacion, f.precio, f.estado FROM
                         facturas f, clientes c ';
             $where =  ' WHERE f.dniCliente=c.dni AND f.idFacturas=?';
         }
@@ -426,7 +427,7 @@ class Funciones_en_BBDD extends BBDD
     function registrarResgistroEmpleados($pagina, $datos)
     {
         $hayInsercion = $this->insertTrabajador($pagina, $datos);
-        if(!$hayInsercion) {
+        if (!$hayInsercion) {
             if (
                 $this->existeParametro('dni', 'dni', $datos->dni, $_SESSION['BBDD'], $pagina) ||
                 $this->existeParametro('dni', 'dni', $datos->dni, 'billMaker', $pagina)
@@ -440,22 +441,22 @@ class Funciones_en_BBDD extends BBDD
 
     //busca el id de una factura o presupuesto
 
-    function devuelveIdyFacFacturaPresupuesto($dateTime, $trabajador, $tabla, $reg= 'idPresupuesto')
+    function devuelveIdyFacFacturaPresupuesto($dateTime, $trabajador, $tabla, $reg = 'idPresupuesto')
     {
         $id = '';
-       // print_r([$dateTime, $trabajador, $tabla, $reg]);
-        $sql = "SELECT ".$reg.", fechaCreacion  FROM " . $tabla . " WHERE fechaCreacion = ? AND idEmpleado = ?";
+        // print_r([$dateTime, $trabajador, $tabla, $reg]);
+        $sql = "SELECT " . $reg . ", fechaCreacion  FROM " . $tabla . " WHERE fechaCreacion = ? AND idEmpleado = ?";
         $sentPre = $this->conexion->prepare($sql);
-        $sentPre->bindParam(1, $dateTime, PDO::PARAM_STR);   
+        $sentPre->bindParam(1, $dateTime, PDO::PARAM_STR);
         $sentPre->bindParam(2, $trabajador, PDO::PARAM_STR);
 
         $sentPre->execute();
         if ($sentPre->rowCount() > 0) {
             $auxi = $sentPre->fetchAll(PDO::FETCH_ASSOC);
             $id = $auxi[0];
-          //  echo 'se ejecutaM';
+            //  echo 'se ejecutaM';
         }
-        $id[$reg]  =(int)$id[$reg];
+        $id[$reg]  = (int)$id[$reg];
 
         //var_dump($id);
 
@@ -464,95 +465,105 @@ class Funciones_en_BBDD extends BBDD
 
     function insertarFondo($id, $oprecion, $valorID, $valorOperacion)
     {
-        $hayInsercion=false;
+        $hayInsercion = false;
         $sql = "INSERT INTO fondos (" . $id . ", " . $oprecion . ") VALUES(?,?)";
         $sentPre = $this->conexion->prepare($sql);
         $sentPre->bindParam(1, $valorID, PDO::PARAM_STR);
         $sentPre->bindParam(1, $valorOperacion, PDO::PARAM_INT);
         $sentPre->execute();
-        if($sentPre->rowCount()>0) $hayInsercion=true;
+        if ($sentPre->rowCount() > 0) $hayInsercion = true;
         return $hayInsercion;
-
     }
 
     function registrarResgistroPresupuestos($pagina, $datos)
     {
-        $servicios = json_decode($datos[3]);
-        $datosServico = [];
-        $tiempo = new DateTime('NOW');
-        $hayInsercion = false;
-        $idPresuFact = '';
-        $sql = 'INSERT INTO ' . $pagina . '(dniCliente, idEmpleado,precio,fechaCreacion) 
+        if ($datos[2] == 0) {
+            $respuesta = [false, 'Selecciona algun producto jjhhjjhjhjh'];
+        } else if ($datos[2] != 0) {
+            $servicios = json_decode($datos[3]);
+            $datosServico = [];
+            $tiempo = new DateTime('NOW');
+            $hayInsercion = false;
+            $idPresuFact = '';
+            $sql = 'INSERT INTO ' . $pagina . '(dniCliente, idEmpleado,precio,fechaCreacion) 
                 VALUES(?,?,?,?)';
-        $sentPre = $this->conexion->prepare($sql);
-        $ahora = $tiempo->format('Y-m-d H:i:s');
-        $sentPre->bindParam(1, $datos[0], PDO::PARAM_STR);
-        $sentPre->bindParam(2, $datos[1], PDO::PARAM_STR);
-        $sentPre->bindParam(3, $datos[2], PDO::PARAM_INT);
-        $sentPre->bindParam(4, $ahora, PDO::PARAM_STR);
+            $sentPre = $this->conexion->prepare($sql);
+            $ahora = $tiempo->format('Y-m-d H:i:s');
+            $sentPre->bindParam(1, $datos[0], PDO::PARAM_STR);
+            $sentPre->bindParam(2, $datos[1], PDO::PARAM_STR);
+            $sentPre->bindParam(3, $datos[2], PDO::PARAM_INT);
+            $sentPre->bindParam(4, $ahora, PDO::PARAM_STR);
 
-        $sentPre->execute();
-        if ($sentPre->rowCount() > 0) {
-            $idPresuFact = $this->devuelveIdyFacFacturaPresupuesto($ahora, $datos[1], $pagina);
-            $aux1=$idPresuFact;
-            $aux1 = array_pop($aux1);
-            if($pagina === ' facturas' ) $this->insertarFondo('idFactura', 'ingresos', $aux1, $datos[2]);
-            $nombreTrabajador = $_SESSION['empleado'];
-            $datosEmpresa = $this->devolverUnRegistro('gerente', $_SESSION['BBDD'], 'basedatos');
-            $datosCliente = $this->devolverUnRegistro('clientes', $datos[0]);
-            foreach ($servicios as $key => $value) {
-                array_push($datosServico, $this->devolverUnRegistro('servicios', $value));
+            $sentPre->execute();
+            if ($sentPre->rowCount() > 0) {
+                $idPresuFact = $this->devuelveIdyFacFacturaPresupuesto($ahora, $datos[1], $pagina);
+                $aux1 = $idPresuFact;
+                $aux1 = array_pop($aux1);
+                if ($pagina === ' facturas') $this->insertarFondo('idFactura', 'ingresos', $aux1, $datos[2]);
+                $nombreTrabajador = $_SESSION['empleado'];
+                $datosEmpresa = $this->devolverUnRegistro('gerente', $_SESSION['BBDD'], 'basedatos');
+                $datosCliente = $this->devolverUnRegistro('clientes', $datos[0]);
+                foreach ($servicios as $key => $value) {
+                    array_push($datosServico, $this->devolverUnRegistro('servicios', $value));
+                }
+
+                if (
+                    gettype($idPresuFact['idPresupuesto']) === 'integer' && gettype($nombreTrabajador) === 'string' &&
+                    gettype($datosEmpresa) === 'array' && gettype($datosServico) === 'array' && gettype($datosCliente) == 'array' &&
+                    count($datosCliente) > 0 && count($datosEmpresa) > 0 && count($datosServico) > 0
+                ) {
+                    $hayInsercion = true;
+                }
             }
 
-            if (
-                gettype($idPresuFact['idPresupuesto']) === 'integer' && gettype($nombreTrabajador) === 'string' &&
-                gettype($datosEmpresa) === 'array' && gettype($datosServico) === 'array' && gettype($datosCliente) == 'array' &&
-                count($datosCliente) > 0 && count($datosEmpresa) > 0 && count($datosServico) > 0
-            ) {
-                $hayInsercion = true;
-            }
+            $respuesta = [$hayInsercion, $nombreTrabajador, $idPresuFact,  $datosEmpresa[0], $datosCliente, $datosServico];
         }
 
-        return [$hayInsercion, $nombreTrabajador, $idPresuFact,  $datosEmpresa[0], $datosCliente, $datosServico];
+        return $respuesta;
     }
     function registrarResgistroFacturas($pagina, $datos)
     {
-        $servicios = json_decode($datos[3]);
-        $datosServico = [];
-        $tiempo = new DateTime('NOW');
-        $hayInsercion = false;
-        $idPresuFact = '';
-        $sql = 'INSERT INTO ' . $pagina . '(dniCliente, idEmpleado,precio,fechaCreacion) 
+        if ($datos[2] == 0) {
+            $respuesta = [false, ' Selecciona algun producto jjhhjjhjhjh'];
+        } else if ($datos[2] !== 0) {
+            $servicios = json_decode($datos[3]);
+            $datosServico = [];
+            $tiempo = new DateTime('NOW');
+            $hayInsercion = false;
+            $idPresuFact = '';
+            $sql = 'INSERT INTO ' . $pagina . '(dniCliente, idEmpleado,precio,fechaCreacion) 
                 VALUES(?,?,?,?)';
-        $sentPre = $this->conexion->prepare($sql);
-        $ahora = $tiempo->format('Y-m-d H:i:s');
-        $sentPre->bindParam(1, $datos[0], PDO::PARAM_STR);
-        $sentPre->bindParam(2, $datos[1], PDO::PARAM_STR);
-        $sentPre->bindParam(3, $datos[2], PDO::PARAM_INT);
-        $sentPre->bindParam(4, $ahora, PDO::PARAM_STR);
+            $sentPre = $this->conexion->prepare($sql);
+            $ahora = $tiempo->format('Y-m-d H:i:s');
+            $sentPre->bindParam(1, $datos[0], PDO::PARAM_STR);
+            $sentPre->bindParam(2, $datos[1], PDO::PARAM_STR);
+            $sentPre->bindParam(3, $datos[2], PDO::PARAM_INT);
+            $sentPre->bindParam(4, $ahora, PDO::PARAM_STR);
 
-        $sentPre->execute();
-        if ($sentPre->rowCount() > 0) {
-           // echo 'se registro';
-            $idPresuFact = $this->devuelveIdyFacFacturaPresupuesto($ahora, $datos[1], $pagina, 'idFacturas');
-            //echo  array_pop($idPresuFact);
-            $nombreTrabajador = $_SESSION['empleado'];
-            $datosEmpresa = $this->devolverUnRegistro('gerente', $_SESSION['BBDD'], 'basedatos');
-            $datosCliente = $this->devolverUnRegistro('clientes', $datos[0]);
-            foreach ($servicios as $key => $value) {
-                array_push($datosServico, $this->devolverUnRegistro('servicios', $value));
+            $sentPre->execute();
+            if ($sentPre->rowCount() > 0) {
+                // echo 'se registro';
+                $idPresuFact = $this->devuelveIdyFacFacturaPresupuesto($ahora, $datos[1], $pagina, 'idFacturas');
+                //echo  array_pop($idPresuFact);
+                $nombreTrabajador = $_SESSION['empleado'];
+                $datosEmpresa = $this->devolverUnRegistro('gerente', $_SESSION['BBDD'], 'basedatos');
+                $datosCliente = $this->devolverUnRegistro('clientes', $datos[0]);
+                foreach ($servicios as $key => $value) {
+                    array_push($datosServico, $this->devolverUnRegistro('servicios', $value));
+                }
+                $aux1 = $idPresuFact;
+                if (
+                    gettype(array_shift($aux1)) === 'integer' && gettype($nombreTrabajador) === 'string' &&
+                    gettype($datosEmpresa) === 'array' && gettype($datosServico) === 'array' && gettype($datosCliente) == 'array' &&
+                    count($datosCliente) > 0 && count($datosEmpresa) > 0 && count($datosServico) > 0
+                ) {
+                    $hayInsercion = true;
+                }
             }
-            $aux1 = $idPresuFact;
-            if (
-                gettype(array_shift($aux1)) === 'integer' && gettype($nombreTrabajador) === 'string' &&
-                gettype($datosEmpresa) === 'array' && gettype($datosServico) === 'array' && gettype($datosCliente) == 'array' &&
-                count($datosCliente) > 0 && count($datosEmpresa) > 0 && count($datosServico) > 0
-            ) {
-                $hayInsercion = true;
-            }
+
+            $respuesta =  [$hayInsercion, $nombreTrabajador, $idPresuFact,  $datosEmpresa[0], $datosCliente, $datosServico];
         }
-
-        return [$hayInsercion, $nombreTrabajador, $idPresuFact,  $datosEmpresa[0], $datosCliente, $datosServico];
+        return $respuesta;
     }
 
     function registrarResgistroProveedores($pagina, $datos)
@@ -595,7 +606,7 @@ class Funciones_en_BBDD extends BBDD
         }
         $sentPre = $this->conexion->prepare($sql);
         $precio = (int)$datos->precio;
-     //   print_r($datos);
+        //   print_r($datos);
         $sentPre->bindParam(1, $datos->idServicios, PDO::PARAM_STR);
         $sentPre->bindParam(2, $datos->idProducto, PDO::PARAM_STR);
         $sentPre->bindParam(3, $datos->nombre, PDO::PARAM_STR);
@@ -649,4 +660,26 @@ class Funciones_en_BBDD extends BBDD
         $query = $this->conexion->query('show tables');
         return ($query->rowCount());
     }
+
+    function insertarDatos( $tabla, $indice, $valor, $valorDni, $tipoIndice = 'string', $indiceDni = 'dni'){
+        $hayInsercion  = false;
+        $sql= 'UPDATE '. $tabla . ' SET '.$indice.' = ? WHERE '. $indiceDni.' = ?';
+        //echo $sql;
+        $sentPre = $this->conexion->prepare($sql);
+        if($tipoIndice == 'string'){
+            $sentPre->bindParam(1, $valor, PDO::PARAM_STR);
+        }
+        if($tipoIndice == 'integer'){
+            $sentPre->bindParam(1, $valor, PDO::PARAM_INT);
+        }
+        $sentPre->bindParam(2, $valorDni, PDO::PARAM_STR);
+        $sentPre->execute();
+
+        if($sentPre->rowCount()>0) $hayInsercion= true;
+
+        return $hayInsercion ;
+
+    }
+
+
 }
