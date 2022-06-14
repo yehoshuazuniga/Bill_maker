@@ -18,15 +18,15 @@ app::llamarLayout('header');
             <label for="nombre">Nombre proveedor</label>
             <input class="form-control" type="text" name="nombre" id="nombre" placeholder="ej: Mi proveedor">
             <label for="dni">CIF</label>
-            <input class="form-control" type="text" name="dni" id="dni" placeholder="G12345678">
+            <input class="form-control" type="text" name="dni" id="dni1" placeholder="G12345678">
             <label for="direccion">Direccion</label>
-            <input class="form-control" type="text" name="direccion" id="direccion" placeholder="Calle Anton 14">
+            <input class="form-control" type="text" name="direccion" id="direccion1" placeholder="Calle Anton 14">
             <label for="email">Correo electronico</label>
-            <input class="form-control" type="email" name="email" id="email" placeholder="Mi_usuario@email.org">
+            <input class="form-control" type="email" name="email" id="email1" placeholder="Mi_usuario@email.org">
             <label for="personaContacto">Persona de contacto</label>
-            <input class="form-control" type="text" name="personaContacto" id="personaContacto" placeholder="Antonio Cuenca">
+            <input class="form-control" type="text" name="personaContacto" id="personaContacto1" placeholder="Antonio Cuenca">
             <label for="telefono">Telefono de contacto</label>
-            <input class="form-control" type="tel" name="telefono" id="telefono" placeholder="6245854132">
+            <input class="form-control" type="tel" name="telefono" id="telefono1" placeholder="6245854132">
             <button name="registrar" id="registrar">Registrar proveedor </button>
         </div>
         <!-- ENCONTRAR LA FORMA DE ENVIAR UN CONTRASEÑA POR MAIL O HACERLO QUE AL INICIAR SECION CAMBIE LA CONTRASEÑA-->
@@ -41,15 +41,13 @@ app::llamarLayout('header');
                     <td>Estado</td>
                     <td>Seleccionar</td>
                 </tr>
-
-
-            </table>
+              </table>
             <div class="modal fade" id="modal-proveedor" tabindex="-1" aria-hidden="true" aria-labelledby="label-modal-proveedor" data-bs-backdrop="static">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h3 class="modal-title">
-                                Registro tus datos
+                            <h3 class="modal-title text-black">
+                                Datos del proveedor
                             </h3>
                             <button class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" id=cerrar-modal></button>
                         </div>
@@ -73,8 +71,9 @@ app::llamarLayout('header');
                             <div class="form-check">
                                 <label for="inactivo" class="form-check-label text-dark">Estado inactivo</label>
                                 <input type="radio" class="form-check-input" name="estado" id="inactivo" disabled>
-                            </div> <button name="mofificar-proveedor" id="mofificar">Modificar
-                            </button>
+                            </div> 
+                            <button name="mofificar-proveedor" id="mofificar">Modificar</button>
+                            <button id="mofificar-aceptar" disabled>Aceptar modificaciones</button>
                             <button name="dar-baja" id="dar-baja"">Dar baja</button>
                         </div>
                     </div>

@@ -57,9 +57,13 @@ function cargarEventos() {
 
         if (!!document.getElementById('generar-pdf')) {
             document.getElementById('generar-pdf').addEventListener('click', generarPDFSeleccionado, true);
-
         }
 
+        if (!!document.getElementById('presupuesto-cancelar')) {
+            document.getElementById('presupuesto-cancelar').addEventListener('click', cancelarAprobarPresupuesto, true);
+            document.getElementById('presupuesto-aprobar').addEventListener('click', cancelarAprobarPresupuesto, true);
+
+        }
         if (!!document.getElementById('mofificar-aceptar')) {
             document.getElementById('mofificar-aceptar').addEventListener('click', aceptarModificaciones, false);
 
@@ -77,6 +81,9 @@ function cargarEventos() {
             }
         }
 
+        if (!!document.getElementById('factura-rectificativa')) {
+            document.getElementById('factura-rectificativa').addEventListener('click', rectificarFactura, true);
+        }
         /*     if (!!document.getElementById('registrar')) {
             document.getElementById('registrar').addEventListener('click', generarFacturaYPresu, true);
         }
@@ -86,6 +93,63 @@ function cargarEventos() {
         //   document.getElementById('logo').addEventListener('click', compo, true);
     }
 }
+
+
+function rectificarFactura() {
+    modal = document.getElementById('modal-body')
+    idFactura = modal.getElementsByTagName('span')[2].innerHTML;
+    precio = modal.getElementsByTagName('span')[9].innerHTML;
+    varServ = 'rectificado';
+    pack = [localizarDondeEstoy(), idFactura, precio];
+    packServ = JSON.stringify(pack);
+    xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.status == 200 && this.readyState == 4) {
+            const objeInfo = JSON.parse(this.responseText);
+            if (typeof objeInfo == 'boolean') {
+                alert('Se ha rectificado la factura');
+                cambiaLoc('./' + localizarDondeEstoy() + '.php')
+            } else {
+                alert(objeInfo)
+                cambiaLoc('./' + localizarDondeEstoy() + '.php')
+            }
+        }
+    }
+    xhttp.open('POST', './php/appFunciones.php', true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(varServ + '=' + packServ);
+}
+
+function cancelarAprobarPresupuesto(e) {
+    modal = document.getElementById('modal-body');
+    idPresu = modal.getElementsByTagName('span')[2].innerHTML;
+    dni = modal.getElementsByTagName('span')[0].innerHTML;
+    varServ = 'cancelarAprobarPresupuesto';
+    accion = [localizarDondeEstoy(), idPresu, e.target.name, dni];
+    packEnvioServ = JSON.stringify(accion);
+    console.table(accion)
+    xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.status === 200 && this.readyState === 4) {
+            const objInfo = JSON.parse(this.responseText);
+            //alert(typeof objInfo)
+            if (typeof objInfo != 'string' && objInfo[0] === true) {
+                alert('Presupuesto ' + e.target.name);
+                download(objInfo[1], objInfo[2]);
+                cambiaLoc('./' + localizarDondeEstoy() + '.php')
+            } else {
+                if (objInfo) {
+                    alert('Presupuesto ' + e.target.name);
+                    cambiaLoc('./' + localizarDondeEstoy() + '.php')
+                }
+            }
+        }
+    }
+    xhttp.open('POST', './php/appFunciones.php', true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(varServ + '=' + packEnvioServ);
+}
+
 
 function valueChecked(e) {
     cb = document.getElementById(e.target.id);
@@ -235,7 +299,7 @@ function generarDoc() {
     dni = document.getElementById('doc-dni-registrar')
 
     if (validarDniCif(dni.value)) {
-        //  alert('pasa por aqui')
+        //alert('pasa por aqui')
         xhttp = new XMLHttpRequest();
         varServ = 'existe_cliente';
         packEnvioServ = dni.value;
@@ -243,7 +307,12 @@ function generarDoc() {
         xhttp.onreadystatechange = function() {
             if (this.status === 200 && this.readyState === 4) {
                 const objInfo = JSON.parse(this.responseText);
-                rellenarFichaCliente(objInfo);
+                // alert(typeof objInfo)
+                if (typeof objInfo == 'string') {
+                    alert(objInfo);
+                } else {
+                    rellenarFichaCliente(objInfo);
+                }
             }
         }
         xhttp.open('POST', './php/appFunciones.php', true);
@@ -495,17 +564,22 @@ function crearId(empresaNombre, cargo) {
 function obtenerValores(grupo, tipo = 'id') {
     let idValue = {};
 
-    if (tipo = 'id') {
+    if (tipo == 'name') {
+        for (const indi of grupo) {
+            idValue[indi.name] = indi.value
+                // console.log('se uso el name' + indi.name)
+
+        }
+    }
+    if (tipo == 'id') {
         for (const indi of grupo) {
             idValue[indi.id] = indi.value
+                // console.log('se uso el id' + indi.id)
+
         }
     }
 
-    if (tipo = 'name') {
-        for (const indi of grupo) {
-            idValue[indi.name] = indi.value
-        }
-    }
+
     return idValue
 }
 
@@ -747,6 +821,7 @@ function registrarCEFPS() {
     let locDeDatos = document.getElementById('registrar-vista').getElementsByTagName('input')
     let empresa = document.getElementById('miEmpresa');
     let datosEnt = obtenerValores(locDeDatos, 'name');
+    console.table(datosEnt);
     if (localizarDondeEstoy() === 'empleados') {
         apellido = datosEnt['nombre'].split(' ');
         datosEnt['nombre'] = apellido[0];
@@ -1219,6 +1294,12 @@ function camposModalFacturas(datos) {
             }
         }
     }
+    modal.getElementsByTagName('button')['rectificado'].hidden = false;
+
+    if (datos['estado'] == 'rectificado') {
+        modal.getElementsByTagName('button')['rectificado'].hidden = true;
+    }
+
     //   span[span.length].innerHTML = (parseInt(datos['precioTotalSinIva']) * 1.21);
 }
 
@@ -1231,11 +1312,21 @@ function camposModalPresupuestos(datos) {
         if (Object.hasOwnProperty.call(datos, k)) {
             const dato = datos[k];
             if (k != 'estado') {
-                console.log(k);
+                // console.log(k);
                 span[c].innerHTML = dato;
                 c++;
             }
         }
+    }
+    modal.getElementsByTagName('button')['cancelado'].hidden = false;
+    modal.getElementsByTagName('button')['aprobado'].hidden = false;
+    if (datos['estado'] == 'cancelado') {
+        modal.getElementsByTagName('button')['aprobado'].hidden = true;
+        modal.getElementsByTagName('button')['cancelado'].hidden = true;
+    }
+    if (datos['estado'] == 'aprobado') {
+        modal.getElementsByTagName('button')['cancelado'].hidden = true;
+        modal.getElementsByTagName('button')['aprobado'].hidden = true;
     }
     //  span[span.length].innerHTML = (parseInt(datos[span.length]) * 1.21);
 }
@@ -1244,8 +1335,8 @@ function camposModalProveedores(datos) {
     modal = document.getElementById('modal-body');
     input = modal.getElementsByTagName('input');
     radio = document.getElementsByName('estado');
-    input[0].value = datos['dni'];
-    input[1].value = datos['nombre'];
+    input[0].value = datos['nombre'];
+    input[1].value = datos['dni'];
     input[2].value = datos['direccion'];
     input[3].value = datos['email'];
     input[4].value = datos['telefono'];

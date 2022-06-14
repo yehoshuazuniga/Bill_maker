@@ -99,7 +99,34 @@ class PuertasYcoyote
         mkdir($url);
         mkdir($url . '/facturas');
         mkdir($url . '/presupuestos');
+        mkdir($url . '/presupuestos/resumen_servicios');
+
         //echo $url;
         return is_dir($url);
+    }
+
+    function escribirFicheroServicios($grupoSer, $url, $nombre)
+    { 
+        $gestor = @fopen($url.'/resumen_servicios/'.$nombre.'.txt', "w");
+       // echo 'entra a txt';
+       //var_dump($grupoSer);
+        if (!$gestor) {
+            die("error al abrir el archivo");
+        }
+
+        //grupoSer sera un aarray con los codigo de servicis
+
+        foreach ($grupoSer as $linea) {
+            // echo ++$i . ": $linea <br>";
+            //fwrte($gestor,$linea. \r\n)
+            fwrite($gestor, $linea . PHP_EOL);
+        }
+         fclose($gestor);
+
+    }
+
+    function leerFicheroServ($url, $fichero){
+
+        $texto = @fopen ($url , '.txt');
     }
 }

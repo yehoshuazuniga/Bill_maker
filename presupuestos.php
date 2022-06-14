@@ -83,9 +83,9 @@ app::llamarLayout('header');
                             </div>
                             <button name="presupuesto-pdf" id="generar-pdf">Generar PDF
                             </button>
-                            <button name="presupuesto-aprobar" id="presupuesto-aprobar">Aprobar presupuesto
+                            <button name="aprobado" id="presupuesto-aprobar">Aprobar presupuesto
                             </button>
-                            <button name="presupuesto-cancelar" id="presupuesto-cancelar">Cancelar presupuesto
+                            <button name="cancelado" id="presupuesto-cancelar">Cancelar presupuesto
                             </button>
                         </div>
                     </div>

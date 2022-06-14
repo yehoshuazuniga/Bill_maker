@@ -373,8 +373,8 @@ class Funciones_en_BBDD extends BBDD
         if ($tabla === 'presupuestos') {
             $sql = '';
             $sql =  'SELECT c.dni, c.nombreEmpresa, p.idPresupuesto, 
-                    c.direccion, c.email, c.telefono, 
-                    c.personaContacto, p.fechaCreacion, p.precio, p.estado
+                    c.direccion, c.email, c.telefono, c.personaContacto, 
+                    p.fechaCreacion, p.precio, p.estado
                     FROM presupuestos p, clientes c';
             $where =  ' WHERE p.dniCliente=c.dni AND p.idPresupuesto=?';
         }
@@ -457,21 +457,31 @@ class Funciones_en_BBDD extends BBDD
             //  echo 'se ejecutaM';
         }
         $id[$reg]  = (int)$id[$reg];
-
-        //var_dump($id);
-
         return $id;
     }
 
-    function insertarFondo($id, $oprecion, $valorID, $valorOperacion)
+    function insertarFondo($valorID, $valorOperacion, $estado = '')
     {
+        //   var_dump($oprecion);
         $hayInsercion = false;
-        $sql = "INSERT INTO fondos (" . $id . ", " . $oprecion . ") VALUES(?,?)";
+        $valorOperacion = (int)$valorOperacion;
+        //echo $valorID.'--------'. $valorOperacion;
+        $sql = "INSERT INTO fondos (idFactura,ingresos) VALUES(?,?)";
+        if ($estado == 'rectificado') {
+            $sql = "INSERT INTO fondos (idFactura,gastos) VALUES(?,?)";
+        }
+        if ($estado == 'compra') {
+            $sql = "INSERT INTO fondos (idProducto,gastos) VALUES(?,?)";
+        }
         $sentPre = $this->conexion->prepare($sql);
         $sentPre->bindParam(1, $valorID, PDO::PARAM_STR);
-        $sentPre->bindParam(1, $valorOperacion, PDO::PARAM_INT);
+        $sentPre->bindParam(2, $valorOperacion, PDO::PARAM_INT);
         $sentPre->execute();
-        if ($sentPre->rowCount() > 0) $hayInsercion = true;
+        if ($sentPre->rowCount() > 0) {
+            $hayInsercion = true;
+            //echo 'hay fondos';
+        }
+        //  var_dump($hayInsercion);
         return $hayInsercion;
     }
 
@@ -493,20 +503,16 @@ class Funciones_en_BBDD extends BBDD
             $sentPre->bindParam(2, $datos[1], PDO::PARAM_STR);
             $sentPre->bindParam(3, $datos[2], PDO::PARAM_INT);
             $sentPre->bindParam(4, $ahora, PDO::PARAM_STR);
-
             $sentPre->execute();
             if ($sentPre->rowCount() > 0) {
                 $idPresuFact = $this->devuelveIdyFacFacturaPresupuesto($ahora, $datos[1], $pagina);
-                $aux1 = $idPresuFact;
-                $aux1 = array_pop($aux1);
-                if ($pagina === ' facturas') $this->insertarFondo('idFactura', 'ingresos', $aux1, $datos[2]);
+
                 $nombreTrabajador = $_SESSION['empleado'];
                 $datosEmpresa = $this->devolverUnRegistro('gerente', $_SESSION['BBDD'], 'basedatos');
                 $datosCliente = $this->devolverUnRegistro('clientes', $datos[0]);
                 foreach ($servicios as $key => $value) {
                     array_push($datosServico, $this->devolverUnRegistro('servicios', $value));
                 }
-
                 if (
                     gettype($idPresuFact['idPresupuesto']) === 'integer' && gettype($nombreTrabajador) === 'string' &&
                     gettype($datosEmpresa) === 'array' && gettype($datosServico) === 'array' && gettype($datosCliente) == 'array' &&
@@ -515,45 +521,46 @@ class Funciones_en_BBDD extends BBDD
                     $hayInsercion = true;
                 }
             }
-
             $respuesta = [$hayInsercion, $nombreTrabajador, $idPresuFact,  $datosEmpresa[0], $datosCliente, $datosServico];
         }
-
         return $respuesta;
     }
-    function registrarResgistroFacturas($pagina, $datos)
-    {
+    function registrarResgistroFacturas($pagina, $datos, $idPresupuesto = NULL)
+    {   //var_dump($datos);
+        // echo $datos[2].'----';
         if ($datos[2] == 0) {
-            $respuesta = [false, ' Selecciona algun producto jjhhjjhjhjh'];
+            $respuesta = [false, ' Selecciona algun producto servicio '];
         } else if ($datos[2] !== 0) {
             $servicios = json_decode($datos[3]);
             $datosServico = [];
             $tiempo = new DateTime('NOW');
             $hayInsercion = false;
             $idPresuFact = '';
-            $sql = 'INSERT INTO ' . $pagina . '(dniCliente, idEmpleado,precio,fechaCreacion) 
-                VALUES(?,?,?,?)';
+            $sql = 'INSERT INTO ' . $pagina . '(dniCliente, idEmpleado, idPresupuesto,precio ,fechaCreacion) 
+                VALUES(?,?,?,?,?)';
             $sentPre = $this->conexion->prepare($sql);
             $ahora = $tiempo->format('Y-m-d H:i:s');
             $sentPre->bindParam(1, $datos[0], PDO::PARAM_STR);
             $sentPre->bindParam(2, $datos[1], PDO::PARAM_STR);
-            $sentPre->bindParam(3, $datos[2], PDO::PARAM_INT);
-            $sentPre->bindParam(4, $ahora, PDO::PARAM_STR);
-
+            $sentPre->bindParam(3, $idPresupuesto, PDO::PARAM_STR);
+            $sentPre->bindParam(4, $datos[2], PDO::PARAM_INT);
+            $sentPre->bindParam(5, $ahora, PDO::PARAM_STR);
             $sentPre->execute();
             if ($sentPre->rowCount() > 0) {
                 // echo 'se registro';
                 $idPresuFact = $this->devuelveIdyFacFacturaPresupuesto($ahora, $datos[1], $pagina, 'idFacturas');
-                //echo  array_pop($idPresuFact);
+                $aux1 = $idPresuFact;
+                $aux1 = array_shift($aux1);
+                if ($pagina === 'facturas') $this->insertarFondo($aux1, $datos[2]);
                 $nombreTrabajador = $_SESSION['empleado'];
                 $datosEmpresa = $this->devolverUnRegistro('gerente', $_SESSION['BBDD'], 'basedatos');
                 $datosCliente = $this->devolverUnRegistro('clientes', $datos[0]);
                 foreach ($servicios as $key => $value) {
                     array_push($datosServico, $this->devolverUnRegistro('servicios', $value));
                 }
-                $aux1 = $idPresuFact;
+                //$aux1 = $idPresuFact;
                 if (
-                    gettype(array_shift($aux1)) === 'integer' && gettype($nombreTrabajador) === 'string' &&
+                    gettype($aux1) === 'integer' && gettype($nombreTrabajador) === 'string' &&
                     gettype($datosEmpresa) === 'array' && gettype($datosServico) === 'array' && gettype($datosCliente) == 'array' &&
                     count($datosCliente) > 0 && count($datosEmpresa) > 0 && count($datosServico) > 0
                 ) {
@@ -566,13 +573,14 @@ class Funciones_en_BBDD extends BBDD
         return $respuesta;
     }
 
+
     function registrarResgistroProveedores($pagina, $datos)
     {
         $hayInsercion = false;
         /*echo $pagina;
         print_r($datos);
       */
-        $sql = 'INSERT INTO ' . $pagina . '
+        $sql = 'INSERT INTO ' . $pagina . ' (dni,nombre,direccion,email,telefono,personaContacto) 
                         VALUES(?, ?, ?, ?, ?, ? )';
         $sentPre = $this->conexion->prepare($sql);
 
@@ -658,45 +666,77 @@ class Funciones_en_BBDD extends BBDD
         return $result;
     }
 
-   // function insertarDato($tabla, $indiceSet, $valorSet, $indiceWhereId, $valorWhereID)
+    // function insertarDato($tabla, $indiceSet, $valorSet, $indiceWhereId, $valorWhereID)
     function insertarDato($tabla, $indiceSet, $valorSet, $valorWhereID, $tipoVarSet)
     {
         $hayInsercion = false;
         $param1 = $valorSet;
         $param2 = $valorWhereID;
-      //  echo $param1.'------'. $param2;
-        if($tabla ==='servicios'){
-            if($indiceSet == 'precio'){
-                $valorSet=(integer) $valorSet;
+        $sql = '';
+        if ($tabla === 'servicios') {
+            if ($indiceSet == 'precio') {
+                $valorSet = (int) $valorSet;
             }
             $sql = "UPDATE " . $tabla . " SET " . $indiceSet . " = ? WHERE idServicios = ? ";
-        //    echo $sql.'';
         }
-        if($tabla ==='productos_externos'){
-            if($indiceSet == 'precio'){
-                $valorSet=(integer) $valorSet;
+        if ($tabla === 'productos_externos') {
+            if ($indiceSet == 'precio') {
+                $valorSet = (int) $valorSet;
             }
             $sql = "UPDATE " . $tabla . " SET " . $indiceSet . " = ? WHERE idProducto = ? ";
         }
+        if ($tabla === 'facturas') {
+            $sql = "UPDATE " . $tabla . " SET " . $indiceSet . " = ? WHERE idFacturas = ? ";
+        }
+        if ($tabla === 'presupuestos') {
+            $sql = "UPDATE " . $tabla . " SET " . $indiceSet . " = ? WHERE idPresupuesto = ? ";
+        }
+
         if ($tabla === 'clientes' || $tabla === 'proveedores' || $tabla === 'empleados') {
             $sql = "UPDATE " . $tabla . " SET " . $indiceSet . " = ? WHERE dni = ? ";
         }
-
         $sentPre = $this->conexion->prepare($sql);
-        if($tipoVarSet == 'string'){
+        if ($tipoVarSet == 'string') {
             $sentPre->bindParam(1, $param1, PDO::PARAM_STR);
-/* echo $sql.'
-'; */
         }
-        if($tipoVarSet == 'integer'){
+        if ($tipoVarSet == 'integer') {
             $sentPre->bindParam(1, $param1, PDO::PARAM_INT);
         }
-
+        //echo $sql;
         $sentPre->bindParam(2, $param2, PDO::PARAM_STR);
         $sentPre->execute();
         if ($sentPre->rowCount() > 0) {
             $hayInsercion = true;
         }
+        return $hayInsercion;
+    }
+
+    function datopsOperacion($tabla, $paramWhere, $idPresu)
+    {
+        $sql = 'SELECT * FROM ' . $tabla . ' WHERE ' . $paramWhere . ' = ?';
+        $sentPre = $this->conexion->prepare($sql);
+        $sentPre->bindParam(1, $idPresu, PDO::PARAM_STR);
+        $sentPre->execute();
+
+        $datos = $sentPre->fetchAll(PDO::FETCH_ASSOC);
+        return ($datos[0]);
+    }
+
+    function presuAFactura($datos, $idPresupuesto)
+    {
+        $hayInsercion = false;
+        $tiempo = new DateTime('NOW');
+        $sql = 'INSERT INTO facturas (dniCliente, idEmpleado, idPresupuesto,precio ,fechaCreacion) 
+                VALUES(?,?,?,?,?)';
+        $sentPre = $this->conexion->prepare($sql);
+        $ahora = $tiempo->format('Y-m-d H:i:s');
+        $sentPre->bindParam(1, $datos[0], PDO::PARAM_STR);
+        $sentPre->bindParam(2, $datos[1], PDO::PARAM_STR);
+        $sentPre->bindParam(3, $idPresupuesto, PDO::PARAM_STR);
+        $sentPre->bindParam(4, $datos[2], PDO::PARAM_INT);
+        $sentPre->bindParam(5, $ahora, PDO::PARAM_STR);
+        $sentPre->execute();
+        if ($sentPre->rowCount() > 0) $hayInsercion = true;
         return $hayInsercion;
     }
 }

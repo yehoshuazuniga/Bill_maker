@@ -87,7 +87,7 @@ app::llamarLayout('header');
                             </div>
                             <button name="factura-pdf" id="generar-pdf" value="">Generar PDF
                             </button>
-                            <button name="factura-rectificativa" id="factura-rectificativa">Factura rectificativa
+                            <button name="rectificado" id="factura-rectificativa">Factura rectificativa
                             </button>
                         </div>
                     </div>
