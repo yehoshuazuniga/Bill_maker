@@ -187,22 +187,58 @@ if (isset($_POST['existe_cliente'])) {
 
 if (isset($_POST['modificar'])) {
     $pack = json_decode($_POST['modificar']);
-    $pagina = $seguridad->filtrado($pack[0]);
+    $pagina = $pack[0];
     $datos = $pack[1];
-    $errores = [];
-    foreach ($datos as $key => $value) {
-        //   $datos->$key = $seguridad->filtrado($value);
-        if ($key != 'dni') {
-            //    nsertarDatos( $tabla, $indice, $valor, $valorDni , $indiceDni = 'dni', $tipoIndice = 'string'){
-            $insert = $conex->insertarDatos($pagina, $key, $seguridad->filtrado($value), $datos->dni, gettype($value));
-            if (!$insert) {
-                $errores []= 'El ' . $key . ' no se ha insertado';
-            }
-        }
-    }
-    if (count($errores) > 0) {
-        $respuesta = $errores;
+    $hayInsert = false;
+    $tabla = $seguridad->filtrado($pagina);
+    $indiceSet = null;
+    $valorSet = null;
+    $valorWhereID = null;
+    //var_dump($datos);
+    if ($pagina == 'clientes' || $tabla == 'proveedores' || $tabla == 'empleados') {
+        $valorWhereID = ($seguridad->filtrado($datos->dni));
+        unset($datos->dni);
+        //echo $valorWhereID;
     }
 
-    echo json_encode($respuesta);
+    if ($pagina === 'servicios') {
+        $valorWhereID = ($seguridad->filtrado($datos->idServicios));
+        unset($datos->precioIva);
+        unset($datos->idServicios);
+        if($datos->idProducto ==""){
+            unset($datos->idProducto);
+        }
+    }
+
+    if ($pagina === 'productos_externos') {
+        $valorWhereID = ($seguridad->filtrado($datos->idProducto));
+        unset($datos->idProducto);
+
+
+        unset($datos->precioIva);
+        if($datos->idProducto ==""){
+            unset($datos->idProducto);
+        }
+    }
+  //  var_dump($datos);
+    //var_dump($datos);
+
+
+    $info = [];
+    foreach ($datos as $key => $value) {
+        $indiceSet = $seguridad->filtrado($key);
+        $valorSet = $seguridad->filtrado($value);
+        $tipoVarSet = gettype($valorSet);
+        if ($indiceSet != 'dni'|| $indiceSet != 'idServicios'|| $indiceSet != 'idProducto') {
+            //($tabla, $indiceSet, $valorSet, $indiceWhereId, $valorWhereID)
+            $resultado = $conex->insertarDato($tabla, $indiceSet, $valorSet, $valorWhereID, $tipoVarSet);
+
+            if ($resultado) {
+                $info[] = "Se cambio " . $indiceSet;
+            } 
+        }
+    }
+    $info = implode(' , ', $info);
+
+    echo json_encode($info);
 }

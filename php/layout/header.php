@@ -4,7 +4,7 @@ require './php/seguridad/elPuertasYelCoyote.php';
 session_start();
 PuertasYcoyote::validadcionSesionIniciada();
 PuertasYcoyote::seccionDesignada();
-print_r($_SESSION);
+//print_r($_SESSION);
 
 
 ?>

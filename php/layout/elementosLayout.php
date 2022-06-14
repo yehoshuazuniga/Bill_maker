@@ -1,6 +1,6 @@
 
 <?php
-print( __DIR__);
+//print( __DIR__);
 class Menus
 {
 

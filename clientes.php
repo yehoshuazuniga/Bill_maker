@@ -18,22 +18,22 @@ app::llamarLayout('header');
     <div class="col-12 col-md bg-info">
         <div id="registrar-vista" class="d-flex flex-column d-none gap-2 pb-3">
             <label for="dni">CIF</label>
-            <input class="form-control" type="text" name="dni" id="dni" placeholder="G12345678">
+            <input class="form-control" type="text" name="dni" id="dni1" placeholder="G12345678">
             <label for="nombreEmpresa">Nombre </label>
-            <input class="form-control" type="text" name="nombreEmpresa" id="nombreEmpresa" placeholder="ej: Mi empresa">
+            <input class="form-control" type="text" name="nombreEmpresa" id="nombreEmpresa1" placeholder="ej: Mi empresa">
             <label for="direccion">Direccion</label>
-            <input class="form-control" type="text" name="direccion" id="direccion" placeholder="Calle Anton 14">
+            <input class="form-control" type="text" name="direccion" id="direccion1" placeholder="Calle Anton 14">
             <label for="email">Correo electronico</label>
-            <input class="form-control" type="email" name="email" id="email" placeholder="Mi_usuario@email.org" dis>
+            <input class="form-control" type="email" name="email" id="email1" placeholder="Mi_usuario@email.org">
             <label for="telefono">Telefono de contacto</label>
-            <input class="form-control" type="tel" name="telefono" id="telefono" placeholder="6245854132">
+            <input class="form-control" type="tel" name="telefono" id="telefono1" placeholder="6245854132">
             <label for="personaContacto">Persona de contacto</label>
-            <input class="form-control" type="text" name="personaContacto" id="personaContacto" placeholder="ej: Juan Antonio">
+            <input class="form-control" type="text" name="personaContacto" id="personaContacto1" placeholder="ej: Juan Antonio">
             <button name="registrar" id="registrar">Registrar </button>
         </div>
         <!-- ENCONTRAR LA FORMA DE ENVIAR UN CONTRASEÑA POR MAIL O HACERLO QUE AL INICIAR SECION CAMBIE LA CONTRASEÑA-->
         <!-- esto se sera una lista interactiva que se rellenara automaticamente cuando con js  con unos registro que obtendra de php-DDBB -->
-        <div id="lista-vista" class="d-flex flex-column table-responsive" id="tabla-datos-pagina">
+        <div id="lista-vista" class="d-flex flex-column table-responsive" >
             <table class="table  table-hover table-sm" id="tabla-datos-pagina">
                 <tr class="table-dark">
                     <td>CIF/NIF</td>
@@ -45,7 +45,7 @@ app::llamarLayout('header');
                 </tr>
 
             </table>
-            <div class="modal fade" id="modal-cliente" tabindex="-1" aria-hidden="true" aria-labelledby="label-modal-cliente" data-bs-backdrop="static">
+            <div class="modal fade" id="modal-cliente" tabindex="-1" aria-hidden="true"  data-bs-backdrop="static">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -75,9 +75,9 @@ app::llamarLayout('header');
                                 <label for="inactivo" class="form-check-label text-dark">Estado inactivo</label>
                                 <input type="radio" class="form-check-input" name="estado" id="inactivo" value="inactivo" disabled>
                             </div>
-                            <button name="mofificar-cliente" id="mofificar">Modificar</button>
-                            <button name="mofificar-cliente" id="mofificar-aceptar" disabled>Aceptar modificaciones</button>
-                            <button name="dar-baja" id="dar-baja"">Dar baja</button>
+                            <button  id="mofificar">Modificar</button>
+                            <button  id="mofificar-aceptar" disabled>Aceptar modificaciones</button>
+                            <button name="dar-baja" id="dar-baja">Dar baja</button>
                         </div>
                     </div>
                 </div>

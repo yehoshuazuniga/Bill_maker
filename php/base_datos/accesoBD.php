@@ -347,7 +347,7 @@ class Funciones_en_BBDD extends BBDD
                 $sql = 'SELECT * ' . $sql2 . ' FROM ' . $solicitante;
                 break;
             case 'gerente':
-                $sql = 'SELECT dni, direccion, telefono, email ,nombre , apellido, basedatos  FROM ' . $solicitante;
+                $sql = 'SELECT dni, direccion, telefono, email ,nombre , apellido, basedatos, estado  FROM ' . $solicitante;
                 break;
         }
         return $sql;
@@ -374,7 +374,7 @@ class Funciones_en_BBDD extends BBDD
             $sql = '';
             $sql =  'SELECT c.dni, c.nombreEmpresa, p.idPresupuesto, 
                     c.direccion, c.email, c.telefono, 
-                    c.personaContacto, p.fechaCreacion, p.precio,
+                    c.personaContacto, p.fechaCreacion, p.precio, p.estado
                     FROM presupuestos p, clientes c';
             $where =  ' WHERE p.dniCliente=c.dni AND p.idPresupuesto=?';
         }
@@ -596,14 +596,18 @@ class Funciones_en_BBDD extends BBDD
     function registrarResgistroServicios($pagina, $datos)
     {
         $hayInsercion = false;
+        $idProducto = null;
         /*echo $pagina;
         print_r($datos);
-      */
-        $sql = 'INSERT INTO ' . $pagina . '
+        */
+        $sql = 'INSERT INTO ' . $pagina . ' (idServicios,idProducto,nombre,descripcion,precio)
                         VALUES (?, ?, ?, ?, ?)';
-        if (!isset($datos->idProducto)) {
+        //   echo $sql;
+        if (!isset($datos->idProducto) || $datos->idProducto == 'on') {
             $datos->idProducto = NULL;
         }
+
+        // echo $idProducto;
         $sentPre = $this->conexion->prepare($sql);
         $precio = (int)$datos->precio;
         //   print_r($datos);
@@ -654,32 +658,45 @@ class Funciones_en_BBDD extends BBDD
         return $result;
     }
 
-    // esta funcion solo es de prueba no sirv epara nada mas
-    function consultaPrueba()
+   // function insertarDato($tabla, $indiceSet, $valorSet, $indiceWhereId, $valorWhereID)
+    function insertarDato($tabla, $indiceSet, $valorSet, $valorWhereID, $tipoVarSet)
     {
-        $query = $this->conexion->query('show tables');
-        return ($query->rowCount());
-    }
+        $hayInsercion = false;
+        $param1 = $valorSet;
+        $param2 = $valorWhereID;
+      //  echo $param1.'------'. $param2;
+        if($tabla ==='servicios'){
+            if($indiceSet == 'precio'){
+                $valorSet=(integer) $valorSet;
+            }
+            $sql = "UPDATE " . $tabla . " SET " . $indiceSet . " = ? WHERE idServicios = ? ";
+        //    echo $sql.'';
+        }
+        if($tabla ==='productos_externos'){
+            if($indiceSet == 'precio'){
+                $valorSet=(integer) $valorSet;
+            }
+            $sql = "UPDATE " . $tabla . " SET " . $indiceSet . " = ? WHERE idProducto = ? ";
+        }
+        if ($tabla === 'clientes' || $tabla === 'proveedores' || $tabla === 'empleados') {
+            $sql = "UPDATE " . $tabla . " SET " . $indiceSet . " = ? WHERE dni = ? ";
+        }
 
-    function insertarDatos( $tabla, $indice, $valor, $valorDni, $tipoIndice = 'string', $indiceDni = 'dni'){
-        $hayInsercion  = false;
-        $sql= 'UPDATE '. $tabla . ' SET '.$indice.' = ? WHERE '. $indiceDni.' = ?';
-        //echo $sql;
         $sentPre = $this->conexion->prepare($sql);
-        if($tipoIndice == 'string'){
-            $sentPre->bindParam(1, $valor, PDO::PARAM_STR);
+        if($tipoVarSet == 'string'){
+            $sentPre->bindParam(1, $param1, PDO::PARAM_STR);
+/* echo $sql.'
+'; */
         }
-        if($tipoIndice == 'integer'){
-            $sentPre->bindParam(1, $valor, PDO::PARAM_INT);
+        if($tipoVarSet == 'integer'){
+            $sentPre->bindParam(1, $param1, PDO::PARAM_INT);
         }
-        $sentPre->bindParam(2, $valorDni, PDO::PARAM_STR);
+
+        $sentPre->bindParam(2, $param2, PDO::PARAM_STR);
         $sentPre->execute();
-
-        if($sentPre->rowCount()>0) $hayInsercion= true;
-
-        return $hayInsercion ;
-
+        if ($sentPre->rowCount() > 0) {
+            $hayInsercion = true;
+        }
+        return $hayInsercion;
     }
-
-
 }
