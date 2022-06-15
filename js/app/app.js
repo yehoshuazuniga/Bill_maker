@@ -217,9 +217,12 @@ function aceptarModificaciones() {
                 alert('se han introducido los cambios');
 
             }
-            alert(JSON.stringify(objInfo))
+            alert(objInfo)
             document.getElementById('cerrar-modal').click();
-            crearLIstas();
+            window.history.go();
+            /*   if (objInfo) {
+
+              } */
         }
     }
     xhttp.open('POST', './php/appFunciones.php', true);
@@ -319,7 +322,11 @@ function generarDoc() {
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhttp.send(varServ + '=' + packEnvioServ);
 
+    } else {
+        invalido(dni);
+
     }
+
 
 }
 
@@ -358,16 +365,6 @@ function crearInputSelect(e) {
                         const objInfo = JSON.parse(this.responseText);
 
                         let campo = objInfo[0];
-
-                        //           alert(JSON.stringify(campo))
-                        /*  atributos = {
-                             'id': campo['idServicios']
-                         };
-                         objetoHTML = crearObjHtml('p', atributos);
-                         texto = document.createTextNode(campo['nombre'])
-                         objetoHTML.appendChild(texto);
-                         document.getElementById('resumen_servicios').appendChild(objetoHTML);
-                 */
                         document.getElementById('resumen_servicios').innerHTML += `<p title='${campo['idServicios']}' class="d-flex px-2 justify-content-between" ><span>${campo['nombre']}</span> <span>${campo['precio']} €</span></p>`
                         hr = document.getElementsByTagName('hr')[0];
                         p_precioTotal = document.getElementById('total')
@@ -476,12 +473,8 @@ function panelRegistrarClientes() {
 
     }
 }
-//pasamos objeto DOM  wn gtupos don
-//devuelve un array {} asociatico (id=>valor)
 
-//funciones genericas para todas las paginas
-
-// se simplifica nombres largospar mail y codigos
+// se simplifica nombres largos para mail y codigos
 function nombreLargo(empresaNombre) {
     let nombreSeparado = []
     let cod = '';
@@ -567,25 +560,16 @@ function obtenerValores(grupo, tipo = 'id') {
     if (tipo == 'name') {
         for (const indi of grupo) {
             idValue[indi.name] = indi.value
-                // console.log('se uso el name' + indi.name)
-
         }
     }
     if (tipo == 'id') {
         for (const indi of grupo) {
             idValue[indi.id] = indi.value
-                // console.log('se uso el id' + indi.id)
-
         }
     }
 
 
     return idValue
-}
-
-// para estructuras que se quiera solo un momento   
-function setTimeOut(funcName, retraso) {
-    const timer = setTimeOut(funcName + "()", parseInt(retraso))
 }
 
 //cambia locaclizacion
@@ -620,7 +604,6 @@ function validarEmail(email) {
     return respuesta;
 
 }
-
 //funciones de pagina html index
 
 function comprobarCamposRegistroUsuario(inputForm) {
@@ -652,7 +635,6 @@ function comprobarCamposRegistroUsuario(inputForm) {
         invalido(inputForm[3]);
 
     }
-
     inputForm[4].value === '' ? invalido(inputForm[4]) : valido(inputForm[4]);
     inputForm[5].value === '' ? invalido(inputForm[5]) : valido(inputForm[5]);
 
@@ -714,13 +696,10 @@ function busquedaSocio() {
     if (extDatosEnvioServ === 2) {
         validacionusuario(varPOST, datosEnvioServ);
     }
-
-    //alert(JSON.stringify(datosEnvioServ));
-    //return (JSON.stringify(datosEnvioServ))
 }
 
 //funcion para requistrar el usuario en la base de datos cuando se dat de alta la bbdd
-function registroUsuario() {
+function registroUsuario(e) {
 
     let inputForm = document.getElementById('formulario_registrar').getElementsByTagName('input');
     let datosEnvioServ = {};
@@ -734,47 +713,22 @@ function registroUsuario() {
         datosDeEnt['idEmpleado'] = crearId(inputForm[0].value, empleado);
         datosDeEnt['usuarioGerente'] = crearEmail(inputForm[0].value, gerente, nombreApellido[0], nombreApellido[1]);
         datosDeEnt['usuarioEmpleado'] = crearEmail(inputForm[0].value, empleado, nombreApellido[0], nombreApellido[1]);
-        //
-        //envio info al servidor
-        //
+        boton = document.getElementById(e.target.id)
+        boton.disabled = true;
         const varPOST = 'nuevoUsuario';
         let loc = './index.php';
-        //creaando id gerente 
-
-        //esto hay que eliminarlo
-        /* count = 0;
-        for (const key in datosDeEnt) {
-            if (Object.hasOwnProperty.call(datosDeEnt, key)) {
-                const element = datosDeEnt[key];
-                count++;
-            }
-        } */
-        //hasta aqui
 
         datosEnvioServ = JSON.stringify(datosDeEnt);
-        alert(datosEnvioServ + ' <br> ')
+        //   alert(datosEnvioServ + ' <br> ')
         const xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             if (this.readyState === 4 && this.status === 200) {
                 const objInfo = JSON.parse(this.responseText);
+                boton.disabled = false;
                 alert(objInfo[0]);
                 if (!objInfo[1]) {
                     cambiaLoc(loc);
                 }
-                //intentar inluir modales a cambio de alerts
-                //si devuelve true  salta aiso de que la empresa ya esta registrada 
-                // si devuelve false salta aviso de que la empresa se esta registrando ahora mismo
-                /* if (typeof objInfo === "boolean") {
-                    if (objInfo) {
-                        cambiaLoc(loc);
-                    } else {
-                        alert('usuario o contraseña incorrecta')
-                        let divRegistro = document.getElementsByName('usuario_np');
-                        for (const ind of divRegistro) {
-                            ind.value = '';
-                        }
-                    }
-                } */
             }
         }
         xhttp.open('POST', './php/appFunciones.php', true);
@@ -788,12 +742,8 @@ function registroUsuario() {
     }
 }
 // fin de funiones de la pagina index
-
-
 //funciones de resto de paginas
 //funciones paginas interiores
-
-
 function cerrarsesion() {
     let loc = './index.php';
     const varPOST = 'cerrarSesion';
@@ -813,7 +763,6 @@ function cerrarsesion() {
     xhttp.send(varPOST + '=' + datosEnvioServ);
 }
 
-
 //funcion para obtener registarr servicio
 //fatla funcion ue lo envie al servidor y lo registre
 
@@ -821,7 +770,6 @@ function registrarCEFPS() {
     let locDeDatos = document.getElementById('registrar-vista').getElementsByTagName('input')
     let empresa = document.getElementById('miEmpresa');
     let datosEnt = obtenerValores(locDeDatos, 'name');
-    console.table(datosEnt);
     if (localizarDondeEstoy() === 'empleados') {
         apellido = datosEnt['nombre'].split(' ');
         datosEnt['nombre'] = apellido[0];
@@ -833,52 +781,39 @@ function registrarCEFPS() {
         datosEnt['idGerente'] = empresa.name;
         datosEnt['idEmpleado'] = crearId(empresa.value, 'empleado');
         datosEnt['usuario'] = crearEmail(empresa.value, 'empleado', datosEnt['nombre'], datosEnt['apellido']);
-
-        console.log(JSON.stringify(datosEnt));
     }
-
     if (localizarDondeEstoy() === 'servicios') {
         datosEnt['idServicios'] = crearId(empresa.value, 'servicio');
-
     }
-
     if (localizarDondeEstoy() === 'facturas' || localizarDondeEstoy() === 'presupuestos') {
         datosEnt = generarFacturaYPresu();
-        //alert(packEnvioServ);
-
     }
 
     let packEnvioServ = JSON.stringify([localizarDondeEstoy(), JSON.stringify(datosEnt)]);
-
     let varServ = 'registrar';
-
     xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
             const objInfo = JSON.parse(this.responseText);
-            // alert(typeof objInfo)
+            //alert(objInfo)
+
+            if (typeof objInfo == 'string' && localizarDondeEstoy() == 'empleados') {
+                alert(objInfo)
+            }
             if (typeof objInfo == 'boolean' || objInfo == 'true' || objInfo == 'false') {
 
                 if (objInfo || objInfo == 'true') {
-                    alert(localizarDondeEstoy() + ' registradoS');
-                    cambiaLoc('./' + localizarDondeEstoy() + '.php')
-                        //   setTimeOut("cambiaLoc('./' + localizarDondeEstoy() + '.php')", 1000)
-
+                    alert(localizarDondeEstoy() + ' registrados');
+                    cambiaLoc('./' + localizarDondeEstoy() + '.php');
                 } else {
                     alert(localizarDondeEstoy() + ' no registrado');
                 }
             } else {
-                // alert(typeof objInfo)
                 if (typeof objInfo === 'object') {
                     if (objInfo[0]) {
-                        //         alert(objInfo)
-                        //       alert((objInfo[1]))
                         download(objInfo[1], objInfo[2]);
-                        // setTimeout("alerto('jajajajjaja')", 2000);
-
                         alert('Todo correcto, se ha creado la factura y se ha generado  la factura');
                         cambiaLoc('./' + localizarDondeEstoy() + '.php');
-
                     } else {
                         if (!objInfo[0] && typeof objInfo[1] == 'string') {
                             alert(objInfo[1]);
@@ -972,22 +907,6 @@ function imputCodProExt() {
 
 }
 
-//regsitra el dni del proveedor en un input hidden
-
-//reguisrtra en un hiiden nuevo el idprodcuto
-/* function productoExternoSeleccionado(e) {
-    select = document.getElementById('select_ProducExter');
-    idProducto = e.target.value;
-    atributos = { 'type': 'hidden', 'value': idProducto, 'id': 'idProducto' };
-    if (document.getElementById('idProducto') === null) {
-        objetoHTML = crearObjHtml('input', atributos);
-        select.appendChild(objetoHTML);
-    } else {
-        document.getElementById('idProducto').value = idProducto;
-    }
-
-    //imputCodProExt();
-} */
 
 function tablaListaClientes(datos) {
 

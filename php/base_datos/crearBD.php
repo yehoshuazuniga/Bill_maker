@@ -272,11 +272,53 @@ class BBDD
         // $this->tabalaAcceso($enlace);
     }
 
+    //funcion filtra solicitante de vista_list
+    function identificaLista_vita($solicitante)
+    {
 
+        $sql = '';
+        $sql2 = '';
+        switch ($solicitante) {
+            case 'clientes':
+
+                $sql = 'SELECT *  FROM ' . $solicitante;
+                break;
+
+            case 'empleados':
+
+                $sql = 'SELECT idEmpleado, nombre, apellido, telefono, email, dni, direccion, estado FROM ' . $solicitante;
+                break;
+            case 'facturas':
+
+                $sql =
+                    'SELECT * FROM ' . $solicitante;
+                break;
+            case 'presupuestos':
+                $sql = 'SELECT * FROM ' . $solicitante;
+                break;
+            case 'proveedores':
+                $sql = 'SELECT * FROM ' . $solicitante;
+                break;
+            case 'servicios':
+                $sql = 'SELECT * ' . $sql2 . ' FROM ' . $solicitante;
+                break;
+            case 'gerente':
+                $sql = 'SELECT dni, direccion, telefono, email ,nombre , apellido, basedatos, estado  FROM ' . $solicitante;
+                break;
+        }
+        return $sql;
+    }
+
+    
     function borrarBD($db)
     {
         $this->conexion->query("DROP DATABASE $db");
     }
+   /*  function eliminarGerenteBDP($dni, $conex){
+        $sql = 'DELETE FROM billmaker.gerente  WHERE dni = ?';
+        $sentePre = $this->conexion->prepare($sql);
+        $conex->bindParam
+    } */
 }
 /*$conex = crearDB::singleton();//se va a usar esta fuuncio para el resto de creaciones
 

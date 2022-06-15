@@ -67,11 +67,11 @@ app::llamarLayout('header');
                             <input class="form-control" type="tel" name="telefono" id="telefono" placeholder="6245854132" disabled>
                             <div class="form-check">
                                 <label for="activo" class="form-check-label text-dark">Estado activo</label>
-                                <input type="radio" class="form-check-input" name="estado" id="activo" disabled>
+                                <input type="radio" class="form-check-input" name="estado" id="activo" value="activo" disabled>
                             </div>
                             <div class="form-check">
                                 <label for="inactivo" class="form-check-label text-dark">Estado inactivo</label>
-                                <input type="radio" class="form-check-input" name="estado" id="inactivo" disabled>
+                                <input type="radio" class="form-check-input" name="estado" id="inactivo" value="inactivo" disabled>
                             </div>
                             <button name="mofificar-empleado" id="mofificar">Modificar
                             </button>

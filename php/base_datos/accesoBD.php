@@ -59,23 +59,45 @@ class Funciones_en_BBDD extends BBDD
     {
         return ($hassBBDD == self::passHash($passwordEnt));
     }
-
+    //si falla la accion de regustrar, elimnar registro de acceeso, gerente y de empleados de billmaker 
+   
+    function elimnarGerente($dni){
+        $delete = false;
+        $sql = 'DELETE FROM billmaker.gerente WHERE dni = ?';
+        $sentPre = $this->conexion->prepare($sql);
+        $sentPre->bindParam(1, $dni, PDO::PARAM_STR);
+        $sentPre->execute();
+        if($sentPre->rowCount()>0)$delete= true;
+        return $delete;
+    }
+    function elimnarEmpleado($dni){
+        $delete = false;
+        $sql = 'DELETE FROM billmaker.empleados WHERE dni = ?';
+        $sentPre = $this->conexion->prepare($sql);
+        $sentPre->bindParam(1, $dni, PDO::PARAM_STR);
+        $sentPre->execute();
+        if($sentPre->rowCount()>0)$delete= true;
+        return $delete;
+    }
+    function elimnarAcceso($usu1, $usu2){
+        $delete = false;
+        $sql = 'DELETE FROM billmaker.acceso WHERE usuario = ? or usuario = ?';
+        $sentPre = $this->conexion->prepare($sql);
+        $sentPre->bindParam(1, $usu1, PDO::PARAM_STR);
+        $sentPre->bindParam(2, $usu2, PDO::PARAM_STR);
+        $sentPre->execute();
+        if($sentPre->rowCount()>1)$delete= true;
+        return $delete;
+    }
     // usca el nombre de la base de datos y la devuelve junto a otros datos
     function extraerDatos($usu, $pass)
     {
-        //  echo " $usu -----  $pass ";
-
-
-        //tener cuidado aqui hay que agregar el hasseo
-
         $pass = $this->passHash($pass);
-        //echo 'extraerDatos******' . $pass . '*******';
         $datos = [];
-
-        $sent1 = '  SELECT  g.basedatos FROM gerente g , empleados e
+        $sent1 = "  SELECT  g.basedatos FROM gerente g , empleados e
                         WHERE g.idGerente=e.idGerente AND ( (e.usuario= :usu AND e.password = :pass) OR
                                                             (g.usuario= :usu AND g.password = :pass)) LIMIT 1 
-                    ';
+                    ";
         $sentPre = $this->conexion->prepare($sent1);
         $sentPre->execute(
             array(
@@ -83,9 +105,7 @@ class Funciones_en_BBDD extends BBDD
                 ':pass' => $pass
             )
         );
-
         $datos = $sentPre->fetchAll(PDO::FETCH_ASSOC);
-
         $sent2 = 'SELECT idEmpleado, nombre, apellido FROM empleados WHERE usuario = :usu  AND password = :pass;';
         $sentpre2 = $this->conexion->prepare($sent2);
         $sentpre2->execute(
@@ -94,7 +114,6 @@ class Funciones_en_BBDD extends BBDD
                 ':pass' => $pass
             )
         );
-
         $sent3 = 'SELECT idGerente, nombre, apellido  FROM gerente WHERE usuario = :usu  AND password = :pass;';
         $sentpre3 = $this->conexion->prepare($sent3);
         $sentpre3->execute(
@@ -125,12 +144,12 @@ class Funciones_en_BBDD extends BBDD
                             SELECT a.usuario
                             FROM gerente g , empleados e, acceso a
                             where   (a.usuario = g.usuario AND 
-                                    g.usuario = :usu and 
+                                    g.usuario = :usu AND 
                                     g.password = :pass )
                             OR
-                                    (a.usuario = e.usuario and 
+                                    (a.usuario = e.usuario AND 
                                     e.usuario = :usu 
-                                    and e.password = :pass))
+                                    AND e.password = :pass) )
                         ";
         $sentPre  = $this->conexion->prepare($sql);
         $sentPre->execute(
@@ -147,16 +166,6 @@ class Funciones_en_BBDD extends BBDD
     }
 
     //este metodo ayuda a buscar solo un parametro en la base de datos la base de datos
-    // esta pensado para uqe sea generico
-    //aun esta en desarrollo
-    // aqui hay que tener un usuario de mysql pero que no sea root RECORDAR CAMBIAR TODOS LOS ROOT , Y CREAR NUEBOS USUARIOS
-
-    //
-    //
-    //
-    //PROBELAMAS ARREGLARLO, NO SE CONECTA Y NO SE EJECUTA LA QUERY
-    //
-    //
     function existeParametro($selectParam, $whereParan, $parametro, $bd = 'billmaker', $tabla = 'gerente')
     {
         $cambios = false;
@@ -176,33 +185,22 @@ class Funciones_en_BBDD extends BBDD
 
         if ($sentPre->rowCount() > 0) {
             $cambios = true;
-
-            // echo 'existe';
-        } /* else {
-            //   echo ' no existe';
-        } */
-
+        } 
         return $cambios;
     }
 
     function crearBDyTablas($nombreEmpresa)
     {
         $nombreBD = str_replace(' ', '_', $nombreEmpresa);
-
-        // $conex = BBDD::singleton(); //se va a usar esta fuuncio para el resto de creaciones
         $nuevaConex = $this->crearBd($nombreBD); // esto crea la base de datos y devuelve una nueva conexcion a esa base de dato creada
         $this->crearTablas($nuevaConex);
     }
     function insertTrabajador($pagina, $datos, $tipoID = 'idEmpleado', $campo8 = 'idGerente')
     {
         $hayInsercion = false;
-        /* echo $pagina;
-        print_r($datos); */
-
         $sql = 'INSERT INTO ' . $pagina . '
             (' . $tipoID . ', nombre, apellido, dni, email, telefono, direccion, ' . $campo8 . ', usuario, password)
                         VALUES  (?, ?, ?, ?, ?, ?, ?, ?, ?,?)';
-
         $sentPre = $this->conexion->prepare($sql);
         $pass = $this->passHash($datos->password);
         $sentPre->bindParam(1, $datos->idEmpleado, PDO::PARAM_STR);
@@ -217,19 +215,14 @@ class Funciones_en_BBDD extends BBDD
         $sentPre->bindParam(10, $pass, PDO::PARAM_STR);
         $sentPre->execute();
         if ($sentPre->rowCount() > 0) {
-            //echo 'actua';
             $hayInsercion = true;
         }
-        //  echo $hayInsercion;
         return $hayInsercion;
     }
 
     //registro del empleado y gerente 
     function registrarGer_Emp($datosEnt)
     {
-        // print_r($datosEnt);             
-        $id = null;
-        $usuario = null;
         $respuesta = null;
         $cargos = ['gerente', 'empleados'];
         $nombreApellido = explode(' ', $datosEnt->contacto);
@@ -260,29 +253,18 @@ class Funciones_en_BBDD extends BBDD
             'usuario' => $datosEnt->usuarioEmpleado,
             'password' => $datosEnt->password
         ];
-
-        // echo'-------------------'. $datosEnt->idGerente.'-----------------';
-        // echo'-------------------'. $datosEnt->idEmpleado.'-----------------';
-        //var_dump($datosEmpleado);
         $datosGerente = (object)$datosGerente;
         $datosEmpleado = (object)$datosEmpleado;
-        //echo $datosGerente->idEmpleado;
-        //  (' . $tipoID . ', nombre, apellido, dni, email, telefono, direccion, ' . $campo8 . ', usuario, password)
-        // var_dump($datosEmpleado);
-        // var_dump($datosGerente);
-        $gerenteRegistrado = $this->insertTrabajador($cargos[0], $datosGerente, 'idGerente', 'basedatos');
+       $gerenteRegistrado = $this->insertTrabajador($cargos[0], $datosGerente, 'idGerente', 'basedatos');
         $empleadoRegistrado = $this->insertTrabajador($cargos[1], $datosEmpleado,);
-        //   var_dump($gerenteRegistrado);
-        //   var_dump($empleadoRegistrado);
-        if ($gerenteRegistrado && $empleadoRegistrado) {
+      if ($gerenteRegistrado && $empleadoRegistrado) {
             $respuesta = "Tablas de datos generadas, usuario gerente y empleado generados, sus credenciales se enviaran por mail";
         } else {
-            $respuesta = 'vuelve a introducir los datos';
+            $respuesta = 'Vuelve a introducir los datos';
         }
-
-        //    echo $respuesta;
         return $respuesta;
     }
+    // registra en la tabla de acceso bilmaker
     function registroTablaAcceso($usuario)
     {
         //echo $usuario;
@@ -294,64 +276,23 @@ class Funciones_en_BBDD extends BBDD
             $sentPre->execute();
             if ($sentPre->rowCount() > 0) {
                 $grabadoEnBBDD = true;
-                // echo ' se registro en acceso ';
             }
         } catch (PDOException $e) {
             $grabadoEnBBDD = true;
         }
-        //  echo $grabadoEnBBDD . "<---------------";
         return $grabadoEnBBDD;
     }
     // funcion que devuelve los proveedores para el listadp de productos externos en
-
-
     function proveedoresProdExter()
     {
         $packEnvioEnt = null;
-        //$sql = 'SELECT nombre, nif FROM preveedor ';
         // vamos a utilizar como ejemplo a gerente de billmaker es la unica bbdd que tiene registros;
-        $sql = 'SELECT nombre, idProducto FROM productos_externos';
+        $sql = "SELECT nombre, idProducto FROM productos_externos";
         $sentencia = $this->conexion->query($sql);
         $packEnvioEnt = $sentencia->fetchAll(PDO::FETCH_ASSOC);
         return $packEnvioEnt;
     }
 
-    //funcion filtra solicitante de vista_list
-    function identificaLista_vita($solicitante)
-    {
-
-        $sql = '';
-        $sql2 = '';
-        switch ($solicitante) {
-            case 'clientes':
-
-                $sql = 'SELECT *  FROM ' . $solicitante;
-                break;
-
-            case 'empleados':
-
-                $sql = 'SELECT idEmpleado, nombre, apellido, telefono, email, dni, direccion, estado FROM ' . $solicitante;
-                break;
-            case 'facturas':
-
-                $sql =
-                    'SELECT * FROM ' . $solicitante;
-                break;
-            case 'presupuestos':
-                $sql = 'SELECT * FROM ' . $solicitante;
-                break;
-            case 'proveedores':
-                $sql = 'SELECT * FROM ' . $solicitante;
-                break;
-            case 'servicios':
-                $sql = 'SELECT * ' . $sql2 . ' FROM ' . $solicitante;
-                break;
-            case 'gerente':
-                $sql = 'SELECT dni, direccion, telefono, email ,nombre , apellido, basedatos, estado  FROM ' . $solicitante;
-                break;
-        }
-        return $sql;
-    }
 
     //esta funcion estrae las datos de la tabla que le pasemos
     function datosLista_vista($tabla)
@@ -432,7 +373,12 @@ class Funciones_en_BBDD extends BBDD
                 $this->existeParametro('dni', 'dni', $datos->dni, $_SESSION['BBDD'], $pagina) ||
                 $this->existeParametro('dni', 'dni', $datos->dni, 'billMaker', $pagina)
             ) {
-                $hayInsercion = 'El usuario ya existe';
+                $hayInsercion = 'El dni de usuario ya existe';
+            }
+            if (
+                $this->existeParametro('email', 'email', $datos->email, $_SESSION['BBDD'], $pagina) 
+            ) {
+                $hayInsercion = 'El mail ya se ha usado';
             }
         }
 
@@ -444,7 +390,6 @@ class Funciones_en_BBDD extends BBDD
     function devuelveIdyFacFacturaPresupuesto($dateTime, $trabajador, $tabla, $reg = 'idPresupuesto')
     {
         $id = '';
-        // print_r([$dateTime, $trabajador, $tabla, $reg]);
         $sql = "SELECT " . $reg . ", fechaCreacion  FROM " . $tabla . " WHERE fechaCreacion = ? AND idEmpleado = ?";
         $sentPre = $this->conexion->prepare($sql);
         $sentPre->bindParam(1, $dateTime, PDO::PARAM_STR);
@@ -454,7 +399,6 @@ class Funciones_en_BBDD extends BBDD
         if ($sentPre->rowCount() > 0) {
             $auxi = $sentPre->fetchAll(PDO::FETCH_ASSOC);
             $id = $auxi[0];
-            //  echo 'se ejecutaM';
         }
         $id[$reg]  = (int)$id[$reg];
         return $id;
@@ -462,10 +406,8 @@ class Funciones_en_BBDD extends BBDD
 
     function insertarFondo($valorID, $valorOperacion, $estado = '')
     {
-        //   var_dump($oprecion);
         $hayInsercion = false;
         $valorOperacion = (int)$valorOperacion;
-        //echo $valorID.'--------'. $valorOperacion;
         $sql = "INSERT INTO fondos (idFactura,ingresos) VALUES(?,?)";
         if ($estado == 'rectificado') {
             $sql = "INSERT INTO fondos (idFactura,gastos) VALUES(?,?)";
@@ -479,9 +421,7 @@ class Funciones_en_BBDD extends BBDD
         $sentPre->execute();
         if ($sentPre->rowCount() > 0) {
             $hayInsercion = true;
-            //echo 'hay fondos';
         }
-        //  var_dump($hayInsercion);
         return $hayInsercion;
     }
 
@@ -526,8 +466,7 @@ class Funciones_en_BBDD extends BBDD
         return $respuesta;
     }
     function registrarResgistroFacturas($pagina, $datos, $idPresupuesto = NULL)
-    {   //var_dump($datos);
-        // echo $datos[2].'----';
+    {  
         if ($datos[2] == 0) {
             $respuesta = [false, ' Selecciona algun producto servicio '];
         } else if ($datos[2] !== 0) {
@@ -547,7 +486,6 @@ class Funciones_en_BBDD extends BBDD
             $sentPre->bindParam(5, $ahora, PDO::PARAM_STR);
             $sentPre->execute();
             if ($sentPre->rowCount() > 0) {
-                // echo 'se registro';
                 $idPresuFact = $this->devuelveIdyFacFacturaPresupuesto($ahora, $datos[1], $pagina, 'idFacturas');
                 $aux1 = $idPresuFact;
                 $aux1 = array_shift($aux1);
@@ -558,7 +496,6 @@ class Funciones_en_BBDD extends BBDD
                 foreach ($servicios as $key => $value) {
                     array_push($datosServico, $this->devolverUnRegistro('servicios', $value));
                 }
-                //$aux1 = $idPresuFact;
                 if (
                     gettype($aux1) === 'integer' && gettype($nombreTrabajador) === 'string' &&
                     gettype($datosEmpresa) === 'array' && gettype($datosServico) === 'array' && gettype($datosCliente) == 'array' &&
@@ -577,9 +514,7 @@ class Funciones_en_BBDD extends BBDD
     function registrarResgistroProveedores($pagina, $datos)
     {
         $hayInsercion = false;
-        /*echo $pagina;
-        print_r($datos);
-      */
+
         $sql = 'INSERT INTO ' . $pagina . ' (dni,nombre,direccion,email,telefono,personaContacto) 
                         VALUES(?, ?, ?, ?, ?, ? )';
         $sentPre = $this->conexion->prepare($sql);
@@ -702,7 +637,6 @@ class Funciones_en_BBDD extends BBDD
         if ($tipoVarSet == 'integer') {
             $sentPre->bindParam(1, $param1, PDO::PARAM_INT);
         }
-        //echo $sql;
         $sentPre->bindParam(2, $param2, PDO::PARAM_STR);
         $sentPre->execute();
         if ($sentPre->rowCount() > 0) {

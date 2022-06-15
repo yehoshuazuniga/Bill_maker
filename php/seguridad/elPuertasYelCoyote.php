@@ -104,6 +104,15 @@ class PuertasYcoyote
         //echo $url;
         return is_dir($url);
     }
+    function eliminarCarpetas($nombre)
+    {
+        $url = '../clientes/' . $nombre;
+        mkdir($url . '/facturas');
+        mkdir($url . '/presupuestos/resumen_servicios');
+        mkdir($url . '/presupuestos');
+        mkdir($url);
+
+    }
 
     function escribirFicheroServicios($grupoSer, $url, $nombre)
     { 

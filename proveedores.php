@@ -41,7 +41,7 @@ app::llamarLayout('header');
                     <td>Estado</td>
                     <td>Seleccionar</td>
                 </tr>
-              </table>
+            </table>
             <div class="modal fade" id="modal-proveedor" tabindex="-1" aria-hidden="true" aria-labelledby="label-modal-proveedor" data-bs-backdrop="static">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                     <div class="modal-content">
@@ -66,12 +66,12 @@ app::llamarLayout('header');
                             <input class="form-control " type="text" name="personaContacto" id="personaContacto" placeholder="Juan Manuel" disabled>
                             <div class="form-check">
                                 <label for="activo" class="form-check-label text-dark">Estado activo</label>
-                                <input type="radio" class="form-check-input" name="estado" id="activo" disabled>
+                                <input type="radio" class="form-check-input" name="estado" id="activo" value="activo" disabled>
                             </div>
                             <div class="form-check">
                                 <label for="inactivo" class="form-check-label text-dark">Estado inactivo</label>
-                                <input type="radio" class="form-check-input" name="estado" id="inactivo" disabled>
-                            </div> 
+                                <input type="radio" class="form-check-input" name="estado" id="inactivo" value="inactivo" disabled>
+                            </div>
                             <button name="mofificar-proveedor" id="mofificar">Modificar</button>
                             <button id="mofificar-aceptar" disabled>Aceptar modificaciones</button>
                             <button name="dar-baja" id="dar-baja"">Dar baja</button>

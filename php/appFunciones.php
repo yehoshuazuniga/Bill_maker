@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/fpdf/plantillaFactura.php';
-//require_once __DIR__ . '/fpdf/plantillaFacturadePresupuesto.php';
+require_once __DIR__ . '/PHPMailer-master/envioMail.php';
 include __DIR__ . '/base_datos/accesoBD.php';
 include __DIR__ . '/seguridad/elPuertasYelCoyote.php';
 $conex = Funciones_en_BBDD::singleton();
@@ -29,6 +29,8 @@ if (isset($_POST['accesousuario'])) {
 
 if (isset($_POST['nuevoUsuario'])) {
     $datosEnt = (json_decode($_POST['nuevoUsuario']));
+    $respuesta = null;
+    $mailEnviado = null;
     //priemro se busca en la base de datos de billmaker y ya exte ese cif, 
     //si existe se notifica al cliente y no se registra nada 
     //las operacones devuel an cliente y un boolean
@@ -36,31 +38,49 @@ if (isset($_POST['nuevoUsuario'])) {
         $datosEnt->$key = $seguridad->filtrado($value);
     }
     if ($conex->existeParametro('dni', 'dni', $datosEnt->dni)) {
-        echo json_encode(['La empresa ya ha sido dada de alta', true]);
+        $respuesta = (['La empresa ya ha sido dada de alta', true]);
     } else {
         if ($conex->existeParametro('email', 'email', $datosEnt->email)) {
-            echo json_encode(['Este mail ya ha sido usado', true]);
+            $respuesta = (['Este mail ya ha sido usado', true]);
         } else {
             if ($conex->existeParametro('basedatos', 'basedatos', str_replace(' ', '_', ltrim($datosEnt->nombreEmpresa)))) {
-                echo json_encode(['Este nombre de emperesa ya ha sido usado', true]);
+                $respuesta = (['Este nombre de emperesa ya ha sido usado', true]);
             } else {
                 // si en cif no exixte se recopila la informacion y se registarn en 
-                //la tabla gerente y empelado de billmaker y la bbdd recien
+                //la tabla gerente y empelado de billmaker y la bbdd que se acaba de crear
                 $conex->crearBDyTablas($datosEnt->nombreEmpresa);
                 //eto registra los usuario en la bbdd de billmaker
-                $creaTablasCliente = $conex->registrarGer_Emp($datosEnt);
-
-                if (gettype($creaTablasCliente) == 'string' && $conex->registroTablaAcceso($datosEnt->usuarioGerente) && $conex->registroTablaAcceso($datosEnt->usuarioEmpleado)) {
+                $regisGtEpBDP = $conex->registrarGer_Emp($datosEnt);
+                //$email = new EnvioMail('Chocolate union', 'yehsssoshuagame@gmail.com');
+                if (
+                    gettype($regisGtEpBDP) == 'string' &&
+                    $conex->registroTablaAcceso($datosEnt->usuarioGerente) &&
+                    $conex->registroTablaAcceso($datosEnt->usuarioEmpleado)
+                ) {
                     $bdnname = str_replace(' ', '_', $datosEnt->nombreEmpresa);
                     $conex = null;
                     //  echo $bdnname;
                     $conex = new Funciones_en_BBDD($bdnname);
-                    $seguridad->crearCarpetas($bdnname);
-                    echo json_encode([($conex->registrarGer_Emp($datosEnt)), false]);
+                    $creacionCarpetas = $seguridad->crearCarpetas($bdnname);
+                    $regisGtEp = $conex->registrarGer_Emp($datosEnt);
+                    $respuesta = [$regisGtEp, false];
+                    if ($regisGtEp != 'Vuelve a introducir los datos' && $creacionCarpetas) {
+                        $email = new EnvioMail($datosEnt->nombreEmpresa, $datosEnt->email);
+                        $mailEnviado = $email->envioMailGerenteYempleado($datosEnt->usuarioGerente, $datosEnt->usuarioEmpleado, $datosEnt->password);
+                    }
+                    if ($regisGtEp == 'Vuelve a introducir los datos' && !$creacionCarpetas && !$mailEnviado) {
+                        $this->borrarBD($bdnname);
+                        $this->elimnarEmpleado($datosEnt->dni);
+                        $this->elimnarGerente($datosEnt->dni);
+                        $this->elimnarAcceso($datosEnt->usuarioGerente, $datosEnt->usuarioEmpleado);
+                        $seguridad->eliminarCarpetas($bdnname);
+                        $respuesta = ['Ocurrio un error vuelve a introducir tus tados', true];
+                    }
                 }
             }
         }
     }
+    echo json_encode($respuesta);
 }
 
 
@@ -115,16 +135,17 @@ if (isset($_POST['registrar'])) {
     if ($packRegistro[0] === 'empleados') {
         $respuesta = $conex->seleccionarQueryRegistroPagina($packRegistro[0], $packRegistro[1]);
         if ($respuesta && gettype($respuesta) !== 'string') {
-            // esto lo guar en el bbdd principal
+            // esto lo guardar en el bbdd principal
             $conex = null;
             $conex = Funciones_en_BBDD::singleton();
             $respuesta = json_encode($conex->seleccionarQueryRegistroPagina($packRegistro[0], $packRegistro[1]));
-            $conex->registroTablaAcceso($packRegistro[1]->usuario);
-        } /* else {
-            if (gettype($respuesta) === 'string') {
-                $respuesta = 
+            $regisAcceso = $conex->registroTablaAcceso($packRegistro[1]->usuario);
+            if ($respuesta && $regisAcceso) {
+                $nomBreEmpresa = str_replace('_', ' ', $_SESSION['BBDD']);
+                $email = new EnvioMail($nomBreEmpresa, $packRegistro[1]->email);
+                $mailEnviado = $email->enviarMailEmpleado($packRegistro[1]->usuario, $packRegistro[1]->password);
             }
-        } */
+        } 
     } else {
         $respuesta = $conex->seleccionarQueryRegistroPagina($packRegistro[0], $packRegistro[1]);
         if (gettype($respuesta) === 'array' && $respuesta[0] == true) {
@@ -132,20 +153,11 @@ if (isset($_POST['registrar'])) {
             $codServi = json_decode($packRegistro[1][3]);
             array_push($respuesta, $codServi);
         }
-        // var_dump($respuesta);
     }
-    //  print_r($packRegistro);
-    // var_dump($respuesta);
-    //  echo gettype($respuesta[2]);
     if ($respuesta[0] && ($packRegistro[0] === 'presupuestos' || $packRegistro[0] === 'facturas')) {
-        // print_r($respuesta);
         $cabeceraServ = ['Nombre', 'Descripcion', 'Precio'];
-        // print_r($respuesta[2]);
         $aux = $respuesta[2];
         $nombrePDF = substr($_SESSION['codSujeto'], 0, 2) . '' . array_shift($aux);
-        //construct($empresa, $cliente, $operacion, $operador)
-        //print_r($respuesta[1]);
-        // print_r($respuesta[2]['idFacturas']);
         $doc = ucfirst(substr($packRegistro[0], 0, strlen($packRegistro[0]) - 1));
         $pdf = new PDF($respuesta[3], $respuesta[4][0], $respuesta[2], $respuesta[1], $doc);
         $urlTxt = "../clientes/" . $_SESSION['BBDD'] . "/" . $packRegistro[0];
@@ -165,11 +177,12 @@ if (isset($_POST['registrar'])) {
             $respuesta = [false, 'Selecciona algun producto'];
         }
     }
+    //print_r($respuesta);
     echo json_encode($respuesta);
 }
 if (isset($_POST['existe_cliente'])) {
-    $datos = $conex->devolverUnRegistro('clientes', ($_POST['existe_cliente']));
-    $respuesta = 'Cliente no registrado';
+    $datos = $conex->devolverUnRegistro('clientes', ($_POST['existe_cliente']), " estado = 'activo' AND dni"); ///
+    $respuesta = 'Cliente no registrado o en estado inactivo';
     if (isset($datos[0])) {
         $respuesta = $datos[0];
     }
@@ -214,7 +227,6 @@ if (isset($_POST['modificar'])) {
         $valorSet = $seguridad->filtrado($value);
         $tipoVarSet = gettype($valorSet);
         if ($indiceSet != 'dni' || $indiceSet != 'idServicios' || $indiceSet != 'idProducto') {
-            //($tabla, $indiceSet, $valorSet, $indiceWhereId, $valorWhereID)
             $resultado = $conex->insertarDato($tabla, $indiceSet, $valorSet, $valorWhereID, $tipoVarSet);
             if ($resultado) {
                 $info[] = "Se cambio " . $indiceSet;
@@ -227,13 +239,11 @@ if (isset($_POST['modificar'])) {
 }
 if (isset($_POST['cancelarAprobarPresupuesto'])) {
     $pack = json_decode($_POST['cancelarAprobarPresupuesto']);
-    //print_r($pack);
     $datosServicios = [];
     $tabla = $seguridad->filtrado($pack[0]);
     $idDoc = $seguridad->filtrado($pack[1]);
     $estado = $seguridad->filtrado($pack[2]);
     $dni = $seguridad->filtrado($pack[3]);
-    //($tabla, $indiceSet, $valorSet, $indiceWhereId, $valorWhereID)
     $respuesta = $conex->insertarDato($tabla, 'estado', $estado, $idDoc, 'string');
     if (!$respuesta) {
         $respuesta = ucfirst(substr($tabla, 0, (strlen($tabla) - 1))) . ' no cancelado';
@@ -260,24 +270,10 @@ if (isset($_POST['cancelarAprobarPresupuesto'])) {
         if ($crearFactura) $conex->insertarFondo($factura['idFacturas'], $factura['precio']);
         foreach ($codServs as $key => $value) {
             array_push($datosServicios, $conex->devolverUnRegistro('servicios', $seguridad->filtrado($value)));
-            //echo $value;
         }
-
-        // var_dump($codServs);
-        //   var_dump($datosParaFact);
-        //   var_dump($nombreTrabajador);
-        // var_dump($factura);
-        /* var_dump($datosEmpresa);
-        var_dump($datosCliente);
-        var_dump($datosServicios);
-        */
-        //$datosParaFactura 
-
         $cabeceraServ = ['Nombre', 'Descripcion', 'Precio'];
         $aux = $factura;
         $nombrePDF = substr($_SESSION['codSujeto'], 0, 2) . '' . array_shift($aux);
-        //[$hayInsercion,       $nombreTrabajador, $idPresuFact,  $datosEmpresa[0], $datosCliente, $datosServico]
-        //t( $empresa,       $cliente,        $datosde operacion,          $operador,      $tipoDoc, $idPresu)
         $pdf = new PDFAproved($datosEmpresa[0], $datosCliente[0], $idFacyFecha, $nombreTrabajador, 'Factura', $idDoc);
         $direc = "../clientes/" . $_SESSION['BBDD'] . "/facturas/" . $nombrePDF . ".pdf";
         $pdf->AliasNbPages();
@@ -292,16 +288,16 @@ if (isset($_POST['cancelarAprobarPresupuesto'])) {
     echo json_encode($respuesta);
 }
 
-if(isset($_POST['rectificado'])){
-    $mensaje =null;
-    $datos= json_decode($_POST['rectificado']);
+if (isset($_POST['rectificado'])) {
+    $mensaje = null;
+    $datos = json_decode($_POST['rectificado']);
     $tabla = $seguridad->filtrado($datos[0]);
     $idFac = $seguridad->filtrado($datos[1]);
     $precio = $seguridad->filtrado($datos[2]);
     $cambioEstado = $conex->insertarDato($tabla, 'estado', 'rectificado', $idFac, 'string');
-    $insertFondos= $conex->insertarFondo($idFac,$precio,'rectificado');
-    $mensaje =true;
-    if(!$cambioEstado) $mensaje [] = 'No se ha cambiado de estado';
-    if(!$insertFondos) $mensaje [] = 'No se ha realizado el cambio';
+    $insertFondos = $conex->insertarFondo($idFac, $precio, 'rectificado');
+    $mensaje = true;
+    if (!$cambioEstado) $mensaje[] = 'No se ha cambiado de estado';
+    if (!$insertFondos) $mensaje[] = 'No se ha realizado el cambio';
     echo json_encode($mensaje);
 }
