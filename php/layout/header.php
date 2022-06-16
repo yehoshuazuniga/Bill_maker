@@ -22,6 +22,7 @@ PuertasYcoyote::seccionDesignada();
 </head>
 
 <body class="container-fluid">
+    <div class="vh-100">
     <input type="hidden" id="miEmpresa" name="<?php echo str_replace('_', ' ', $_SESSION['codSujeto']) ?>" value="<?php echo str_replace('_', ' ', $_SESSION['BBDD']) ?>">
     <header class="row position-sticky posicion-Sticky">
         <div class="logo row 

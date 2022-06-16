@@ -39,7 +39,7 @@ footer {
 }
 
 .logo-img {
-    max-height: 150px;
+    max-height: 125px;
     width: auto;
 }
 
@@ -99,6 +99,11 @@ footer {
     cursor: pointer;
 }
 
+#registrar-vista,
+#lista-vista {
+    min-height: 630px;
+}
+
 #registrar-vista {
     width: 100%;
     margin: 0;
@@ -118,7 +123,7 @@ footer {
 }
 
 #registrar-vista {
-    height: 120%;
+    min-height: 630px;
     overflow-y: auto;
 }
 
@@ -132,11 +137,20 @@ footer {
 }
 
 .botonSticky {
-    bottom: -30px;
+    bottom: -100px;
 }
 
 .desplaSticky {
     top: 100px;
     position: fixed;
     bottom: 0;
+}
+
+.item_footer {
+    flex: 1;
+}
+
+.resumen_altoMax {
+    max-height: 300px;
+    overflow-y: auto;
 }

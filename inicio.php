@@ -1,8 +1,8 @@
 <?php require './php/appElementos.php';
 app::llamarLayout('header');
 ?>
-<section class="container ">
-    <div class="row justify-content-center" name="inicio" id="tabla-datos-pagina">
+<section class="container d-flex flex-column ">
+    <div class="row justify-content-center g-2 p-2" name="inicio" id="tabla-datos-pagina">
 
 
         <div id="factura-media" class="text-black card col-12 col-md-6">

@@ -2,7 +2,7 @@
 app::llamarLayout('header');
 ?>
 <section class="row bg-primary">
-    <h2 class="g2 text-center"> proveedores</h2>
+    <h2 class=" text-center"> Proveedores</h2>
 
     <aside class="col col-lg-auto pe-4 col-12 position-sticky" id="funcionesPagina">
         <ul class="nav d-flex flex-lg-column flex-row justify-content-around pe-md-5 pe-0 position-sticky desplaSticky">

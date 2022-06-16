@@ -1,11 +1,19 @@
         <footer class="bg-dark text-center text-lg-start row site-footer position-sticky  botonSticky ">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-8 col-sm-6 col-xs-12">
+            <div class="container footer_container">
+                <div class="row flex-wrap">
+                    <div class="col-md-8 col-sm-6 col-xs-12 item_footer">
                         <p class="copyright-text">Copyright &copy; <?php echo date('Y'); ?> Todos los derecho reservado por <a href="#" class="link_footer"> Bill Maker</a>. </p>
                     </div>
-
-                    <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="col-xs-12 col-md-6 item_footer">
+                        <h6 class="text-muted lead">CONTACTO:</h6>
+                        <h6 class="text-muted">
+                            Calle falsa 2<br>
+                            Madrid.<br>
+                            Email: admin@billmaker.es .<br>
+                            Teléfonos: 636963256 .<br>
+                        </h6>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-xs-12 item_footer">
                         <ul class="social-icons">
                             <li><a class="facebook" href="#"><i class="fa fa-facebook"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
                                             <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z" />
@@ -26,6 +34,7 @@
         </footer>
         <script src="./js/app/app.js"></script>
         <script src="./js/bootstrap_js/bootstrap.bundle.min.js"></script>
-        </body>
+    </div>
+    </body>
 
-        </html>
+ </html>

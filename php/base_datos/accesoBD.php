@@ -115,7 +115,7 @@ class Funciones_en_BBDD extends BBDD
         $info = $a->fetchAll(PDO::FETCH_ASSOC);
         for ($i = 0; $i < count($info); $i++) {
             $aux = $info[$i];
-            $parf .= "<p>" . array_shift($aux) . " ha hecho " . (array_shift($aux)) . " presupuestosm, con un fondo de " . (array_shift($aux)) . " €</p>";
+            $parf .= "<p>" . array_shift($aux) . " ha hecho " . (array_shift($aux)) . " presupuestosm, con un fondo de " .  number_format((array_shift($aux)),2) . " €</p>";
         }
 
         $respuesta = " <div class=\"text-black card-header\">Las mejores presupuestos </div>

@@ -2,7 +2,7 @@
 app::llamarLayout('header');
 ?>
 <section class="row bg-primary">
-    <h2 class="g2 text-center"> Presupuestos</h2>
+    <h2 class=" text-center"> Presupuestos</h2>
 
     <aside class="col col-lg-auto pe-4 col-12 position-sticky" id="funcionesPagina">
         <ul class="nav d-flex flex-lg-column flex-row justify-content-around pe-md-5 pe-0 position-sticky desplaSticky">
@@ -17,7 +17,7 @@ app::llamarLayout('header');
     <!-- esta es la pestñana que aparecera cuando se registra un nuevo cliente -->
     <main class="col-md bg-info">
 
-        <div id="registrar-vista" class="d-flex flex-column flex-md-row gap-2 pb-3 align-items-center d-none row">
+        <div id="registrar-vista" class="d-flex flex-column flex-md-row gap-2 pb-3 align-items-start d-none row">
             <div class="col-12 col-md-2">
                 <label for="doc-dni-registrar">CIF / NIF de cliente</label>
                 <input type="text" class="form-control" name="doc-dni-registrar" id="doc-dni-registrar" placeholder="ej: G123653214">
@@ -36,10 +36,9 @@ app::llamarLayout('header');
                     <option value=""></option>
                 </select>
                 <div class="bg-dark ">
-                    <p id="total" class="d-none text-center fs-3 fw-bold ">Total sin IVA <span id="precio">0</span> € </p>
+                    <p id="total" class="d-none text-center fs-3 fw-bold position-sticky top-0 ">Total sin IVA <span id="precio">0</span> € </p>
                     <hr class="d-none order-1" />
-                    <div class="clientes-servicios-resumen " id="resumen_servicios">
-
+                    <div class="clientes-servicios-resumen resumen_altoMax" id="resumen_servicios">
                     </div>
                 </div>
             </div>
