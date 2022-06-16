@@ -4,7 +4,7 @@ app::llamarLayout('header');
 <section class="row bg-primary">
     <h2 class="g2 text-center"> Clientes</h2>
     <aside class="col col-lg-auto pe-4 col-12 " id="funcionesPagina">
-        <ul class="nav d-flex flex-lg-column flex-row justify-content-around pe-md-5 pe-0">
+        <ul class="nav d-flex flex-lg-column flex-row justify-content-around pe-md-5 pe-0 position-sticky desplaSticky ">
             <li class="mb-lg-5 mb-0 btn listarClientes" id="panelLista">
                 Listado de clientes
             </li>
@@ -13,6 +13,10 @@ app::llamarLayout('header');
             </li>
         </ul>
     </aside>
+
+
+
+
 
     <!-- esta es la pestñana que aparecera cuando se registra un nuevo cliente -->
     <div class="col-12 col-md bg-info">
@@ -33,7 +37,7 @@ app::llamarLayout('header');
         </div>
         <!-- ENCONTRAR LA FORMA DE ENVIAR UN CONTRASEÑA POR MAIL O HACERLO QUE AL INICIAR SECION CAMBIE LA CONTRASEÑA-->
         <!-- esto se sera una lista interactiva que se rellenara automaticamente cuando con js  con unos registro que obtendra de php-DDBB -->
-        <div id="lista-vista" class="d-flex flex-column table-responsive" >
+        <div id="lista-vista" class="d-flex flex-column table-responsive">
             <table class="table  table-hover table-sm" id="tabla-datos-pagina">
                 <tr class="table-dark">
                     <td>CIF/NIF</td>
@@ -45,7 +49,7 @@ app::llamarLayout('header');
                 </tr>
 
             </table>
-            <div class="modal fade" id="modal-cliente" tabindex="-1" aria-hidden="true"  data-bs-backdrop="static">
+            <div class="modal fade" id="modal-cliente" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -75,8 +79,8 @@ app::llamarLayout('header');
                                 <label for="inactivo" class="form-check-label text-dark">Estado inactivo</label>
                                 <input type="radio" class="form-check-input" name="estado" id="inactivo" value="inactivo" disabled>
                             </div>
-                            <button  id="mofificar">Modificar</button>
-                            <button  id="mofificar-aceptar" disabled>Aceptar modificaciones</button>
+                            <button id="mofificar">Modificar</button>
+                            <button id="mofificar-aceptar" disabled>Aceptar modificaciones</button>
                             <button name="dar-baja" id="dar-baja">Dar baja</button>
                         </div>
                     </div>

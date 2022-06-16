@@ -4,8 +4,10 @@ body {
 }
 
 header {
-    background: violet;
-    padding: 20px;
+    background-image: url('../../src/img/planet.png');
+    background-position-y: -90%;
+    background-position-x: -80%;
+    background-attachment: scroll;
 }
 
 .contenedor {
@@ -44,12 +46,6 @@ footer {
 .menu-funciones {
     display: grid;
     grid-template: 3;
-}
-
-.emergentes {
-    height: 150px;
-    background-color: aqua;
-    border: 1px solid black;
 }
 
 .ficha-cliente {}
@@ -119,4 +115,28 @@ footer {
     .clientes-servicios-resumen {
         scroll-behavior: auto;
     }
+}
+
+#registrar-vista {
+    height: 120%;
+    overflow-y: auto;
+}
+
+#funcionesPagina {
+    top: 50px;
+}
+
+.posicion-Sticky {
+    top: -150px;
+    z-index: 1;
+}
+
+.botonSticky {
+    bottom: -30px;
+}
+
+.desplaSticky {
+    top: 100px;
+    position: fixed;
+    bottom: 0;
 }

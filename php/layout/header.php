@@ -4,11 +4,7 @@ require './php/seguridad/elPuertasYelCoyote.php';
 session_start();
 PuertasYcoyote::validadcionSesionIniciada();
 PuertasYcoyote::seccionDesignada();
-print_r($_SESSION);
-
-
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,6 +15,7 @@ print_r($_SESSION);
     <meta name="Author" content="Yehoshua Zuñiga">
     <link rel="stylesheet" href="./css/bootstrap_css/bootstrap.css">
     <link rel="stylesheet" href="./css/mi_estilo/misestilos.css">
+    <link rel="stylesheet" href="./css/mi_estilo/mifooter.css">
 
     <title>titulo de pagina</title>
 
@@ -26,11 +23,9 @@ print_r($_SESSION);
 
 <body class="container-fluid">
     <input type="hidden" id="miEmpresa" name="<?php echo str_replace('_', ' ', $_SESSION['codSujeto']) ?>" value="<?php echo str_replace('_', ' ', $_SESSION['BBDD']) ?>">
-    <header class="row  bg  bg-secondary">
+    <header class="row position-sticky posicion-Sticky">
         <div class="logo row 
-            justify-content-md-between justify-content-center m-auto">
-
-
+            justify-content-md-between justify-content-center m-auto mt-3">
             <img src="./src/img/Logo_TV_2015.png" alt="logo" class="img-fluid col-12 col-md-2 logo-img " id="logo">
             <nav class="col-12  col-md-6 align-self-center ">
                 <ul class="nav d-flex justify-content-md-end 
@@ -56,5 +51,4 @@ print_r($_SESSION);
                 </ul>
             </div>
         </nav>
-    </header>  
-    
+    </header>

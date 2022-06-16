@@ -190,7 +190,7 @@ class BBDD
         //  $this->conexion = new mysqli('localhost', 'banco', '', 'banco');
 
         $sql =
-        "CREATE TABLE IF NOT EXISTS facturas (
+            "CREATE TABLE IF NOT EXISTS facturas (
                 idFacturas INT AUTO_INCREMENT,
                 dniCliente VARCHAR(10) NOT NULL,
                 idEmpleado VARCHAR(7) NOT NULL,
@@ -309,20 +309,11 @@ class BBDD
         return $sql;
     }
 
-    
+
     function borrarBD($db)
     {
         $this->conexion->query("DROP DATABASE $db");
     }
-   /*  function eliminarGerenteBDP($dni, $conex){
-        $sql = 'DELETE FROM billmaker.gerente  WHERE dni = ?';
-        $sentePre = $this->conexion->prepare($sql);
-        $conex->bindParam
-    } */
+
+
 }
-/*$conex = crearDB::singleton();//se va a usar esta fuuncio para el resto de creaciones
-
-$nuevaConex = $conex->crearBd('dancig_power');// esto crea la base de datos y devuelve una nueva conexcion a esa base de dato creada
-
-$conex->crearTablas ($nuevaConex);
- echo str_replace(' ', '_', 'esto es una prueba');*/

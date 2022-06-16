@@ -60,33 +60,172 @@ class Funciones_en_BBDD extends BBDD
         return ($hassBBDD == self::passHash($passwordEnt));
     }
     //si falla la accion de regustrar, elimnar registro de acceeso, gerente y de empleados de billmaker 
-   
-    function elimnarGerente($dni){
+
+    function facturaMedia()
+    {
+        $sql1 = "SELECT AVG(precio), count(idFacturas) FROM facturas  where estado = 'normal'";
+        $sql2 = "SELECT AVG(precio), count(idFacturas) FROM facturas  where estado = 'rectificado'";
+        $a = $this->conexion->query($sql1);
+        $a->execute();
+        $b = $this->conexion->query($sql2);
+        $b->execute();
+        $info = [$a->fetchAll(PDO::FETCH_ASSOC)[0], $b->fetchAll(PDO::FETCH_ASSOC)[0]];
+        $respuesta = " <div class=\"text-black card-header\">La media de facturas </div>
+            <div class=\"text-black card-body\">
+                <h5 class=\"text-black card-title\">Desgloce</h5>
+                <p> Se han realizado " . array_pop($info[0]) . " facturas y se ha obtenido de beneficio " . number_format(array_pop($info[0]), 2) . " €</p>
+                <p> Se han rectificado " . array_pop($info[1]) . " facturas  y se ha perdido de beneficio " . number_format(array_pop($info[1]), 2) . " €</p>
+            </div>";
+        return $respuesta;
+    }
+    function presuMedio()
+    {
+        $sql1 = "SELECT AVG(precio), count(idPresupuesto) FROM presupuestos  where estado = 'aprobado'";
+        $sql2 = "SELECT AVG(precio), count(idPresupuesto) FROM presupuestos  where estado = 'cancelado'";
+        $sql3 = "SELECT AVG(precio), count(idPresupuesto) FROM presupuestos  where estado = 'pendiente'";
+        $a = $this->conexion->query($sql1);
+        $a->execute();
+        $b = $this->conexion->query($sql2);
+        $b->execute();
+        $c = $this->conexion->query($sql3);
+        $c->execute();
+        $info = [$a->fetchAll(PDO::FETCH_ASSOC)[0], $b->fetchAll(PDO::FETCH_ASSOC)[0], $c->fetchAll(PDO::FETCH_ASSOC)[0]];
+        $respuesta = " <div class=\"text-black card-header\">La media de presupuestos </div>
+            <div class=\"text-black card-body\">
+                <h5 class=\"text-black card-title\">Desgloce</h5>
+                <p> Se han aprobado " . array_pop($info[0]) . " presupuestos y se ha obtenido de beneficio " . number_format(array_pop($info[0]), 2) . " €</p>
+                <p> Se han rechazado " . array_pop($info[1]) . " presupuestos  y se ha perdido de beneficio " . number_format(array_pop($info[1]), 2) . " €</p>
+                <p> Presupuestos pedientes " . array_pop($info[2]) . " y se espera de beneficio " . number_format(array_pop($info[2]), 2) . " €</p>
+            </div>";
+        return $respuesta;
+    }
+    function mejorPresupuesto()
+    {
+        $sql1 = "SELECT e.nombre, COUNT(p.idPresupuesto), AVG(p.precio)
+                    FROM empleados e, presupuestos p
+                    WHERE e.idempleado = p.idempleado   
+                    GROUP BY p.idempleado
+                    LIMIT 3";
+        //	select avg(precio) from facturas
+
+        $a = $this->conexion->query($sql1);
+        $a->execute();
+        $parf = '';
+        $a->execute();
+        $info = $a->fetchAll(PDO::FETCH_ASSOC);
+        for ($i = 0; $i < count($info); $i++) {
+            $aux = $info[$i];
+            $parf .= "<p>" . array_shift($aux) . " ha hecho " . (array_shift($aux)) . " presupuestosm, con un fondo de " . (array_shift($aux)) . " €</p>";
+        }
+
+        $respuesta = " <div class=\"text-black card-header\">Las mejores presupuestos </div>
+            <div class=\"text-black card-body\">
+                <h5 class=\"text-black card-title\">Desgloce</h5>
+                " . $parf . "
+                </div>";
+        return $respuesta;
+    }
+
+    function mejorFactura()
+    {
+        $sql1 = "SELECT e.nombre, COUNT(p.idFacturas), AVG(precio)
+                    FROM empleados e, facturas p
+                    WHERE e.idempleado = p.idempleado   
+                    GROUP BY p.idempleado
+                    LIMIT 3";
+        //	select avg(precio) from facturas
+
+        $a = $this->conexion->query($sql1);
+        $a->execute();
+        $parf = '';
+        $a->execute();
+        $info = $a->fetchAll(PDO::FETCH_ASSOC);
+        for ($i = 0; $i < count($info); $i++) {
+            $aux = $info[$i];
+            $parf .= "<p>" . array_shift($aux) . " ha hecho " . (array_shift($aux)) . " presupuestosm, con un fondo de " . (array_shift($aux)) . " €</p>";
+        }
+
+        $respuesta = " <div class=\"text-black card-header\">Las mejores Facturas </div>
+            <div class=\"text-black card-body\">
+                <h5 class=\"text-black card-title\">Desgloce</h5>
+                " . $parf . "
+                </div>";
+        return $respuesta;
+    }
+    function fondos()
+    {
+        $sql = 'SELECT AVG(gastos), AVG(ingresos) FROM fondos';
+        $a = $this->conexion->query($sql);
+        $a->execute();          
+        $info = $a->fetchAll(PDO::FETCH_ASSOC)[0];
+
+        $respuesta = " <div class=\"text-black card-header\">Los fondos de la empresa</div>
+            <div class=\"text-black card-body\">
+                <h5 class=\"text-black card-title\">Desgloce</h5>
+                <p class=\"fw-3\"> Se han registrado " . number_format(array_pop($info), 2). "€ de gastos frente a " . number_format(array_pop($info), 2) . " € de beneficios</p>
+                </div>";
+        return $respuesta;
+
+    }
+    function selectTop($target)
+    {
+        $respuesta = null;
+        switch ($target) {
+            case 'factura-media':
+                $respuesta = $this->facturaMedia();
+                break;
+            case 'presupuesto-medio':
+                $respuesta = $this->presuMedio();
+                break;
+            case 'mejor-factura':
+                $respuesta = $this->mejorFactura();
+                break;
+            case 'mejor-presupuesto':
+                $respuesta = $this->mejorPresupuesto();
+                break;
+            case 'fondos':
+                $respuesta = $this->fondos();
+                break;
+
+            default:
+                # code...
+                break;
+        }
+        return $respuesta;
+    }
+
+
+
+
+    function elimnarGerente($dni)
+    {
         $delete = false;
         $sql = 'DELETE FROM billmaker.gerente WHERE dni = ?';
         $sentPre = $this->conexion->prepare($sql);
         $sentPre->bindParam(1, $dni, PDO::PARAM_STR);
         $sentPre->execute();
-        if($sentPre->rowCount()>0)$delete= true;
+        if ($sentPre->rowCount() > 0) $delete = true;
         return $delete;
     }
-    function elimnarEmpleado($dni){
+    function elimnarEmpleado($dni)
+    {
         $delete = false;
         $sql = 'DELETE FROM billmaker.empleados WHERE dni = ?';
         $sentPre = $this->conexion->prepare($sql);
         $sentPre->bindParam(1, $dni, PDO::PARAM_STR);
         $sentPre->execute();
-        if($sentPre->rowCount()>0)$delete= true;
+        if ($sentPre->rowCount() > 0) $delete = true;
         return $delete;
     }
-    function elimnarAcceso($usu1, $usu2){
+    function elimnarAcceso($usu1, $usu2)
+    {
         $delete = false;
         $sql = 'DELETE FROM billmaker.acceso WHERE usuario = ? or usuario = ?';
         $sentPre = $this->conexion->prepare($sql);
         $sentPre->bindParam(1, $usu1, PDO::PARAM_STR);
         $sentPre->bindParam(2, $usu2, PDO::PARAM_STR);
         $sentPre->execute();
-        if($sentPre->rowCount()>1)$delete= true;
+        if ($sentPre->rowCount() > 1) $delete = true;
         return $delete;
     }
     // usca el nombre de la base de datos y la devuelve junto a otros datos
@@ -185,7 +324,7 @@ class Funciones_en_BBDD extends BBDD
 
         if ($sentPre->rowCount() > 0) {
             $cambios = true;
-        } 
+        }
         return $cambios;
     }
 
@@ -255,9 +394,9 @@ class Funciones_en_BBDD extends BBDD
         ];
         $datosGerente = (object)$datosGerente;
         $datosEmpleado = (object)$datosEmpleado;
-       $gerenteRegistrado = $this->insertTrabajador($cargos[0], $datosGerente, 'idGerente', 'basedatos');
+        $gerenteRegistrado = $this->insertTrabajador($cargos[0], $datosGerente, 'idGerente', 'basedatos');
         $empleadoRegistrado = $this->insertTrabajador($cargos[1], $datosEmpleado,);
-      if ($gerenteRegistrado && $empleadoRegistrado) {
+        if ($gerenteRegistrado && $empleadoRegistrado) {
             $respuesta = "Tablas de datos generadas, usuario gerente y empleado generados, sus credenciales se enviaran por mail";
         } else {
             $respuesta = 'Vuelve a introducir los datos';
@@ -376,7 +515,7 @@ class Funciones_en_BBDD extends BBDD
                 $hayInsercion = 'El dni de usuario ya existe';
             }
             if (
-                $this->existeParametro('email', 'email', $datos->email, $_SESSION['BBDD'], $pagina) 
+                $this->existeParametro('email', 'email', $datos->email, $_SESSION['BBDD'], $pagina)
             ) {
                 $hayInsercion = 'El mail ya se ha usado';
             }
@@ -466,7 +605,7 @@ class Funciones_en_BBDD extends BBDD
         return $respuesta;
     }
     function registrarResgistroFacturas($pagina, $datos, $idPresupuesto = NULL)
-    {  
+    {
         if ($datos[2] == 0) {
             $respuesta = [false, ' Selecciona algun producto servicio '];
         } else if ($datos[2] !== 0) {

@@ -26,6 +26,13 @@ if (isset($_POST['accesousuario'])) {
     }
 }
 
+if(isset($_POST['tops'])){
+    $target = $_POST['tops'];
+    
+    $top = $conex->selectTop($target);
+    echo json_encode($top);
+}
+
 
 if (isset($_POST['nuevoUsuario'])) {
     $datosEnt = (json_decode($_POST['nuevoUsuario']));

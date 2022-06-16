@@ -5,7 +5,7 @@ app::llamarLayout('header');
     <h2 class="g2 text-center"> Facturas</h2>
 
     <aside class="col col-lg-auto pe-4 col-12 " id="funcionesPagina">
-        <ul class="nav d-flex flex-lg-column flex-row justify-content-around pe-md-5 pe-0">
+        <ul class="nav d-flex flex-lg-column flex-row justify-content-around pe-md-5 pe-0 position-sticky desplaSticky">
             <li class="mb-lg-5 mb-0 btn listarClientes" id="panelLista">
                 Listado de facturas
             </li>
@@ -15,8 +15,8 @@ app::llamarLayout('header');
         </ul>
     </aside>
     <!-- esta es la pestñana que aparecera cuando se registra un nuevo cliente -->
-    <div class="col-md bg-info">
-        <div id="registrar-vista" class="d-flex flex-column flex-md-row gap-2 pb-3 align-items-center d-none row">
+    <div class="col-md bg-info    ">
+        <div id="registrar-vista" class="d-flex flex-column flex-md-row gap-2 pb-3 align-items-center d-none row ">
             <div class="col-12 col-md-2">
                 <label for="doc-dni-registrar">CIF / NIF de cliente</label>
                 <input type="text" class="form-control" name="doc-dni-registrar" id="doc-dni-registrar" placeholder="ej: G123653214">
@@ -46,9 +46,9 @@ app::llamarLayout('header');
         </div>
         <!-- ENCONTRAR LA FORMA DE ENVIAR UN CONTRASEÑA POR MAIL O HACERLO QUE AL INICIAR SECION CAMBIE LA CONTRASEÑA-->
         <!-- esto se sera una lista interactiva que se rellenara automaticamente cuando con js  con unos registro que obtendra de php-DDBB -->
-        <div id="lista-vista" class="d-flex flex-column table-responsive">
+        <div id="lista-vista" class="d-flex flex-column table-responsive ">
             <table class="table  table-hover table-sm" id="tabla-datos-pagina">
-                <tr class="table-dark">
+                <tr class="table-dark ">
                     <td>Cod Factura</td>
                     <td>Cod Presupuesto</td>
                     <td>Precio sin IVA</td>

@@ -2,8 +2,10 @@
 app::llamarLayout('header');
 ?>
 <section class="row bg-primary">
-    <aside class="col col-lg-auto pe-4 col-12 " id="funcionesPagina">
-        <ul class="nav d-flex flex-lg-column flex-row justify-content-around pe-md-5 pe-0">
+    <h2 class="g2 text-center"> Empleados</h2>
+
+    <aside class="col col-lg-auto pe-4 col-12 position-sticky " id="funcionesPagina">
+        <ul class="nav d-flex flex-lg-column flex-row justify-content-around pe-md-5 pe-0 position-sticky desplaSticky">
             <li class="mb-lg-5 mb-0 btn listarClientes" id="panelLista">
                 Listado de empleados
             </li>

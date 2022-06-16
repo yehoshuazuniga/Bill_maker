@@ -24,8 +24,8 @@
                                 vh-100">
             <div class="col-auto col-md-4
                         pd-md-5 p-0 row
-                        bg-primary">
-                <div class="registro_formulario col d-grid  mx-2  mt-3 gap-2 mb-0  align-self-start align-self-md-center" id="registro_formulario">
+                        ">
+                <div class="registro_formulario col d-grid  mx-2  mt-3 gap-2 mb-0  align-self-start align-self-md-center bg-primary" id="registro_formulario">
                     <label for="usuario_nick">Nombre del usuario</label>
                     <input type="text" id="usuario_nick" name="usuario_np" placeholder="ejemplo: Mi_usuario@email.org" value="arturo.soria_ep@chocolates-union.com">
                     <label for="usuario_password">Password</label>

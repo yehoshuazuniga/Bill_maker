@@ -6,6 +6,10 @@ function cargarEventos() {
         if (!!document.getElementById('formulario_registrar')) {
             document.getElementById('registrar').addEventListener('click', registroUsuario, false);
         }
+        if (!!document.getElementsByName('inicio')[0]) {
+            rellenarTop();
+        }
+
         if (!!document.getElementById('envio')) {
             document.getElementById('envio').addEventListener('click', busquedaSocio, false);
         }
@@ -94,6 +98,33 @@ function cargarEventos() {
     }
 }
 
+function rellenarTop() {
+    contenedor = document.getElementsByName('inicio')[0];
+    cards = contenedor.getElementsByClassName('card');
+    varServ = 'tops';
+
+    for (let i = 0; i < cards.length; i++) {
+        const card = cards[i];
+        packServ = card.id
+        xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+
+
+            if (this.status === 200 && this.readyState === 4) {
+                const objInfo = JSON.parse(this.responseText);
+                card.innerHTML = objInfo;
+            }
+
+        }
+
+        xhttp.open('POST', './php/appFunciones.php', true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send(varServ + '=' + packServ);
+
+    }
+
+
+}
 
 function rectificarFactura() {
     modal = document.getElementById('modal-body')
@@ -812,7 +843,7 @@ function registrarCEFPS() {
                 if (typeof objInfo === 'object') {
                     if (objInfo[0]) {
                         download(objInfo[1], objInfo[2]);
-                        alert('Todo correcto, se ha creado la factura y se ha generado  la factura');
+                        alert('Todo correcto, se ha creado la ' + localizarDondeEstoy().substring(0, (localizarDondeEstoy().length - 1)) + ' y se ha generado ' + localizarDondeEstoy().substring(0, (localizarDondeEstoy().length - 1)));
                         cambiaLoc('./' + localizarDondeEstoy() + '.php');
                     } else {
                         if (!objInfo[0] && typeof objInfo[1] == 'string') {
@@ -981,7 +1012,7 @@ function tablaListaFacturas(datos) {
                     <td>${element['idFacturas']}</td>
                     <td>${element['idPresupuesto'] == null ? '' : element['idPresupuesto']}</td>
                     <td>${element['precio']} €</td>
-                    <td>${parseInt(element['precio']) * 1.21} €</td>
+                    <td>${(parseInt(element['precio']) * 1.21).toFixed(2)} €</td>
                     <td>${element['estado']} </td>
 
                     <td>
@@ -1011,7 +1042,7 @@ function tablaListaPresupuestos(datos) {
         fila = `<tr>
                     <td>${element['idPresupuesto']}</td>
                     <td>${element['precio']} €</td>
-                    <td>${parseInt((element['precio'] * 1.21))} €</td>
+                    <td>${(parseInt((element['precio'] * 1.21))).toFixed(2)} €</td>
                     <td>${element['estado']} </td>
                     <td>
                         <button name="botones-lista" id="${element['idPresupuesto']}" data-bs-toggle="modal" data-bs-target="#modal-presupuesto">Seleccionar</button>
