@@ -1,156 +1,197 @@
-body {
-    background: salmon;
-    color: white;
-}
-
-header {
-    background-image: url('../../src/img/planet.png');
-    background-position-y: -90%;
-    background-position-x: -80%;
-    background-attachment: scroll;
-}
-
-.contenedor {
-    margin-bottom: 20px;
-}
-
-main {
-    background: yellowgreen;
-    padding: 20px 0;
-}
-
-aside {
-    background: turquoise;
-    padding: 20px 0;
-}
-
-.widgets {
-    margin-bottom: 20px;
-}
-
-.widgets>div {
-    background: orange;
-    padding: 20px;
-}
-
-footer {
-    padding: 20px 0;
-    background: pink;
-}
-
-.logo-img {
-    max-height: 125px;
-    width: auto;
-}
-
-.menu-funciones {
-    display: grid;
-    grid-template: 3;
-}
-
-.ficha-cliente {}
-
-@media (min-width: 500px) {
-    .ficha-cliente,
-    .ficha-cliente-factura {
-        display: grid;
-        grid-template-areas: "p1 p2" "p3 p3" "p4 p4" "p5 p6";
-        grid-template-rows: repeat(auto-fill 1fr);
-    }
-}
-
-@media (min-width: 640px) {
-    .ficha-cliente {
-        display: grid;
-        grid-template-columns: repeat(2, 2fr);
-    }
-}
-
-.formulario-refgistro {
-    width: 5000px !important;
-}
-
-.ficha-cliente>p:first-child {
-    grid-area: p1;
-}
-
-.ficha-cliente>p:nth-child(2) {
-    grid-area: p2;
-}
-
-.ficha-cliente>p:nth-child(3) {
-    grid-area: p3;
-}
-
-.ficha-cliente>p:nth-child(4) {
-    grid-area: p4;
-}
-
-.ficha-cliente>p:nth-child(5) {
-    grid-area: p5;
-}
-
-.ficha-cliente>p:last-child {
-    grid-area: p6;
-}
-
-.cerrarSesion,
-.botonesFunciones {
-    cursor: pointer;
-}
-
-#registrar-vista,
-#lista-vista {
-    min-height: 630px;
-}
-
-#registrar-vista {
-    width: 100%;
-    margin: 0;
-}
-
-@media (min-width: 995px) {
-    #registrar-vista {
-        width: 75%;
-        margin: 0 auto 0 auto;
-    }
-}
-
-@media (max-height: 700px) {
-    .clientes-servicios-resumen {
-        scroll-behavior: auto;
-    }
-}
-
-#registrar-vista {
-    min-height: 630px;
-    overflow-y: auto;
-}
-
-#funcionesPagina {
-    top: 50px;
-}
-
-.posicion-Sticky {
-    top: -150px;
-    z-index: 1;
-}
-
-.botonSticky {
-    bottom: -100px;
-}
-
-.desplaSticky {
-    top: 100px;
-    position: fixed;
-    bottom: 0;
-}
-
-.item_footer {
-    flex: 1;
-}
-
-.resumen_altoMax {
-    max-height: 300px;
-    overflow-y: auto;
-}
+            body {
+                background-color: rgb(8, 23, 62);
+                background-image: -moz-linear-gradient(29deg, rgba(8, 23, 62, 0.9808298319327731) 37%, rgba(132, 4, 145, 0.4458158263305322) 74%);
+                background-image: -webkit-linear-gradient(29deg, rgba(8, 23, 62, 0.9808298319327731) 37%, rgba(132, 4, 145, 0.4458158263305322) 74%);
+                background-image: linear-gradient(29deg, rgba(8, 23, 62, 0.9808298319327731) 37%, rgba(132, 4, 145, 0.4458158263305322) 74%);
+                filter: progid: DXImageTransform.Microsoft.gradient(startColorstr="#08173e", endColorstr="#840491", GradientType=1);
+                object-fit: fill;
+                background-repeat: no-repeat;
+                background-attachment: scroll;
+                color: white;
+            }
+            
+            header {
+                background-image: url('../../src/img/planet.png');
+                background-position-y: -90%;
+                background-position-x: -80%;
+                background-attachment: scroll;
+            }
+            
+            .contenedor {
+                margin-bottom: 20px;
+            }
+            
+            main {
+                padding: 20px 0;
+            }
+            
+            aside {
+                padding: 20px 0;
+            }
+            
+            .widgets {
+                margin-bottom: 20px;
+            }
+            
+            .widgets>div {
+                background: orange;
+                padding: 20px;
+            }
+            
+            footer {
+                padding: 20px 0;
+                background: pink;
+            }
+            
+            .logo-img {
+                max-height: 125px;
+                width: auto;
+            }
+            
+            .menu-funciones {
+                display: grid;
+                grid-template: 3;
+            }
+            
+            .ficha-cliente {}
+            
+            @media (min-width: 500px) {
+                .ficha-cliente,
+                .ficha-cliente-factura {
+                    display: grid;
+                    grid-template-areas: "p1 p2" "p3 p3" "p4 p4" "p5 p6";
+                    grid-template-rows: repeat(auto-fill 1fr);
+                }
+            }
+            
+            @media (min-width: 640px) {
+                .ficha-cliente {
+                    display: grid;
+                    grid-template-columns: repeat(2, 2fr);
+                }
+            }
+            
+            .formulario-refgistro {
+                width: 5000px !important;
+            }
+            
+            .ficha-cliente>p:first-child {
+                grid-area: p1;
+            }
+            
+            .ficha-cliente>p:nth-child(2) {
+                grid-area: p2;
+            }
+            
+            .ficha-cliente>p:nth-child(3) {
+                grid-area: p3;
+            }
+            
+            .ficha-cliente>p:nth-child(4) {
+                grid-area: p4;
+            }
+            
+            .ficha-cliente>p:nth-child(5) {
+                grid-area: p5;
+            }
+            
+            .ficha-cliente>p:last-child {
+                grid-area: p6;
+            }
+            
+            .cerrarSesion,
+            .botonesFunciones {
+                cursor: pointer;
+            }
+            
+            #registrar-vista,
+            #lista-vista {
+                min-height: 630px;
+            }
+            
+            #registrar-vista {
+                width: 100%;
+                margin: 0;
+            }
+            
+            @media (min-width: 995px) {
+                #registrar-vista {
+                    width: 75%;
+                    margin: 0 auto 0 auto;
+                }
+            }
+            
+            @media (max-height: 700px) {
+                .clientes-servicios-resumen {
+                    scroll-behavior: auto;
+                }
+            }
+            
+            #registrar-vista {
+                min-height: 630px;
+                overflow-y: auto;
+            }
+            
+            #funcionesPagina {
+                top: 50px;
+            }
+            
+            .posicion-Sticky {
+                top: -150px;
+                z-index: 1;
+            }
+            
+            .desplaSticky {
+                top: 100px;
+                position: fixed;
+                bottom: 0;
+            }
+            
+            .item_footer {
+                flex: 1;
+            }
+            
+            .resumen_altoMax {
+                max-height: 300px;
+                overflow-y: auto;
+            }
+            
+            .botonSticky {
+                bottom: -110px;
+                transition: bottom .5s;
+            }
+            
+            .botonSticky:hover {
+                bottom: 0;
+            }
+            
+            @media (max-width: 1000px) {
+                .botonSticky {
+                    bottom: -155px;
+                }
+            }
+            
+            @media (max-width: 750px) {
+                .botonSticky {
+                    bottom: -175px;
+                }
+            }
+            
+            .contenedor_vistas {
+                background: rgba(255, 255, 255, 0.6);
+                background: radial-gradient(circle, rgba(255, 255, 255, 0.36) 0%, rgba(255, 255, 255, 0.35) 100%);
+            }
+            
+            .contenedorInicio {
+                background-image: url('../../src/img/planet.png');
+                background-attachment: initial;
+                background-repeat: no-repeat;
+                background-position-x: 50%;
+                background-position-y: 12%;
+            }
+            
+            @media (min-width: 760px) {
+                .contenedorInicio {
+                    background-position-x: 25%;
+                }
+            }

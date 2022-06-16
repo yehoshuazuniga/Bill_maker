@@ -1,8 +1,7 @@
-
 <?php
-    include './php/seguridad/elPuertasYelCoyote.php';
-    session_start();
-    PuertasYcoyote::seccionDesignada();
+include './php/seguridad/elPuertasYelCoyote.php';
+session_start();
+PuertasYcoyote::seccionDesignada();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,25 +17,25 @@
 </head>
 
 <body>
-    <div class="container-fluid">
-        <section class="row pt-5 pt-md-0
+    <div class="container-fluid contenedorInicio">
+        <section class="row   fondo_sectionpt-5 pt-md-0
                                 justify-content-center 
                                 vh-100">
             <div class="col-auto col-md-4
                         pd-md-5 p-0 row
                         ">
-                <div class="registro_formulario col d-grid  mx-2  mt-3 gap-2 mb-0  align-self-start align-self-md-center bg-primary" id="registro_formulario">
+                <div class="registro_formulario col d-grid  mx-2  mt-3 gap-2 mb-0  align-self-start align-self-md-center contenedor_vistas p-5" id="registro_formulario">
                     <label for="usuario_nick">Nombre del usuario</label>
                     <input type="text" id="usuario_nick" name="usuario_np" placeholder="ejemplo: Mi_usuario@email.org" value="arturo.soria_ep@chocolates-union.com">
                     <label for="usuario_password">Password</label>
                     <input type="password" id="usuario_password" name="usuario_np" autocomplete="on" value="password">
-                    <button name="boton_envio" id="envio" class="btn btn-primary"> Acceder</button>
-                    <button name="boton_registro" id="registro" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-registro">Registrar</button>
+                    <button name="boton_envio" id="envio" class="btn "> Acceder</button>
+                    <button name="boton_registro" id="registro" class="btn " data-bs-toggle="modal" data-bs-target="#modal-registro">Registrar</button>
                     <!-- creacion del modal que contiene el formaulario de registro
                             solo sera visible cuando se de al boton de registrarse
 
                             -->
-                    <div class="modal fade" id="modal-registro" tabindex="-1" aria-hidden="true"  data-bs-backdrop="static">
+                    <div class="modal fade" id="modal-registro" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
                         <div class=" modal-dialog modal-dialog-centered modal-dialog-crollable">
                             <div class="modal-content bg-dark">
                                 <div class="modal-header">
@@ -71,7 +70,7 @@
                 </div>
 
             </div>
-            <div class="col col-md-8 bg-warning  d-none d-md-block "></div>
+            <div class="col col-md-8 imagenInicio  d-none d-md-block "></div>
 
         </section>
     </div>

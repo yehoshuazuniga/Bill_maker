@@ -1,9 +1,9 @@
 <?php require './php/appElementos.php';
 app::llamarLayout('header');
 ?>
-<section class="row bg-primary section_altoMinimo ">
+<section class="row">
     <h2 class=" text-center"> Clientes</h2>
-    <div class="col row h-100 p-0 m-0 ">
+    <div class="col row h-100 p-0 m-0 contenedor_vistas">
         <aside class="col col-lg-auto pe-4 col-12 " id="funcionesPagina">
             <ul class="nav d-flex flex-lg-column flex-row justify-content-around pe-md-5 pe-0 position-sticky desplaSticky ">
                 <li class="mb-lg-5 mb-0 btn listarClientes" id="panelLista">
@@ -15,7 +15,7 @@ app::llamarLayout('header');
             </ul>
         </aside>
         <!-- esta es la pestñana que aparecera cuando se registra un nuevo cliente -->
-        <div class="col-12 col-md bg-info ">
+        <div class="col-12 col-md ">
             <div id="registrar-vista" class="d-flex flex-column d-none gap-2 pb-5 pt-4">
                 <label for="dni">CIF</label>
                 <input class="form-control" type="text" name="dni" id="dni1" placeholder="G12345678">
