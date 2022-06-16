@@ -190,7 +190,7 @@ class BBDD
         //  $this->conexion = new mysqli('localhost', 'banco', '', 'banco');
 
         $sql =
-            "CREATE TABLE IF NOT EXISTS facturas (
+        "CREATE TABLE IF NOT EXISTS facturas (
                 idFacturas INT AUTO_INCREMENT,
                 dniCliente VARCHAR(10) NOT NULL,
                 idEmpleado VARCHAR(7) NOT NULL,
@@ -209,7 +209,7 @@ class BBDD
                     REFERENCES presupuestos (idPresupuesto)
                     ON DELETE NO ACTION
                     ON UPDATE NO ACTION,
-                    FOREIGN KEY (dni)
+                    FOREIGN KEY (dniCliente)
                     REFERENCES clientes (dni)
                     ON DELETE NO ACTION
                     ON UPDATE NO ACTION)
